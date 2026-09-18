@@ -1,0 +1,47 @@
+[
+  {
+    "model": "OLS",
+    "par": 3,
+    "logLik": -2812.2,
+    "aic": 5630.3,
+    "rho_lambda": "-",
+    "r2": 0.243,
+    "selected": false
+  },
+  {
+    "model": "SLX",
+    "par": 6,
+    "logLik": -2712.8,
+    "aic": 5437.6,
+    "rho_lambda": "-",
+    "r2": 0.294,
+    "selected": false
+  },
+  {
+    "model": "SAR",
+    "par": 4,
+    "logLik": -2420.4,
+    "aic": 4848.8,
+    "rho_lambda": 0.507,
+    "r2": 0.46,
+    "selected": false
+  },
+  {
+    "model": "SEM",
+    "par": 4,
+    "logLik": -2414.4,
+    "aic": 4836.7,
+    "rho_lambda": 0.551,
+    "r2": 0.469,
+    "selected": false
+  },
+  {
+    "model": "SDM (Spatial Durbin Model)",
+    "par": 7,
+    "logLik": -2369.0,
+    "aic": 4752.0,
+    "rho_lambda": 0.516,
+    "r2": 0.481,
+    "selected": true
+  }
+]

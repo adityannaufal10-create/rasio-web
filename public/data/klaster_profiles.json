@@ -1,0 +1,113 @@
+[
+  {
+    "id": 2,
+    "nama": "Frontier Konversi Lahan",
+    "n_negara": 8,
+    "asean_members": [
+      "Indonesia",
+      "Cambodia",
+      "Laos",
+      "Malaysia",
+      "Myanmar",
+      "Thailand",
+      "Vietnam"
+    ],
+    "non_asean": [
+      "Papua New Guinea"
+    ],
+    "karakteristik": "Tekanan deforestasi dan alih fungsi hutan menjadi lahan pertanian sangat tinggi. Intensitas CH4 dan N2O signifikan dari persawahan basah dan perluasan perkebunan.",
+    "avg_luc_pc": 2.65,
+    "avg_ch4_pc": 1.19,
+    "avg_n2o_pc": 0.3,
+    "avg_co2_pc": 2.64,
+    "color": "#ef4444",
+    "badge": "Prioritas Intervensi Kritis"
+  },
+  {
+    "id": 4,
+    "nama": "Padat Penduduk Intensitas Rendah",
+    "n_negara": 14,
+    "asean_members": [
+      "Philippines"
+    ],
+    "non_asean": [
+      "India",
+      "Bangladesh",
+      "Pakistan",
+      "Nepal",
+      "Sri Lanka",
+      "China",
+      "dll."
+    ],
+    "karakteristik": "Populasi sangat padat dengan emisi per kapita relatif rendah hingga moderat. Ketergantungan pangan domestik tinggi dengan efisiensi lahan marginal.",
+    "avg_luc_pc": 0.43,
+    "avg_ch4_pc": 0.7,
+    "avg_n2o_pc": 0.15,
+    "avg_co2_pc": 1.26,
+    "color": "#f59e0b",
+    "badge": "Efisiensi Pangan & Populasi"
+  },
+  {
+    "id": 0,
+    "nama": "Industri Mapan Rendah-Lahan",
+    "n_negara": 12,
+    "asean_members": [
+      "Singapore"
+    ],
+    "non_asean": [
+      "Japan",
+      "South Korea",
+      "Israel",
+      "Taiwan",
+      "dll."
+    ],
+    "karakteristik": "Emisi alih guna lahan domestik praktis nol. Perekonomian maju, emisi didominasi energi dan transportasi rantai dingin, mengimpor >90% kebutuhan kalori pangan.",
+    "avg_luc_pc": 0.02,
+    "avg_ch4_pc": 0.9,
+    "avg_n2o_pc": 0.23,
+    "avg_co2_pc": 8.83,
+    "color": "#3b82f6",
+    "badge": "Tinggi Rantai Pasok Impor"
+  },
+  {
+    "id": 1,
+    "nama": "Peternakan Ekstensif",
+    "n_negara": 4,
+    "asean_members": [
+      "Brunei"
+    ],
+    "non_asean": [
+      "Mongolia",
+      "Australia",
+      "New Zealand"
+    ],
+    "karakteristik": "Emisi metana dan N2O per kapita sangat tinggi didorong oleh peternakan ruminansia skala luas (atau emisi minyak/gas per kapita tinggi dalam kasus pencilan Brunei).",
+    "avg_luc_pc": 2.2,
+    "avg_ch4_pc": 6.31,
+    "avg_n2o_pc": 0.68,
+    "avg_co2_pc": 22.97,
+    "color": "#8b5cf6",
+    "badge": "Tinggi Intensitas Per Kapita"
+  },
+  {
+    "id": 3,
+    "nama": "Petro-Ekonomi Pengimpor Pangan",
+    "n_negara": 6,
+    "asean_members": [],
+    "non_asean": [
+      "Saudi Arabia",
+      "UAE",
+      "Qatar",
+      "Kuwait",
+      "Oman",
+      "Bahrain"
+    ],
+    "karakteristik": "Emisi energi per kapita sangat masif dari ekstraksi hidrokarbon. Lahan pertanian sangat terbatas, hampir seluruh komoditas pangan diimpor melalui pasar global.",
+    "avg_luc_pc": 0.01,
+    "avg_ch4_pc": 4.12,
+    "avg_n2o_pc": 0.35,
+    "avg_co2_pc": 19.5,
+    "color": "#64748b",
+    "badge": "Transisi Energi & Impor"
+  }
+]

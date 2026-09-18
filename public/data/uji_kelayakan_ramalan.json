@@ -1,0 +1,101 @@
+[
+  {
+    "seri":"Populasi ASEAN",
+    "kolom":"populasi",
+    "MAPE_h3":0.107,
+    "MAPE_h5":0.191,
+    "MAPE_h10":0.359,
+    "metode":"AR(2) beda",
+    "perubahan_2000_2024_%":31.796
+  },
+  {
+    "seri":"GHG sistem pangan (absolut)",
+    "kolom":"pangan_ghg",
+    "MAPE_h3":12.305,
+    "MAPE_h5":15.073,
+    "MAPE_h10":21.734,
+    "metode":"Holt teredam",
+    "perubahan_2000_2024_%":0.795
+  },
+  {
+    "seri":"GHG sistem pangan per kapita",
+    "kolom":"pangan_pc",
+    "MAPE_h3":12.195,
+    "MAPE_h5":15.257,
+    "MAPE_h10":22.717,
+    "metode":"Holt teredam",
+    "perubahan_2000_2024_%":-23.522
+  },
+  {
+    "seri":"Metana absolut",
+    "kolom":"ch4",
+    "MAPE_h3":2.726,
+    "MAPE_h5":3.058,
+    "MAPE_h10":4.438,
+    "metode":"Drift",
+    "perubahan_2000_2024_%":55.35
+  },
+  {
+    "seri":"Metana per kapita",
+    "kolom":"ch4_pc",
+    "MAPE_h3":2.81,
+    "MAPE_h5":3.122,
+    "MAPE_h10":4.373,
+    "metode":"Holt teredam",
+    "perubahan_2000_2024_%":17.872
+  },
+  {
+    "seri":"N2O absolut",
+    "kolom":"n2o",
+    "MAPE_h3":2.359,
+    "MAPE_h5":2.651,
+    "MAPE_h10":3.429,
+    "metode":"Drift",
+    "perubahan_2000_2024_%":39.4
+  },
+  {
+    "seri":"CO2 alih guna lahan absolut",
+    "kolom":"luc",
+    "MAPE_h3":18.837,
+    "MAPE_h5":23.136,
+    "MAPE_h10":32.785,
+    "metode":"Holt teredam",
+    "perubahan_2000_2024_%":-23.483
+  },
+  {
+    "seri":"CO2 alih guna lahan per kapita",
+    "kolom":"luc_pc",
+    "MAPE_h3":18.938,
+    "MAPE_h5":23.21,
+    "MAPE_h10":33.54,
+    "metode":"AR(2) beda",
+    "perubahan_2000_2024_%":-41.943
+  },
+  {
+    "seri":"Kumulatif CO2 alih guna lahan",
+    "kolom":"kum_luc",
+    "MAPE_h3":0.368,
+    "MAPE_h5":0.537,
+    "MAPE_h10":0.892,
+    "metode":"AR(2) beda",
+    "perubahan_2000_2024_%":28.846
+  },
+  {
+    "seri":"Pangsa emisi lahan global (%)",
+    "kolom":"pangsa_luc",
+    "MAPE_h3":17.461,
+    "MAPE_h5":18.233,
+    "MAPE_h10":22.811,
+    "metode":"Holt teredam",
+    "perubahan_2000_2024_%":2.548
+  },
+  {
+    "seri":"Total GHG ASEAN",
+    "kolom":"ghg",
+    "MAPE_h3":7.612,
+    "MAPE_h5":9.081,
+    "MAPE_h10":13.009,
+    "metode":"Drift",
+    "perubahan_2000_2024_%":48.295
+  }
+]

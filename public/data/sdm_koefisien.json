@@ -1,0 +1,44 @@
+[
+  {
+    "variabel": "log Metana/kap (CH4)",
+    "beta": 0.3694,
+    "t_stat": 15.77,
+    "p_val": "<0.001",
+    "tipe": "Domestik (X)"
+  },
+  {
+    "variabel": "log N2O/kap (Pupuk)",
+    "beta": 0.4179,
+    "t_stat": 12.02,
+    "p_val": "<0.001",
+    "tipe": "Domestik (X)"
+  },
+  {
+    "variabel": "log CO2 energi/kap",
+    "beta": -0.3093,
+    "t_stat": -18.63,
+    "p_val": "<0.001",
+    "tipe": "Domestik (X)"
+  },
+  {
+    "variabel": "W \u00d7 log Metana/kap",
+    "beta": -0.3342,
+    "t_stat": -8.74,
+    "p_val": "<0.001",
+    "tipe": "Limpahan Spasial (WX)"
+  },
+  {
+    "variabel": "W \u00d7 log N2O/kap",
+    "beta": 0.3586,
+    "t_stat": 3.66,
+    "p_val": "<0.001",
+    "tipe": "Limpahan Spasial (WX)"
+  },
+  {
+    "variabel": "W \u00d7 log CO2 energi/kap",
+    "beta": 0.1299,
+    "t_stat": 4.55,
+    "p_val": "<0.001",
+    "tipe": "Limpahan Spasial (WX)"
+  }
+]
