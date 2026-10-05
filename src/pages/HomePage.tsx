@@ -27,7 +27,7 @@ export const HomePage: React.FC = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700/80 text-xs font-semibold mb-6 shadow-sm">
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-          <span className="text-emerald-400 font-bold">RASIO 10.0</span>
+          <span className="text-emerald-400 font-bold">GRAIN</span>
           <span className="text-slate-500">·</span>
           <span className="text-slate-300">Studi Ekonometrika Spasial & Sistem Pangan</span>
         </div>
@@ -221,7 +221,7 @@ export const HomePage: React.FC = () => {
         <div className="p-8 rounded-3xl bg-gradient-to-b from-slate-900 to-[#0b1220] border border-slate-800 shadow-2xl">
           <div className="max-w-3xl mb-8">
             <h3 className="text-2xl font-black text-white tracking-tight">
-              Eksplorasi Modul Platform RASIO 10.0
+              Eksplorasi Modul Platform GRAIN
             </h3>
             <p className="text-sm text-slate-400 mt-1">
               Pilih modul analitis untuk memeriksa data mentah, grafik spasial interaktif, tabel diagnostik, atau melakukan simulasi skenario kebijakan.

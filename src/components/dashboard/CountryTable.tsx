@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { CountryCluster, LisaData } from '../../types/data';
+import { Card, CardHeader, CardContent } from '../ui/card';
 import { Search, ArrowUpDown, Filter, CheckCircle, AlertCircle } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface CountryTableProps {
   countries: CountryCluster[];
@@ -51,161 +53,168 @@ export const CountryTable: React.FC<CountryTableProps> = ({
   };
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-md overflow-hidden shadow-xl">
+    <Card className="overflow-hidden">
       {/* Table Header Controls */}
-      <div className="p-4 border-b border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="relative w-full sm:w-64">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+      <CardHeader className="p-4 sm:p-5 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 space-y-0">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <div className="relative w-full sm:w-72">
+            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
-              placeholder="Cari negara..."
+              placeholder="Cari nama negara..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg bg-slate-950 border border-slate-800 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-slate-950/80 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/40 transition-all"
             />
           </div>
           <button
             onClick={() => setAseanOnly(!aseanOnly)}
-            className={`text-xs px-3 py-1.5 rounded-lg border font-semibold whitespace-nowrap transition-colors ${
+            className={cn(
+              "text-xs px-3 py-1.5 rounded-xl border font-semibold whitespace-nowrap transition-all",
               aseanOnly
-                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
-                : 'bg-slate-800 text-slate-300 border-slate-700 hover:text-white'
-            }`}
+                ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-sm shadow-emerald-950/30"
+                : "bg-slate-800/80 text-slate-300 border-white/10 hover:text-white hover:bg-slate-800"
+            )}
           >
-            {aseanOnly ? '✓ 10 Negara ASEAN' : 'Filter ASEAN-10'}
+            {aseanOnly ? "✓ 10 Negara ASEAN" : "Filter ASEAN-10"}
           </button>
         </div>
 
-        <div className="text-xs text-slate-400">
-          Menampilkan <span className="text-white font-bold">{sorted.length}</span> dari {countries.length} negara
+        <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
+          <span>Menampilkan</span>
+          <span className="rounded-md bg-slate-800/80 border border-white/5 px-2 py-0.5 text-white font-bold">
+            {sorted.length} / {countries.length}
+          </span>
+          <span>negara</span>
         </div>
-      </div>
+      </CardHeader>
 
       {/* Table Content */}
-      <div className="overflow-x-auto max-h-[460px]">
-        <table className="w-full text-left text-xs">
-          <thead className="sticky top-0 bg-slate-950 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold z-10">
-            <tr>
-              <th
-                onClick={() => handleSort('country')}
-                className="px-4 py-3 cursor-pointer hover:text-white"
-              >
-                <div className="flex items-center gap-1">
-                  <span>Negara</span>
-                  <ArrowUpDown className="w-3 h-3" />
-                </div>
-              </th>
-              <th className="px-4 py-3">Klaster</th>
-              <th className="px-4 py-3">LISA Spasial</th>
-              <th
-                onClick={() => handleSort('luc_pc')}
-                className="px-4 py-3 cursor-pointer hover:text-white text-right"
-              >
-                <div className="flex items-center justify-end gap-1">
-                  <span>CO₂ Lahan (t/kap)</span>
-                  <ArrowUpDown className="w-3 h-3" />
-                </div>
-              </th>
-              <th
-                onClick={() => handleSort('ch4_pc')}
-                className="px-4 py-3 cursor-pointer hover:text-white text-right"
-              >
-                <div className="flex items-center justify-end gap-1">
-                  <span>CH₄ (t/kap)</span>
-                  <ArrowUpDown className="w-3 h-3" />
-                </div>
-              </th>
-              <th
-                onClick={() => handleSort('n2o_pc')}
-                className="px-4 py-3 cursor-pointer hover:text-white text-right"
-              >
-                <div className="flex items-center justify-end gap-1">
-                  <span>N₂O (t/kap)</span>
-                  <ArrowUpDown className="w-3 h-3" />
-                </div>
-              </th>
-              <th
-                onClick={() => handleSort('co2_pc')}
-                className="px-4 py-3 cursor-pointer hover:text-white text-right"
-              >
-                <div className="flex items-center justify-end gap-1">
-                  <span>CO₂ Energi</span>
-                  <ArrowUpDown className="w-3 h-3" />
-                </div>
-              </th>
-              <th
-                onClick={() => handleSort('populasi')}
-                className="px-4 py-3 cursor-pointer hover:text-white text-right"
-              >
-                <div className="flex items-center justify-end gap-1">
-                  <span>Populasi</span>
-                  <ArrowUpDown className="w-3 h-3" />
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/60 font-medium">
-            {sorted.map((c) => {
-              const lisa = lisaMap.get(c.country);
-              const isHighHigh = lisa?.lisa === 'High-High';
-              const isLowHigh = lisa?.lisa === 'Low-High';
-
-              return (
-                <tr
-                  key={c.country}
-                  onClick={() => onSelectCountry(c)}
-                  className="hover:bg-slate-800/60 transition-colors cursor-pointer"
+      <CardContent className="p-0">
+        <div className="overflow-x-auto max-h-[460px]">
+          <table className="w-full text-left text-xs">
+            <thead className="sticky top-0 bg-slate-950/95 backdrop-blur border-b border-white/10 text-slate-400 uppercase tracking-wider font-semibold z-10 text-[11px]">
+              <tr>
+                <th
+                  onClick={() => handleSort('country')}
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors"
                 >
-                  <td className="px-4 py-2.5 font-bold text-white flex items-center gap-2">
-                    <span>{c.country}</span>
-                    {c.is_asean === 1 && (
-                      <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold">
-                        ASEAN
+                  <div className="flex items-center gap-1.5">
+                    <span>Negara</span>
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+                  </div>
+                </th>
+                <th className="px-4 py-3">Klaster</th>
+                <th className="px-4 py-3">LISA Spasial</th>
+                <th
+                  onClick={() => handleSort('luc_pc')}
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                >
+                  <div className="flex items-center justify-end gap-1.5">
+                    <span>CO₂ Lahan (t/kap)</span>
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+                  </div>
+                </th>
+                <th
+                  onClick={() => handleSort('ch4_pc')}
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                >
+                  <div className="flex items-center justify-end gap-1.5">
+                    <span>CH₄ (t/kap)</span>
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+                  </div>
+                </th>
+                <th
+                  onClick={() => handleSort('n2o_pc')}
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                >
+                  <div className="flex items-center justify-end gap-1.5">
+                    <span>N₂O (t/kap)</span>
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+                  </div>
+                </th>
+                <th
+                  onClick={() => handleSort('co2_pc')}
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                >
+                  <div className="flex items-center justify-end gap-1.5">
+                    <span>CO₂ Energi</span>
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+                  </div>
+                </th>
+                <th
+                  onClick={() => handleSort('populasi')}
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                >
+                  <div className="flex items-center justify-end gap-1.5">
+                    <span>Populasi</span>
+                    <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/5 font-medium">
+              {sorted.map((c) => {
+                const lisa = lisaMap.get(c.country);
+                const isHighHigh = lisa?.lisa === 'High-High';
+                const isLowHigh = lisa?.lisa === 'Low-High';
+
+                return (
+                  <tr
+                    key={c.country}
+                    onClick={() => onSelectCountry(c)}
+                    className="hover:bg-slate-800/50 transition-colors cursor-pointer group"
+                  >
+                    <td className="px-4 py-2.5 font-bold text-white flex items-center gap-2 group-hover:text-emerald-300 transition-colors">
+                      <span>{c.country}</span>
+                      {c.is_asean === 1 && (
+                        <span className="text-[9.5px] px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 font-mono font-bold border border-emerald-500/30">
+                          ASEAN
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-2.5 text-slate-300">
+                      <span className="px-2.5 py-0.5 rounded-lg bg-slate-800/80 border border-slate-700/60 text-[11px] font-medium">
+                        {c.nama_klaster}
                       </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2.5 text-slate-300">
-                    <span className="px-2 py-0.5 rounded bg-slate-800 border border-slate-700/60 text-[11px]">
-                      {c.nama_klaster}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2.5">
-                    {isHighHigh ? (
-                      <span className="text-[11px] font-bold text-red-400 px-2 py-0.5 rounded bg-red-500/10 border border-red-500/30">
-                        High-High (Hotspot)
-                      </span>
-                    ) : isLowHigh ? (
-                      <span className="text-[11px] font-bold text-purple-400 px-2 py-0.5 rounded bg-purple-500/10 border border-purple-500/30">
-                        Low-High (Outlier)
-                      </span>
-                    ) : (
-                      <span className="text-[11px] text-slate-500">
-                        {lisa?.lisa || 'Acak'}
-                      </span>
-                    )}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono font-bold text-red-400">
-                    {c.luc_pc.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-cyan-400">
-                    {c.ch4_pc.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-emerald-400">
-                    {c.n2o_pc.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-slate-300">
-                    {c.co2_pc.toFixed(2)}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-slate-400">
-                    {(c.populasi / 1e6).toFixed(1)}M
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
+                    </td>
+                    <td className="px-4 py-2.5">
+                      {isHighHigh ? (
+                        <span className="text-[10.5px] font-bold text-red-400 px-2.5 py-0.5 rounded-md bg-red-500/10 border border-red-500/30">
+                          High-High (Hotspot)
+                        </span>
+                      ) : isLowHigh ? (
+                        <span className="text-[10.5px] font-bold text-purple-400 px-2.5 py-0.5 rounded-md bg-purple-500/10 border border-purple-500/30">
+                          Low-High (Outlier)
+                        </span>
+                      ) : (
+                        <span className="text-[11px] text-slate-500 font-mono">
+                          {lisa?.lisa || 'Acak'}
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono font-bold text-red-400">
+                      {c.luc_pc.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-cyan-400">
+                      {c.ch4_pc.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-emerald-400">
+                      {c.n2o_pc.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-slate-300">
+                      {c.co2_pc.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2.5 text-right font-mono text-slate-400">
+                      {(c.populasi / 1e6).toFixed(1)}M
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+    </Card>
   );
 };

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import { CountryCluster, LisaData } from '../../types/data';
+import { Card } from '../ui/card';
 import { Info, Layers, Compass, ZoomIn } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface InteractiveMapProps {
   countries: CountryCluster[];
@@ -94,51 +96,55 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
   };
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 shadow-2xl">
+    <Card className="relative overflow-hidden p-0 border-white/10 shadow-2xl">
       {/* Top Map Toolbar */}
-      <div className="absolute top-4 left-4 right-4 z-[400] flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-800">
+      <div className="absolute top-4 left-4 right-4 z-[400] flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-2xl bg-slate-900/90 backdrop-blur-xl border border-white/10 shadow-xl">
         <div className="flex items-center gap-1.5 flex-wrap">
-          <span className="text-xs font-bold text-slate-400 mr-2 flex items-center gap-1">
-            <Layers className="w-3.5 h-3.5 text-emerald-400" />
+          <span className="text-xs font-bold text-slate-400 mr-2 flex items-center gap-1.5">
+            <Layers className="size-3.5 text-emerald-400" />
             Layer:
           </span>
           <button
             onClick={() => setActiveLayer('cluster')}
-            className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+            className={cn(
+              "px-3 py-1 text-xs font-semibold rounded-xl transition-all",
               activeLayer === 'cluster'
-                ? 'bg-emerald-500 text-slate-950 shadow-sm'
+                ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm shadow-emerald-950/40'
                 : 'text-slate-300 hover:bg-slate-800'
-            }`}
+            )}
           >
             5 Klaster Pangan
           </button>
           <button
             onClick={() => setActiveLayer('lisa')}
-            className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+            className={cn(
+              "px-3 py-1 text-xs font-semibold rounded-xl transition-all",
               activeLayer === 'lisa'
-                ? 'bg-red-500 text-white shadow-sm'
+                ? 'bg-red-500 text-white font-bold shadow-sm shadow-red-950/40'
                 : 'text-slate-300 hover:bg-slate-800'
-            }`}
+            )}
           >
             LISA 2024 (Hotspot)
           </button>
           <button
             onClick={() => setActiveLayer('luc')}
-            className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+            className={cn(
+              "px-3 py-1 text-xs font-semibold rounded-xl transition-all",
               activeLayer === 'luc'
-                ? 'bg-orange-500 text-slate-950 shadow-sm'
+                ? 'bg-orange-500 text-slate-950 font-bold shadow-sm shadow-orange-950/40'
                 : 'text-slate-300 hover:bg-slate-800'
-            }`}
+            )}
           >
             CO₂ Lahan (LUC)
           </button>
           <button
             onClick={() => setActiveLayer('ch4')}
-            className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+            className={cn(
+              "px-3 py-1 text-xs font-semibold rounded-xl transition-all",
               activeLayer === 'ch4'
-                ? 'bg-cyan-500 text-slate-950 shadow-sm'
+                ? 'bg-cyan-500 text-slate-950 font-bold shadow-sm shadow-cyan-950/40'
                 : 'text-slate-300 hover:bg-slate-800'
-            }`}
+            )}
           >
             Metana (CH₄)
           </button>
@@ -148,11 +154,12 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         <div className="flex items-center gap-2">
           <button
             onClick={() => setFilterAseanOnly(!filterAseanOnly)}
-            className={`px-3 py-1 text-xs font-semibold rounded-lg border transition-all ${
+            className={cn(
+              "px-3 py-1 text-xs font-semibold rounded-xl border transition-all",
               filterAseanOnly
-                ? 'bg-teal-500/20 text-teal-300 border-teal-500/40'
-                : 'bg-slate-800/80 text-slate-400 border-slate-700 hover:text-white'
-            }`}
+                ? 'bg-teal-500/20 text-teal-300 border-teal-500/40 shadow-sm'
+                : 'bg-slate-800/80 text-slate-400 border-white/10 hover:text-white hover:bg-slate-800'
+            )}
           >
             {filterAseanOnly ? '✓ Hanya ASEAN-10' : 'Tampilkan Asia-44'}
           </button>
@@ -167,7 +174,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           scrollWheelZoom={true}
           className="h-full w-full"
         >
-          {/* Esri World Dark Gray Canvas - Clean, high quality, no watermark/API key needed */}
+          {/* Esri World Dark Gray Canvas */}
           <TileLayer
             attribution='&copy; <a href="https://www.esri.com/">Esri</a>'
             url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
@@ -247,9 +254,9 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       </div>
 
       {/* Legend Overlay at Bottom */}
-      <div className="absolute bottom-4 left-4 z-[400] bg-slate-900/90 backdrop-blur-md border border-slate-800 p-3 rounded-xl max-w-sm hidden sm:block">
+      <div className="absolute bottom-4 left-4 z-[400] bg-slate-900/90 backdrop-blur-xl border border-white/10 p-3.5 rounded-2xl max-w-sm hidden sm:block shadow-2xl">
         <h5 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-          <Compass className="w-3.5 h-3.5 text-emerald-400" />
+          <Compass className="size-3.5 text-emerald-400" />
           {activeLayer === 'cluster' && 'Legenda Klaster Tipologi Pangan'}
           {activeLayer === 'lisa' && 'Legenda Signifikansi LISA 2024'}
           {activeLayer === 'luc' && 'Legenda Emisi Alih Guna Lahan'}
@@ -259,23 +266,23 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         {activeLayer === 'cluster' && (
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#ef4444]"></span>
+              <span className="size-2.5 rounded-full bg-[#ef4444]" />
               <span className="text-slate-200 font-medium">Frontier Konversi Lahan (7 Negara ASEAN)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#f59e0b]"></span>
+              <span className="size-2.5 rounded-full bg-[#f59e0b]" />
               <span className="text-slate-300">Padat Penduduk Intensitas Rendah (Filipina)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#3b82f6]"></span>
+              <span className="size-2.5 rounded-full bg-[#3b82f6]" />
               <span className="text-slate-300">Industri Mapan Rendah-Lahan (Singapura)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#8b5cf6]"></span>
+              <span className="size-2.5 rounded-full bg-[#8b5cf6]" />
               <span className="text-slate-300">Peternakan Ekstensif (Brunei)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#64748b]"></span>
+              <span className="size-2.5 rounded-full bg-[#64748b]" />
               <span className="text-slate-300">Petro-Ekonomi Pengimpor Pangan</span>
             </div>
           </div>
@@ -284,15 +291,15 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         {activeLayer === 'lisa' && (
           <div className="space-y-1.5 text-xs">
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#dc2626]"></span>
+              <span className="size-2.5 rounded-full bg-[#dc2626]" />
               <span className="text-slate-200 font-medium">High-High: Hotspot Regional (7 ASEAN)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#9333ea]"></span>
+              <span className="size-2.5 rounded-full bg-[#9333ea]" />
               <span className="text-slate-300 font-medium">Low-High: Spatial Outlier (Filipina & Singapura)</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-[#475569]"></span>
+              <span className="size-2.5 rounded-full bg-[#475569]" />
               <span className="text-slate-400">Tidak Signifikan (p &gt; 0.05)</span>
             </div>
           </div>
@@ -301,11 +308,11 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
         {(activeLayer === 'luc' || activeLayer === 'ch4') && (
           <div className="text-xs text-slate-300 flex items-center justify-between pt-1">
             <span>Rendah (Radius kecil)</span>
-            <span className="mx-2">➔</span>
-            <span className="text-emerald-400 font-bold">Tinggi (Radius besar & pekat)</span>
+            <span className="mx-2 text-slate-500">➔</span>
+            <span className="text-emerald-400 font-bold font-mono">Tinggi (Radius besar & pekat)</span>
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 };

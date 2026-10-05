@@ -7,7 +7,7 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2 mb-3">
-            <span className="font-extrabold text-white text-lg tracking-tight">RASIO 10.0</span>
+            <span className="font-extrabold text-white text-lg tracking-tight">GRAIN</span>
             <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold">
               Karya Ilmiah & Visualisasi
             </span>
@@ -52,7 +52,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="max-w-7xl mx-auto pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500">
-        <p>© 2026 Tim Peneliti RASIO 10.0. Seluruh hak cipta dilindungi.</p>
+        <p>© 2026 Tim IRIS | Rasio 10.0</p>
         <div className="flex items-center gap-4 mt-4 sm:mt-0">
           <span className="flex items-center gap-1 text-slate-400">
             <Award className="w-3.5 h-3.5 text-amber-400" />

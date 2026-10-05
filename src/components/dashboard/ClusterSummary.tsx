@@ -1,6 +1,8 @@
 import React from 'react';
 import { ClusterProfile } from '../../types/data';
-import { AlertTriangle, CheckCircle, ShieldAlert, Sparkles, TrendingUp } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
+import { AlertTriangle, CheckCircle, ShieldAlert, Sparkles, TrendingUp, Layers } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface ClusterSummaryProps {
   profiles: ClusterProfile[];
@@ -15,7 +17,7 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
 }) => {
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
             <span>5 Klaster Tipologi Sistem Pangan</span>
@@ -24,14 +26,14 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
             </span>
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
-            Konfigurasi terpilih dari 864 kombinasi grid search (POTRET · Standard · PCA2 · KMeans · k=5).
+            Konfigurasi optimal dari 864 kombinasi grid search (POTRET · Standard · PCA2 · KMeans · k=5).
           </p>
         </div>
 
         {selectedClusterId !== null && (
           <button
             onClick={() => onSelectCluster(null)}
-            className="text-xs px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 hover:text-white border border-slate-700 transition-colors"
+            className="text-xs px-3 py-1.5 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700/80 transition-all hover:bg-slate-700/80 w-fit"
           >
             Reset Filter Klaster
           </button>
@@ -44,81 +46,102 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
           const isFrontier = profile.id === 2;
 
           return (
-            <div
+            <Card
               key={profile.id}
               onClick={() => onSelectCluster(isSelected ? null : profile.id)}
-              className={`p-4 rounded-xl cursor-pointer transition-all border ${
+              className={cn(
+                "group cursor-pointer transition-all duration-300 hover:-translate-y-1 relative overflow-hidden",
                 isSelected
-                  ? 'bg-slate-800/90 border-emerald-500 shadow-lg shadow-emerald-500/10'
-                  : 'bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/50'
-              } ${isFrontier ? 'ring-1 ring-red-500/30' : ''}`}
+                  ? "border-emerald-500/80 bg-slate-900/90 shadow-2xl shadow-emerald-950/30 ring-1 ring-emerald-500/50"
+                  : "hover:border-slate-700 hover:bg-slate-900/80",
+                isFrontier && !isSelected && "border-red-500/30 shadow-red-950/10"
+              )}
             >
-              <div className="flex items-start justify-between gap-2 mb-2">
-                <div>
+              {/* Top ambient color strip */}
+              <div
+                className="h-1 w-full"
+                style={{ backgroundColor: profile.color }}
+              />
+
+              <CardHeader className="p-5 pb-3">
+                <div className="flex items-start justify-between gap-2">
                   <span
-                    className="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full mb-1"
+                    className="inline-block text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
                     style={{
-                      backgroundColor: `${profile.color}20`,
+                      backgroundColor: `${profile.color}15`,
                       color: profile.color,
                       border: `1px solid ${profile.color}40`,
                     }}
                   >
                     {profile.badge}
                   </span>
-                  <h4 className="font-bold text-sm text-white group-hover:text-emerald-400">
-                    {profile.nama}
-                  </h4>
+                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
+                    {profile.n_negara} negara
+                  </span>
                 </div>
-                <span className="text-xs font-mono font-bold px-2 py-1 rounded bg-slate-800 text-slate-300 border border-slate-700">
-                  {profile.n_negara} negara
-                </span>
-              </div>
 
-              <p className="text-xs text-slate-400 leading-relaxed line-clamp-3 mb-3">
-                {profile.karakteristik}
-              </p>
+                <CardTitle className="text-[15px] font-bold text-white group-hover:text-emerald-300 transition-colors mt-2">
+                  {profile.nama}
+                </CardTitle>
+                <p className="text-[12px] text-slate-400 leading-relaxed line-clamp-3">
+                  {profile.karakteristik}
+                </p>
+              </CardHeader>
 
-              {/* ASEAN Members */}
-              <div className="mb-3 pt-2 border-t border-slate-800/60">
-                <span className="text-[11px] font-semibold text-slate-300 block mb-1">
-                  Anggota ASEAN ({profile.asean_members.length}):
-                </span>
-                {profile.asean_members.length > 0 ? (
-                  <div className="flex flex-wrap gap-1">
-                    {profile.asean_members.map((m) => (
-                      <span
-                        key={m}
-                        className={`text-[10px] px-2 py-0.5 rounded font-semibold ${
-                          isFrontier
-                            ? 'bg-red-500/20 text-red-300 border border-red-500/40'
-                            : 'bg-slate-800 text-slate-300'
-                        }`}
-                      >
-                        {m}
-                      </span>
-                    ))}
+              <CardContent className="p-5 pt-0 space-y-3">
+                {/* ASEAN Members */}
+                <div className="pt-3 border-t border-white/5">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[11px] font-semibold text-slate-300">
+                      Anggota ASEAN:
+                    </span>
+                    <span className="text-[10.5px] font-mono text-slate-400">
+                      {profile.asean_members.length} Negara
+                    </span>
                   </div>
-                ) : (
-                  <span className="text-[11px] text-slate-500 italic">Tidak ada negara ASEAN</span>
-                )}
-              </div>
 
-              {/* Metrics Grid */}
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-800/60 text-[11px]">
-                <div className="bg-slate-950/40 p-1.5 rounded border border-slate-800/40">
-                  <span className="text-slate-500 block">Rata-rata CO₂ Lahan:</span>
-                  <span className="font-mono font-bold text-red-400">
-                    {profile.avg_luc_pc.toFixed(2)} t/kap
-                  </span>
+                  {profile.asean_members.length > 0 ? (
+                    <div className="flex flex-wrap gap-1">
+                      {profile.asean_members.map((m) => (
+                        <span
+                          key={m}
+                          className={cn(
+                            "text-[10px] px-2 py-0.5 rounded-md font-semibold tracking-tight transition-colors",
+                            isFrontier
+                              ? "bg-red-500/15 text-red-300 border border-red-500/30"
+                              : "bg-slate-800/80 text-slate-300 border border-white/5"
+                          )}
+                        >
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <span className="text-[11px] text-slate-500 italic block">
+                      Tidak ada negara ASEAN
+                    </span>
+                  )}
                 </div>
-                <div className="bg-slate-950/40 p-1.5 rounded border border-slate-800/40">
-                  <span className="text-slate-500 block">Rata-rata CH₄:</span>
-                  <span className="font-mono font-bold text-cyan-400">
-                    {profile.avg_ch4_pc.toFixed(2)} t/kap
-                  </span>
+
+                {/* Metrics Grid */}
+                <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
+                  <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
+                    <span className="text-slate-500 text-[10.5px]">Rerata CO₂ Lahan:</span>
+                    <span className="font-mono font-bold text-red-400 text-[13px] mt-0.5">
+                      {profile.avg_luc_pc.toFixed(2)}{" "}
+                      <span className="text-[10px] font-sans font-normal text-slate-400">t/kap</span>
+                    </span>
+                  </div>
+                  <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
+                    <span className="text-slate-500 text-[10.5px]">Rerata CH₄:</span>
+                    <span className="font-mono font-bold text-cyan-400 text-[13px] mt-0.5">
+                      {profile.avg_ch4_pc.toFixed(2)}{" "}
+                      <span className="text-[10px] font-sans font-normal text-slate-400">t/kap</span>
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           );
         })}
       </div>
