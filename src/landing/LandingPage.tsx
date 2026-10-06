@@ -10,7 +10,8 @@ import { useReducedMotion, useScrollProgress } from "./motion";
 import TriageCanvas from "./TriageCanvas";
 import EvidenceWall from "./EvidenceWall";
 import WorkflowRail from "./WorkflowRail";
-import BentoInstruments from "./BentoInstruments";
+import WhyGrainSection from "./WhyGrainSection";
+import InstrumentShowcase from "./InstrumentShowcase";
 import { FluxVortex } from "@/components/ui/flux-vortex";
 import { CinematicFooter } from "@/components/ui/cinematic-footer";
 import { cn } from "@/lib/utils";
@@ -19,6 +20,7 @@ const WORKSPACE_URL = "/clustering";
 
 const NAV = [
   { href: "#problem", label: "Paradoks Emisi" },
+  { href: "#why-grain", label: "Urgensi Spasial" },
   { href: "#triage", label: "Simulasi Spasial" },
   { href: "#evidence", label: "Bukti Empiris" },
   { href: "#workflow", label: "Alur Prototype" },
@@ -423,6 +425,9 @@ export function LandingPage({ onOpenCommandPalette }: { onOpenCommandPalette?: (
         </div>
       </section>
 
+      {/* WHY GRAIN: PARADOKS & URGENSI SPASIAL (OPTION B) */}
+      <WhyGrainSection />
+
       {/* 44-COUNTRY SCROLL-PINNED CANVAS SIMULATION */}
       <TriageCanvas />
 
@@ -432,8 +437,8 @@ export function LandingPage({ onOpenCommandPalette }: { onOpenCommandPalette?: (
       {/* HORIZONTAL WORKFLOW RAIL (6 ANALYTICAL MODULES) */}
       <WorkflowRail />
 
-      {/* BENTO GRID: LIVE INSTRUMENTS PREVIEW */}
-      <BentoInstruments />
+      {/* LIVE INSTRUMENTS PREVIEW (OPTION A) */}
+      <InstrumentShowcase />
 
       {/* RESEARCH STAMP & FINAL WORKSPACE ENTRY CTA */}
       <section className="relative overflow-hidden border-t border-white/10 py-28 bg-gradient-to-b from-transparent to-slate-950/80">

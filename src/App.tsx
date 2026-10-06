@@ -87,6 +87,8 @@ function LandingWithCommandPalette() {
 
   return (
     <>
+      {/* WebGL Organic Noise Backdrop for Landing */}
+      <MeshBackdrop />
       <LandingPage onOpenCommandPalette={() => setCmdOpen(true)} />
       <CommandPalette
         open={cmdOpen}
@@ -100,9 +102,6 @@ function LandingWithCommandPalette() {
 export const App: React.FC = () => {
   return (
     <BrowserRouter>
-      {/* WebGL Organic Noise Backdrop */}
-      <MeshBackdrop />
-
       <Routes>
         {/* Landing Page with rich storytelling and interactive canvas simulation */}
         <Route path="/" element={<LandingWithCommandPalette />} />
