@@ -27,18 +27,18 @@ export const ForecastingPage: React.FC = () => {
       <div className="pb-6 border-b border-white/10">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30 uppercase tracking-wider">
-            Validasi Silang Deret Waktu
+            Time-Series Cross-Validation
           </span>
           <span className="text-xs text-slate-400 font-mono">
-            2.904 Evaluasi Fold-Model · Horizon h=1 s.d. h=10
+            2,904 Fold-Model Evaluations · Horizons h=1 to h=10
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
           <TrendingUp className="size-6 text-teal-400" />
-          <span>Peramalan Tekanan Emisi Metana Sistem Pangan ASEAN</span>
+          <span>ASEAN Agrifood System Methane Emission Pressure Forecasting</span>
         </h1>
         <p className="text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
-          Eksplorasi 12 model deret waktu (Naive, Drift, Holt, ARIMA, ARIMAX, Ridge, GBDT) dengan validasi silang bebas kebocoran data untuk memproyeksikan lintasan emisi hingga dekade mendatang.
+          Benchmarking 12 time-series specifications (Naive, Drift, Holt, ARIMA, ARIMAX, Ridge, GBDT) with leak-free walk-forward validation to project emissions through the next decade.
         </p>
       </div>
 
@@ -55,10 +55,10 @@ export const ForecastingPage: React.FC = () => {
             <div>
               <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
                 <Image className="size-5 text-teal-400" />
-                <span>Fanchart Multi-Horizon & Evaluasi Ketidakpastian</span>
+                <span>Multi-Horizon Fancharts & Uncertainty Quantifications</span>
               </CardTitle>
               <CardDescription className="mt-1">
-                Pita ketidakpastian empiris 50%, 80%, dan 95% dari walk-forward cross-validation.
+                Empirical 50%, 80%, and 95% uncertainty intervals from walk-forward cross-validation.
               </CardDescription>
             </div>
 
@@ -72,7 +72,7 @@ export const ForecastingPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Horizon Pendek (h=3)
+                Short-Term Horizon (h=3)
               </button>
               <button
                 onClick={() => setActiveFanTab('h6')}
@@ -83,7 +83,7 @@ export const ForecastingPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Horizon Menengah (h=6)
+                Medium-Term Horizon (h=6)
               </button>
               <button
                 onClick={() => setActiveFanTab('h11')}
@@ -94,7 +94,7 @@ export const ForecastingPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Horizon Panjang (h=11)
+                Long-Term Horizon (h=11)
               </button>
               <button
                 onClick={() => setActiveFanTab('cv')}
@@ -105,7 +105,7 @@ export const ForecastingPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Komparasi CV Model
+                CV Model Benchmark
               </button>
             </div>
           </CardHeader>
@@ -120,7 +120,7 @@ export const ForecastingPage: React.FC = () => {
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Pita proyeksi 3 tahun ke depan dengan MAPE <strong className="text-white font-mono">2,18%</strong>.
+                    3-year forecast interval achieving a mean absolute percentage error (MAPE) of <strong className="text-white font-mono">2.18%</strong>.
                   </p>
                 </div>
               )}
@@ -133,7 +133,7 @@ export const ForecastingPage: React.FC = () => {
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Pita proyeksi 6 tahun ke depan dengan MAPE <strong className="text-white font-mono">2,85%</strong>.
+                    6-year forecast interval with a validated MAPE of <strong className="text-white font-mono">2.85%</strong>.
                   </p>
                 </div>
               )}
@@ -146,7 +146,7 @@ export const ForecastingPage: React.FC = () => {
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Pita proyeksi 11 tahun (2025–2035) menangkap ketidakpastian jangka panjang ASEAN.
+                    11-year projection fan (2025–2035) capturing structural long-term ASEAN emission uncertainties.
                   </p>
                 </div>
               )}
@@ -155,11 +155,11 @@ export const ForecastingPage: React.FC = () => {
                 <div className="text-center">
                   <img
                     src="/figures/04_perbandingan_model_cv.svg"
-                    alt="Perbandingan Model CV"
+                    alt="CV Model Benchmark"
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Distribusi galat out-of-fold membuktikan model sederhana (Drift & ARIMA) mengungguli GBDT dan Ridge.
+                    Out-of-fold error distributions demonstrate parsimonious specifications (Drift & ARIMA) systematically outperforming complex ML models (GBDT and Ridge).
                   </p>
                 </div>
               )}

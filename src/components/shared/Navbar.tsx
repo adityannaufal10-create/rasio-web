@@ -4,12 +4,12 @@ import { Compass, MapPin, Layers, Sliders, TrendingUp, BookOpen, Home, ArrowRigh
 
 export const Navbar: React.FC = () => {
   const navItems = [
-    { label: 'Beranda', path: '/', icon: Home },
-    { label: 'Peta & Klaster', path: '/clustering', icon: Layers },
-    { label: 'Ekonometrika Spasial', path: '/spasial', icon: Layers },
-    { label: 'Simulator Kebijakan', path: '/simulator', icon: Sliders },
-    { label: 'Peramalan', path: '/forecasting', icon: TrendingUp },
-    { label: 'Metodologi', path: '/metodologi', icon: BookOpen },
+    { label: 'Overview', path: '/', icon: Home },
+    { label: 'Clusters & Map', path: '/clustering', icon: Layers },
+    { label: 'Spatial Econometrics', path: '/spasial', icon: Layers },
+    { label: 'Policy Simulator', path: '/simulator', icon: Sliders },
+    { label: 'Forecasting', path: '/forecasting', icon: TrendingUp },
+    { label: 'Methodology', path: '/metodologi', icon: BookOpen },
   ];
 
   return (
@@ -19,7 +19,7 @@ export const Navbar: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-3 group no-underline">
+        <Link to="/" className="flex items-center gap-3 group no-underline shrink-0">
           <div className="relative grid size-9 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(16,185,129,0.5)] ring-1 ring-white/25 group-hover:scale-105 transition-transform duration-200">
             <Compass className="size-4.5 text-slate-950" strokeWidth={2.5} />
           </div>
@@ -37,7 +37,7 @@ export const Navbar: React.FC = () => {
               </span>
             </div>
             <p className="text-[11px] text-slate-400 font-medium hidden sm:block leading-none mt-0.5">
-              Klasterisasi & Ekonometrika Spasial Pangan ASEAN
+              Agrifood Systems Clustering & Spatial Econometrics
             </p>
           </div>
         </Link>
@@ -51,7 +51,7 @@ export const Navbar: React.FC = () => {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                  `flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all whitespace-nowrap ${
                     isActive
                       ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/10 text-emerald-300 border border-emerald-500/35 shadow-[0_0_15px_rgba(16,185,129,0.2)]'
                       : 'text-slate-300 hover:text-white hover:bg-slate-900/70 border border-transparent hover:border-white/10'
@@ -66,16 +66,16 @@ export const Navbar: React.FC = () => {
         </nav>
 
         {/* Action badge */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <div className="hidden lg:flex items-center gap-2 text-xs text-slate-300 bg-slate-900/80 border border-white/10 px-3 py-1.5 rounded-xl font-mono backdrop-blur-md">
             <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>44 Negara · 1961–2024</span>
+            <span>44 Economies · 1961–2024</span>
           </div>
           <Link
             to="/clustering"
-            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 font-bold text-xs hover:from-emerald-300 hover:to-teal-400 transition-all shadow-[0_0_18px_rgba(16,185,129,0.4)] flex items-center gap-1.5 no-underline group"
+            className="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 font-bold text-xs hover:from-emerald-300 hover:to-teal-400 transition-all shadow-[0_0_18px_rgba(16,185,129,0.4)] flex items-center gap-1.5 no-underline group shrink-0"
           >
-            <span>Buka Workspace</span>
+            <span>Open Workspace</span>
             <ArrowRight className="size-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>

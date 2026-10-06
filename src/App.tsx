@@ -20,66 +20,66 @@ function LandingWithCommandPalette() {
   const commandItems: CommandItem[] = [
     {
       id: "mod-home",
-      group: "Halaman & Modul",
-      title: "Landing Page (Beranda Naratif)",
-      hint: "Simulasi 44 negara & overview solusi",
+      group: "Pages & Modules",
+      title: "Landing Page (Narrative Overview)",
+      hint: "44-country simulation & empirical synthesis",
       icon: Home,
       run: () => navigate("/"),
     },
     {
       id: "mod-clustering",
-      group: "Halaman & Modul",
-      title: "Peta & 5 Klaster Pangan",
-      hint: "Kartografi interaktif dan profil 5 tipologi",
+      group: "Pages & Modules",
+      title: "Cartography & 5 Agrifood Clusters",
+      hint: "Interactive map and 5 regional typologies",
       icon: Layers,
       run: () => navigate("/clustering"),
     },
     {
       id: "mod-spasial",
-      group: "Halaman & Modul",
-      title: "Ekonometrika Spasial Lanjut",
-      hint: "Global Moran's I & model SDM LeSage-Pace",
+      group: "Pages & Modules",
+      title: "Advanced Spatial Econometrics",
+      hint: "Global Moran's I & LeSage–Pace SDM decomposition",
       icon: Network,
       run: () => navigate("/spasial"),
     },
     {
       id: "mod-simulator",
-      group: "Halaman & Modul",
-      title: "Laboratorium Simulator Kebijakan",
-      hint: "Simulasi pupuk N₂O, moratorium, & AWD padi",
+      group: "Pages & Modules",
+      title: "Regional Policy Simulator Lab",
+      hint: "Simulate N₂O fertilizer, forest moratoria, & AWD",
       icon: Sliders,
       run: () => navigate("/simulator"),
     },
     {
       id: "mod-forecasting",
-      group: "Halaman & Modul",
-      title: "Peramalan Metana 2025–2035",
-      hint: "Proyeksi deret waktu bebas bocor 2.904 fold CV",
+      group: "Pages & Modules",
+      title: "Methane Forecasting 2025–2035",
+      hint: "Leak-free projections with 2,904-fold CV",
       icon: TrendingUp,
       run: () => navigate("/forecasting"),
     },
     {
       id: "mod-metodologi",
-      group: "Halaman & Modul",
-      title: "Metodologi & Transparansi Ilmiah",
-      hint: "Data panel seimbang, matriks W k-NN, uji LR",
+      group: "Pages & Modules",
+      title: "Methodology & Scientific Transparency",
+      hint: "Balanced panel, k-NN W-matrix, LR specification tests",
       icon: BookOpen,
       run: () => navigate("/metodologi"),
     },
     ...COUNTRIES_44.map((c) => ({
       id: `country-${c.name}`,
-      group: c.isAsean ? "Negara ASEAN-10" : "Negara Asia-Pasifik",
+      group: c.isAsean ? "ASEAN-10 Economies" : "Asia-Pacific Economies",
       title: c.name,
-      hint: `${c.clusterName} · ${c.luc_pc.toFixed(2)} t CO₂/kapita`,
+      hint: `${c.clusterName} · ${c.luc_pc.toFixed(2)} t CO₂/capita`,
       icon: MapPin,
       keywords: `${c.name} ${c.clusterName} ${c.isAsean ? "asean" : ""}`,
       run: () => navigate("/clustering"),
     })),
     ...[0, 1, 2, 3, 4].map((k) => ({
       id: `cluster-${k}`,
-      group: "Tipologi Klaster",
-      title: `Klaster ${k}: ${CLUSTER_NAMES[k]}`,
-      hint: "Buka analisis klaster",
+      group: "Agrifood Typologies",
+      title: `Cluster ${k}: ${CLUSTER_NAMES[k]}`,
+      hint: "Open cluster profile & audit",
       icon: Layers,
       run: () => navigate("/clustering"),
     })),
@@ -144,7 +144,7 @@ export const App: React.FC = () => {
         {/* Landing Page with rich storytelling and interactive canvas simulation */}
         <Route path="/" element={<LandingWithCommandPalette />} />
 
-        {/* Workspace Routes wrapped in the new Collapsible Glass Sidebar Shell */}
+        {/* Workspace Routes wrapped in the Collapsible Glass Sidebar Shell */}
         <Route
           path="/clustering"
           element={

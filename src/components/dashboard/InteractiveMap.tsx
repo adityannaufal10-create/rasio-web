@@ -80,7 +80,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
       else if (lisa?.lisa === 'High-Low') col = '#ea580c';
       return {
         fillColor: col,
-        color: lisa?.lisa !== 'Tidak signifikan' ? '#ffffff' : '#64748b',
+        color: lisa?.lisa && lisa.lisa !== 'Not significant' && lisa.lisa !== 'Tidak signifikan' ? '#ffffff' : '#64748b',
         radius: lisa?.lisa === 'High-High' ? 13 : 8,
       };
     }
@@ -127,7 +127,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
             )}
           >
             <GlobeIcon className="size-3.5" />
-            <span>3D Globe Orbital</span>
+            <span>3D Orbital Globe</span>
           </button>
           <button
             onClick={() => setViewMode('map')}
@@ -139,7 +139,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
             )}
           >
             <MapIcon className="size-3.5" />
-            <span>2D Peta Datar</span>
+            <span>2D Planar Map</span>
           </button>
         </div>
 
@@ -158,7 +158,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 : 'text-slate-300 border-white/5 hover:bg-slate-800'
             )}
           >
-            5 Klaster Pangan
+            5 Agrifood Clusters
           </button>
           <button
             onClick={() => setActiveLayer('lisa')}
@@ -169,7 +169,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 : 'text-slate-300 border-white/5 hover:bg-slate-800'
             )}
           >
-            LISA 2024 (Hotspot)
+            LISA 2024 (Hotspots)
           </button>
           <button
             onClick={() => setActiveLayer('luc')}
@@ -180,7 +180,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 : 'text-slate-300 border-white/5 hover:bg-slate-800'
             )}
           >
-            CO₂ Lahan (LUC)
+            Land CO₂ (LUC)
           </button>
           <button
             onClick={() => setActiveLayer('ch4')}
@@ -191,7 +191,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 : 'text-slate-300 border-white/5 hover:bg-slate-800'
             )}
           >
-            Metana (CH₄)
+            Methane (CH₄)
           </button>
         </div>
 
@@ -206,7 +206,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 : 'bg-slate-800/80 text-slate-400 border-white/10 hover:text-white hover:bg-slate-800'
             )}
           >
-            {filterAseanOnly ? '✓ Hanya ASEAN-10' : 'Tampilkan Asia-44'}
+            {filterAseanOnly ? '✓ ASEAN-10 Only' : 'Display All 44 Economies'}
           </button>
         </div>
       </div>
@@ -278,7 +278,7 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                       </div>
                       <div className="text-xs space-y-1">
                         <p>
-                          <strong className="text-slate-700">Klaster:</strong>{' '}
+                          <strong className="text-slate-700">Cluster:</strong>{' '}
                           <span className="font-semibold text-slate-900">{c.nama_klaster}</span>
                         </p>
                         <p>
@@ -287,20 +287,20 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
                         </p>
                         <div className="pt-1.5 border-t border-slate-200 grid grid-cols-2 gap-1 text-[11px]">
                           <div>
-                            <span className="text-slate-500">CO₂ Lahan:</span>
-                            <p className="font-bold">{c.luc_pc.toFixed(2)} t/kap</p>
+                            <span className="text-slate-500">Land CO₂:</span>
+                            <p className="font-bold">{c.luc_pc.toFixed(2)} t/cap</p>
                           </div>
                           <div>
-                            <span className="text-slate-500">Metana:</span>
-                            <p className="font-bold">{c.ch4_pc.toFixed(2)} t/kap</p>
+                            <span className="text-slate-500">Methane:</span>
+                            <p className="font-bold">{c.ch4_pc.toFixed(2)} t/cap</p>
                           </div>
                           <div>
-                            <span className="text-slate-500">N₂O Pupuk:</span>
-                            <p className="font-bold">{c.n2o_pc.toFixed(2)} t/kap</p>
+                            <span className="text-slate-500">Fertilizer N₂O:</span>
+                            <p className="font-bold">{c.n2o_pc.toFixed(2)} t/cap</p>
                           </div>
                           <div>
-                            <span className="text-slate-500">CO₂ Energi:</span>
-                            <p className="font-bold">{c.co2_pc.toFixed(2)} t/kap</p>
+                            <span className="text-slate-500">Energy CO₂:</span>
+                            <p className="font-bold">{c.co2_pc.toFixed(2)} t/cap</p>
                           </div>
                         </div>
                       </div>
@@ -315,33 +315,33 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
           <div className="absolute bottom-4 left-4 z-[400] bg-slate-900/90 backdrop-blur-xl border border-white/10 p-3.5 rounded-2xl max-w-sm hidden sm:block shadow-2xl">
             <h5 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
               <Compass className="size-3.5 text-emerald-400" />
-              {activeLayer === 'cluster' && 'Legenda Klaster Tipologi Pangan'}
-              {activeLayer === 'lisa' && 'Legenda Signifikansi LISA 2024'}
-              {activeLayer === 'luc' && 'Legenda Emisi Alih Guna Lahan'}
-              {activeLayer === 'ch4' && 'Legenda Emisi Metana (CH₄)'}
+              {activeLayer === 'cluster' && 'Agrifood Typology Clusters Legend'}
+              {activeLayer === 'lisa' && 'LISA 2024 Spatial Significance Legend'}
+              {activeLayer === 'luc' && 'Land-Use Change CO₂ Emissions Legend'}
+              {activeLayer === 'ch4' && 'Methane (CH₄) Emissions Legend'}
             </h5>
 
             {activeLayer === 'cluster' && (
               <div className="space-y-1.5 text-xs">
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#ef4444]" />
-                  <span className="text-slate-200 font-medium">Frontier Konversi Lahan (7 Negara ASEAN)</span>
+                  <span className="text-slate-200 font-medium">Land Conversion Frontier (7 ASEAN Economies)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#f59e0b]" />
-                  <span className="text-slate-300">Padat Penduduk Intensitas Rendah (Filipina)</span>
+                  <span className="text-slate-300">High-Density Low-Intensity Agrarian (Philippines)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#3b82f6]" />
-                  <span className="text-slate-300">Industri Mapan Rendah-Lahan (Singapura)</span>
+                  <span className="text-slate-300">Established Land-Sparing Industrial (Singapore)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#8b5cf6]" />
-                  <span className="text-slate-300">Peternakan Ekstensif (Brunei)</span>
+                  <span className="text-slate-300">Extensive Pastoral & Livestock (Brunei)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#64748b]" />
-                  <span className="text-slate-300">Petro-Ekonomi Pengimpor Pangan</span>
+                  <span className="text-slate-300">Food-Importing Petro-Economies</span>
                 </div>
               </div>
             )}
@@ -350,24 +350,24 @@ export const InteractiveMap: React.FC<InteractiveMapProps> = ({
               <div className="space-y-1.5 text-xs">
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#dc2626]" />
-                  <span className="text-slate-200 font-medium">High-High: Hotspot Regional (7 ASEAN)</span>
+                  <span className="text-slate-200 font-medium">High-High: Regional Hotspot (7 ASEAN)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#9333ea]" />
-                  <span className="text-slate-300 font-medium">Low-High: Spatial Outlier (Filipina & Singapura)</span>
+                  <span className="text-slate-300 font-medium">Low-High: Spatial Outlier (Philippines & Singapore)</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="size-2.5 rounded-full bg-[#475569]" />
-                  <span className="text-slate-400">Tidak Signifikan (p &gt; 0.05)</span>
+                  <span className="text-slate-400">Not Significant (p &gt; 0.05)</span>
                 </div>
               </div>
             )}
 
             {(activeLayer === 'luc' || activeLayer === 'ch4') && (
               <div className="text-xs text-slate-300 flex items-center justify-between pt-1">
-                <span>Rendah (Radius kecil)</span>
+                <span>Low (Small radius)</span>
                 <span className="mx-2 text-slate-500">➔</span>
-                <span className="text-emerald-400 font-bold font-mono">Tinggi (Radius besar & pekat)</span>
+                <span className="text-emerald-400 font-bold font-mono">High (Large radius & concentrated)</span>
               </div>
             )}
         </div>

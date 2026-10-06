@@ -64,19 +64,19 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
         <CardHeader className="p-5 sm:p-6 pb-4 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4 space-y-0">
           <div>
             <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30">
-              Deret Waktu Bebas Kebocoran
+              Leak-Free Time-Series Cross-Validation
             </span>
             <CardTitle className="text-lg sm:text-xl font-bold text-white mt-2 flex items-center gap-2">
               <TrendingUp className="size-5 text-teal-400" />
-              <span>Proyeksi Emisi Metana Sistem Pangan ASEAN (2025–2035)</span>
+              <span>ASEAN Agrifood System Methane Emission Projections (2025–2035)</span>
             </CardTitle>
             <CardDescription className="mt-1">
-              Hasil 2.904 evaluasi fold-model (12 model × 4 horizon × 2 jendela rolling/expanding). Juara: Model Drift & ARIMA Ensemble.
+              Derived from 2,904 fold-model evaluations (12 candidate models × 4 forecast horizons × 2 rolling/expanding windows). Top performers: Drift & ARIMA Ensemble.
             </CardDescription>
           </div>
 
           <div className="bg-slate-950/80 px-4 py-3 rounded-2xl border border-white/10 text-left md:text-right shrink-0">
-            <span className="text-[10px] text-slate-400 block uppercase font-mono">Horizon Evaluasi Juara:</span>
+            <span className="text-[10px] text-slate-400 block uppercase font-mono">Optimal Evaluation Horizon:</span>
             <span className="text-base sm:text-lg font-black text-teal-400 font-mono tracking-tight">
               MAPE h=1: 1.34% · h=10: 3.10%
             </span>
@@ -102,7 +102,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                   formatter={(val: any) => [typeof val === 'number' ? val.toFixed(1) : '-', '']}
                 />
                 <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
-                <ReferenceLine x={2024} stroke="#ef4444" strokeDasharray="3 3" label={{ value: 'Mulai Proyeksi 2025', fill: '#ef4444', fontSize: 10 }} />
+                <ReferenceLine x={2024} stroke="#ef4444" strokeDasharray="3 3" label={{ value: 'Forecast Inception 2025', fill: '#ef4444', fontSize: 10 }} />
                 
                 {/* 95% Confidence Interval Band */}
                 <Area
@@ -111,7 +111,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                   stroke="transparent"
                   fill="#0d9488"
                   fillOpacity={0.2}
-                  name="Selang Prediksi 95%"
+                  name="95% Prediction Interval"
                 />
                 <Area
                   type="monotone"
@@ -119,7 +119,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                   stroke="transparent"
                   fill="#080d1a"
                   fillOpacity={1}
-                  name="Batas Bawah 95%"
+                  name="95% Lower Bound"
                 />
 
                 {/* Historical Line */}
@@ -129,7 +129,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                   stroke="#38bdf8"
                   strokeWidth={2.5}
                   dot={false}
-                  name="Historis ASEAN (1990-2024)"
+                  name="Historical ASEAN (1990–2024)"
                 />
 
                 {/* Forecast Line */}
@@ -140,7 +140,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                   strokeWidth={3}
                   strokeDasharray="4 4"
                   dot={{ r: 3, fill: '#14b8a6' }}
-                  name="Proyeksi Ensemble (2025-2035)"
+                  name="Ensemble Forecast (2025–2035)"
                 />
               </ComposedChart>
             </ResponsiveContainer>
@@ -149,52 +149,52 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
           {/* Model Ranking Matrix */}
           <div className="pt-5 border-t border-white/5">
             <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">
-              Matriks Peringkat Kinerja Validasi Silang (Walk-Forward CV)
+              Cross-Validation Performance Ranking Matrix (Walk-Forward CV)
             </h4>
             <div className="overflow-x-auto rounded-xl border border-white/5 bg-slate-950/60">
-              <table className="w-full text-left text-xs font-mono">
+              <table className="w-full text-left text-xs font-mono min-w-[640px]">
                 <thead className="bg-slate-950 text-slate-400 border-b border-white/10 text-[11px]">
                   <tr>
-                    <th className="px-4 py-2.5 font-sans">Model Deret Waktu</th>
-                    <th className="px-4 py-2.5 text-right">MAPE h=1</th>
-                    <th className="px-4 py-2.5 text-right">MAPE h=3</th>
-                    <th className="px-4 py-2.5 text-right">MAPE h=5</th>
-                    <th className="px-4 py-2.5 text-right">MAPE h=10</th>
-                    <th className="px-4 py-2.5 text-center font-sans">Status</th>
+                    <th className="px-4 py-2.5 font-sans whitespace-nowrap">Time-Series Model</th>
+                    <th className="px-4 py-2.5 text-right whitespace-nowrap">MAPE h=1</th>
+                    <th className="px-4 py-2.5 text-right whitespace-nowrap">MAPE h=3</th>
+                    <th className="px-4 py-2.5 text-right whitespace-nowrap">MAPE h=5</th>
+                    <th className="px-4 py-2.5 text-right whitespace-nowrap">MAPE h=10</th>
+                    <th className="px-4 py-2.5 text-center font-sans whitespace-nowrap">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
                   <tr className="bg-emerald-500/10 text-white font-bold">
-                    <td className="px-4 py-2.5 font-sans">Drift (Linear Trend)</td>
+                    <td className="px-4 py-2.5 font-sans whitespace-nowrap">Drift (Linear Trend)</td>
                     <td className="px-4 py-2.5 text-right text-emerald-400">1.34%</td>
                     <td className="px-4 py-2.5 text-right text-emerald-400">2.18%</td>
                     <td className="px-4 py-2.5 text-right text-emerald-400">2.67%</td>
                     <td className="px-4 py-2.5 text-right text-emerald-400">3.10%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-emerald-400 font-semibold">Juara 1 (Terpilih)</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-emerald-400 font-semibold whitespace-nowrap">Rank 1 (Selected)</td>
                   </tr>
                   <tr className="text-slate-300 hover:bg-slate-800/30 transition-colors">
-                    <td className="px-4 py-2.5 font-sans">ARIMA (Hannan-Rissanen AICc)</td>
+                    <td className="px-4 py-2.5 font-sans whitespace-nowrap">ARIMA (Hannan-Rissanen AICc)</td>
                     <td className="px-4 py-2.5 text-right">1.52%</td>
                     <td className="px-4 py-2.5 text-right">2.27%</td>
                     <td className="px-4 py-2.5 text-right">2.75%</td>
                     <td className="px-4 py-2.5 text-right">3.60%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-teal-400">Runner-Up</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-teal-400 whitespace-nowrap">Runner-Up</td>
                   </tr>
                   <tr className="text-slate-300 hover:bg-slate-800/30 transition-colors">
-                    <td className="px-4 py-2.5 font-sans">Holt Linear Trend</td>
+                    <td className="px-4 py-2.5 font-sans whitespace-nowrap">Holt Linear Trend</td>
                     <td className="px-4 py-2.5 text-right">1.57%</td>
                     <td className="px-4 py-2.5 text-right">2.41%</td>
                     <td className="px-4 py-2.5 text-right">2.81%</td>
                     <td className="px-4 py-2.5 text-right">3.70%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-slate-400">Ensemble</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-slate-400 whitespace-nowrap">Ensemble</td>
                   </tr>
                   <tr className="text-slate-400 hover:bg-slate-800/30 transition-colors">
-                    <td className="px-4 py-2.5 font-sans">Naive (Baseline Tanpa Model)</td>
+                    <td className="px-4 py-2.5 font-sans whitespace-nowrap">Naive (Zero-Parameter Baseline)</td>
                     <td className="px-4 py-2.5 text-right">2.16%</td>
                     <td className="px-4 py-2.5 text-right">3.08%</td>
                     <td className="px-4 py-2.5 text-right">3.88%</td>
                     <td className="px-4 py-2.5 text-right text-red-400">6.58%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-slate-500">Benchmark</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-slate-500 whitespace-nowrap">Benchmark</td>
                   </tr>
                 </tbody>
               </table>
@@ -207,7 +207,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
       <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 text-xs text-slate-300 flex items-start gap-3 backdrop-blur-md">
         <ShieldCheck className="size-5 text-teal-400 shrink-0 mt-0.5" />
         <div className="leading-relaxed">
-          <strong className="text-white">Justifikasi Uji Diebold–Mariano:</strong> Uji signifikansi beda galat (koreksi Harvey-Leybourne-Newbold) membuktikan bahwa 7 model teratas tidak berbeda signifikan secara statistik dari model Drift. Oleh karena itu, estimasi final menggunakan pendekatan *Ensemble Averaging* untuk meminimalkan risiko salah spesifikasi model individual.
+          <strong className="text-white">Diebold–Mariano Test Justification:</strong> Differential predictive accuracy testing with Harvey–Leybourne–Newbold small-sample corrections demonstrates that the top 7 candidate specifications are not statistically distinguishable from the Drift baseline. Accordingly, the final trajectory leverages *Ensemble Averaging* to minimize individual model misspecification risk.
         </div>
       </div>
     </div>

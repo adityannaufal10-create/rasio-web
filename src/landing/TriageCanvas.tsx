@@ -7,34 +7,34 @@ import { cn } from "@/lib/utils";
 const PHASES = [
   {
     step: 1,
-    title: "44 Negara dalam Isolasi",
-    subtitle: "Pendekatan Kebijakan Berpusat Domestik",
-    desc: "44 negara Asia-Pasifik merumuskan target iklim NDC masing-masing tanpa memperhitungkan keterkaitan spasial dengan tetangganya.",
-    badge: "2.816 Observasi Panel",
+    title: "44 Economies in Isolation",
+    subtitle: "Domestically Centered Policy Paradigm",
+    desc: "44 Asia-Pacific nations formulate unilateral NDC climate targets without accounting for spatial dependencies with contiguous neighbors.",
+    badge: "2,816 Panel Observations",
     icon: Globe,
   },
   {
     step: 2,
-    title: "5 Tipologi Klaster Sistem Pangan",
-    subtitle: "K-Means Clustering k=5 (Silhouette 0,5336)",
-    desc: "Pemisahan empiris membuktikan 7 dari 10 negara ASEAN terkonsentrasi di Klaster Frontier Konversi Lahan (Indonesia, Vietnam, Thailand, Malaysia, Myanmar, Kamboja, Laos).",
-    badge: "Stabilitas ARI 0,973",
+    title: "5 Agrifood System Typologies",
+    subtitle: "K-Means Clustering k=5 (Silhouette 0.5336)",
+    desc: "Empirical partitioning proves 7 out of 10 ASEAN members concentrate within the Land Conversion Frontier cluster (Indonesia, Vietnam, Thailand, Malaysia, Myanmar, Cambodia, Laos).",
+    badge: "ARI Stability 0.973",
     icon: Layers,
   },
   {
     step: 3,
-    title: "Ketergantungan Spasial Menguat Drastis",
-    subtitle: "Global Moran's I: +0,255 (1961) → +0,729 (2024)",
-    desc: "Matriks bobot spasial k-NN (k=4) menunjukkan korelasi spasial antarnegara melonjak hampir 3× lipat selama 64 tahun. Emisi pangan bukan lagi anomali terisolasi.",
-    badge: "Moran's I = +0,729",
+    title: "Deepening Spatial Clustering",
+    subtitle: "Global Moran's I: +0.255 (1961) → +0.729 (2024)",
+    desc: "The k-NN (k=4) spatial weights matrix reveals cross-border spatial autocorrelation surged nearly threefold over 64 years. Agrifood emissions are deeply clustered.",
+    badge: "Moran's I = +0.729",
     icon: Network,
   },
   {
     step: 4,
-    title: "Dekomposisi Limpahan Lintas Batas",
+    title: "Transboundary Spillover Decomposition",
     subtitle: "Spatial Durbin Model (SDM) LeSage–Pace",
-    desc: "Efek limpahan tak langsung pupuk N₂O ke negara tetangga (+1,1046) bernilai 2,20× lipat efek langsung domestik (+0,5011). Kebijakan tanpa koordinasi regional memicu kebocoran karbon.",
-    badge: "Multiplier 1,61×",
+    desc: "Transboundary N₂O fertilizer indirect spillovers (+1.1046) exceed direct domestic effects (+0.5011) by 2.20×. Uncoordinated policies inadvertently trigger carbon leakage.",
+    badge: "Multiplier 1.61×",
     icon: Waves,
   },
 ] as const;
@@ -47,7 +47,6 @@ export default function TriageCanvas() {
   const size = useRef({ w: 0, h: 0, dpr: 1 });
   const pRef = useRef(reduced ? 1 : 0);
   const [phaseIdx, setPhaseIdx] = useState(0);
-  const [hoveredCountry, setHoveredCountry] = useState<CountryDot | null>(null);
 
   // Cluster center target coordinates relative to canvas width/height
   const getClusterTarget = (cluster: number, w: number, h: number) => {
@@ -135,7 +134,7 @@ export default function TriageCanvas() {
       ctx.lineWidth = 1.2;
       const lineAlpha = 0.35 * easeOut(f2) * (1 - 0.3 * f4);
 
-      // Connect ASEAN-10 countries (especially Klaster Frontier)
+      // Connect ASEAN-10 countries (especially Land Frontier)
       const aseanNodes = positions.filter((p) => p.c.isAsean);
       for (let i = 0; i < aseanNodes.length; i++) {
         for (let j = i + 1; j < aseanNodes.length; j++) {
@@ -259,7 +258,7 @@ export default function TriageCanvas() {
     <section
       id="triage"
       ref={section}
-      aria-label="Simulasi Dinamika 44 Negara"
+      aria-label="44-Economy Spatial Dynamics Simulation"
       className="relative border-t border-white/10"
       style={{ height: reduced ? "auto" : "420vh" }}
     >
@@ -270,22 +269,22 @@ export default function TriageCanvas() {
           <div className="flex items-center gap-3">
             <span className="flex size-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.8)] animate-pulse" />
             <span className="font-mono text-[12px] font-semibold uppercase tracking-wider text-emerald-400">
-              Simulasi Dinamika Spasial Regional · 44 Negara
+              Regional Spatial Dynamics Simulation · 44 Economies
             </span>
           </div>
 
           <div className="hidden items-center gap-6 sm:flex">
             <div className="flex items-center gap-2 text-[12.5px] text-slate-400">
               <span className="size-2 rounded-full bg-red-500" />
-              <span>Klaster 2 (Frontier: 7 ASEAN)</span>
+              <span>Cluster 2 (Land Frontier: 7 ASEAN)</span>
             </div>
             <div className="flex items-center gap-2 text-[12.5px] text-slate-400">
               <span className="size-2 rounded-full bg-amber-500" />
-              <span>Klaster 4 (Padat Penduduk)</span>
+              <span>Cluster 4 (High-Density Agrarian)</span>
             </div>
             <div className="flex items-center gap-2 text-[12.5px] text-slate-400">
               <span className="size-2 rounded-full bg-blue-500" />
-              <span>Klaster 0 (Industri Mapan)</span>
+              <span>Cluster 0 (Industrial)</span>
             </div>
           </div>
 
@@ -317,7 +316,7 @@ export default function TriageCanvas() {
           {phaseIdx >= 2 && (
             <div className="absolute right-4 top-6 hidden max-w-[280px] rounded-2xl border border-emerald-500/40 bg-slate-900/90 p-4 shadow-2xl backdrop-blur-xl animate-fade-in md:block">
               <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase">
-                <span>Koefisien Spasial SDM</span>
+                <span>SDM Spatial Coefficient</span>
                 <span className="text-emerald-400 font-bold">p &lt; 0.001</span>
               </div>
               <div className="mt-2 flex items-baseline gap-2">
@@ -325,19 +324,19 @@ export default function TriageCanvas() {
                   {phaseIdx === 2 ? FACTS.moran2024 : FACTS.spilloverRatio}
                 </span>
                 <span className="text-[12px] font-semibold text-emerald-400">
-                  {phaseIdx === 2 ? "Moran's I (2024)" : "Limpahan Tak Langsung"}
+                  {phaseIdx === 2 ? "Moran's I (2024)" : "Indirect Spillover"}
                 </span>
               </div>
               <p className="mt-2 text-[12px] leading-relaxed text-slate-300">
                 {phaseIdx === 2
-                  ? "Emisi pangan saling mengikat kuat lintas teritorial Asia Tenggara."
-                  : "Pupuk N₂O menumpahkan dampak 2,20× lebih besar ke negara tetangga."}
+                  ? "Agrifood emissions exhibit powerful spatial clustering across Southeast Asia."
+                  : "N₂O fertilizer spills 2.20× greater impact into neighboring economies."}
               </p>
             </div>
           )}
         </div>
 
-        {/* Bottom Narrative Banner (Transitions with phaseIdx) */}
+        {/* Bottom Narrative Banner */}
         <div className="mx-auto w-full max-w-[1320px]">
           <div className="rounded-2xl border border-white/10 bg-slate-900/85 p-6 shadow-2xl backdrop-blur-xl">
             <div className="grid gap-6 md:grid-cols-[auto_1fr_auto] md:items-center">
@@ -348,7 +347,7 @@ export default function TriageCanvas() {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-emerald-300">
-                    Fase {curPhase.step} dari 4 · {curPhase.badge}
+                    Phase {curPhase.step} of 4 · {curPhase.badge}
                   </span>
                   <h3 className="text-[19px] font-bold text-white tracking-tight">{curPhase.title}</h3>
                 </div>
@@ -358,10 +357,10 @@ export default function TriageCanvas() {
 
               <div className="hidden flex-col items-end gap-1.5 lg:flex">
                 <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
-                  Scroll untuk melanjutkan
+                  Scroll to advance
                 </span>
                 <span className="flex items-center gap-1 text-[13px] font-semibold text-emerald-400">
-                  {phaseIdx === 3 ? "Lanjut ke Bukti Empiris" : `Menuju Fase ${phaseIdx + 2}`}
+                  {phaseIdx === 3 ? "Proceed to Evidence Wall" : `Advance to Phase ${phaseIdx + 2}`}
                   <ArrowRight className="size-4" />
                 </span>
               </div>

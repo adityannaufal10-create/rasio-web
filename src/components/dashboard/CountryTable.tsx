@@ -61,7 +61,7 @@ export const CountryTable: React.FC<CountryTableProps> = ({
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
-              placeholder="Cari nama negara..."
+              placeholder="Search economy name..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl bg-slate-950/80 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500/60 focus:ring-1 focus:ring-emerald-500/40 transition-all"
@@ -76,78 +76,78 @@ export const CountryTable: React.FC<CountryTableProps> = ({
                 : "bg-slate-800/80 text-slate-300 border-white/10 hover:text-white hover:bg-slate-800"
             )}
           >
-            {aseanOnly ? "✓ 10 Negara ASEAN" : "Filter ASEAN-10"}
+            {aseanOnly ? "✓ 10 ASEAN Economies" : "Filter ASEAN-10"}
           </button>
         </div>
 
         <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
-          <span>Menampilkan</span>
+          <span>Showing</span>
           <span className="rounded-md bg-slate-800/80 border border-white/5 px-2 py-0.5 text-white font-bold">
             {sorted.length} / {countries.length}
           </span>
-          <span>negara</span>
+          <span>economies</span>
         </div>
       </CardHeader>
 
       {/* Table Content */}
       <CardContent className="p-0">
         <div className="overflow-x-auto max-h-[460px]">
-          <table className="w-full text-left text-xs">
+          <table className="w-full text-left text-xs min-w-[700px]">
             <thead className="sticky top-0 bg-slate-950/95 backdrop-blur border-b border-white/10 text-slate-400 uppercase tracking-wider font-semibold z-10 text-[11px]">
               <tr>
                 <th
                   onClick={() => handleSort('country')}
-                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors"
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors whitespace-nowrap"
                 >
                   <div className="flex items-center gap-1.5">
-                    <span>Negara</span>
+                    <span>Economy</span>
                     <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
                   </div>
                 </th>
-                <th className="px-4 py-3">Klaster</th>
-                <th className="px-4 py-3">LISA Spasial</th>
+                <th className="px-4 py-3 whitespace-nowrap">Cluster</th>
+                <th className="px-4 py-3 whitespace-nowrap">Spatial LISA</th>
                 <th
                   onClick={() => handleSort('luc_pc')}
-                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right whitespace-nowrap"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span>CO₂ Lahan (t/kap)</span>
+                    <span>Land CO₂ (t/cap)</span>
                     <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
                   </div>
                 </th>
                 <th
                   onClick={() => handleSort('ch4_pc')}
-                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right whitespace-nowrap"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span>CH₄ (t/kap)</span>
+                    <span>CH₄ (t/cap)</span>
                     <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
                   </div>
                 </th>
                 <th
                   onClick={() => handleSort('n2o_pc')}
-                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right whitespace-nowrap"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span>N₂O (t/kap)</span>
+                    <span>N₂O (t/cap)</span>
                     <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
                   </div>
                 </th>
                 <th
                   onClick={() => handleSort('co2_pc')}
-                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right whitespace-nowrap"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span>CO₂ Energi</span>
+                    <span>Energy CO₂</span>
                     <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
                   </div>
                 </th>
                 <th
                   onClick={() => handleSort('populasi')}
-                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right"
+                  className="px-4 py-3 cursor-pointer hover:text-white transition-colors text-right whitespace-nowrap"
                 >
                   <div className="flex items-center justify-end gap-1.5">
-                    <span>Populasi</span>
+                    <span>Population</span>
                     <ArrowUpDown className="w-3.5 h-3.5 text-slate-500" />
                   </div>
                 </th>
@@ -189,7 +189,7 @@ export const CountryTable: React.FC<CountryTableProps> = ({
                         </span>
                       ) : (
                         <span className="text-[11px] text-slate-500 font-mono">
-                          {lisa?.lisa || 'Acak'}
+                          {lisa?.lisa || 'Random'}
                         </span>
                       )}
                     </td>

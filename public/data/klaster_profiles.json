@@ -1,7 +1,7 @@
 [
   {
     "id": 2,
-    "nama": "Frontier Konversi Lahan",
+    "nama": "Land Conversion Frontier",
     "n_negara": 8,
     "asean_members": [
       "Indonesia",
@@ -15,17 +15,17 @@
     "non_asean": [
       "Papua New Guinea"
     ],
-    "karakteristik": "Tekanan deforestasi dan alih fungsi hutan menjadi lahan pertanian sangat tinggi. Intensitas CH4 dan N2O signifikan dari persawahan basah dan perluasan perkebunan.",
+    "karakteristik": "Severe deforestation pressure and primary forest conversion to commercial agriculture. Substantial CH₄ and N₂O intensities driven by inundated paddies and large-scale plantation expansion.",
     "avg_luc_pc": 2.65,
     "avg_ch4_pc": 1.19,
     "avg_n2o_pc": 0.3,
     "avg_co2_pc": 2.64,
     "color": "#ef4444",
-    "badge": "Prioritas Intervensi Kritis"
+    "badge": "Critical Intervention Priority"
   },
   {
     "id": 4,
-    "nama": "Padat Penduduk Intensitas Rendah",
+    "nama": "High-Density Low-Intensity Agrarian",
     "n_negara": 14,
     "asean_members": [
       "Philippines"
@@ -37,19 +37,19 @@
       "Nepal",
       "Sri Lanka",
       "China",
-      "dll."
+      "etc."
     ],
-    "karakteristik": "Populasi sangat padat dengan emisi per kapita relatif rendah hingga moderat. Ketergantungan pangan domestik tinggi dengan efisiensi lahan marginal.",
+    "karakteristik": "High population density coupled with low-to-moderate per capita emissions. Significant domestic food reliance operating under high land-use efficiency and constrained arable land.",
     "avg_luc_pc": 0.43,
     "avg_ch4_pc": 0.7,
     "avg_n2o_pc": 0.15,
     "avg_co2_pc": 1.26,
     "color": "#f59e0b",
-    "badge": "Efisiensi Pangan & Populasi"
+    "badge": "Agrarian Scale & Efficiency"
   },
   {
     "id": 0,
-    "nama": "Industri Mapan Rendah-Lahan",
+    "nama": "Established Land-Sparing Industrial",
     "n_negara": 12,
     "asean_members": [
       "Singapore"
@@ -59,19 +59,19 @@
       "South Korea",
       "Israel",
       "Taiwan",
-      "dll."
+      "etc."
     ],
-    "karakteristik": "Emisi alih guna lahan domestik praktis nol. Perekonomian maju, emisi didominasi energi dan transportasi rantai dingin, mengimpor >90% kebutuhan kalori pangan.",
+    "karakteristik": "Negligible domestic land-use change emissions. Advanced industrial economies dominated by energy and cold-chain logistics, importing >90% of caloric consumption.",
     "avg_luc_pc": 0.02,
     "avg_ch4_pc": 0.9,
     "avg_n2o_pc": 0.23,
     "avg_co2_pc": 8.83,
     "color": "#3b82f6",
-    "badge": "Tinggi Rantai Pasok Impor"
+    "badge": "Import Supply Chain Dependent"
   },
   {
     "id": 1,
-    "nama": "Peternakan Ekstensif",
+    "nama": "Extensive Pastoral & Livestock",
     "n_negara": 4,
     "asean_members": [
       "Brunei"
@@ -81,17 +81,17 @@
       "Australia",
       "New Zealand"
     ],
-    "karakteristik": "Emisi metana dan N2O per kapita sangat tinggi didorong oleh peternakan ruminansia skala luas (atau emisi minyak/gas per kapita tinggi dalam kasus pencilan Brunei).",
+    "karakteristik": "High per capita CH₄ and N₂O driven by large-scale ruminant grazing regimes (with exceptional per capita energy emissions in the case of petro-state outlier Brunei).",
     "avg_luc_pc": 2.2,
     "avg_ch4_pc": 6.31,
     "avg_n2o_pc": 0.68,
     "avg_co2_pc": 22.97,
     "color": "#8b5cf6",
-    "badge": "Tinggi Intensitas Per Kapita"
+    "badge": "High Per-Capita Intensity"
   },
   {
     "id": 3,
-    "nama": "Petro-Ekonomi Pengimpor Pangan",
+    "nama": "Food-Importing Petro-Economies",
     "n_negara": 6,
     "asean_members": [],
     "non_asean": [
@@ -102,12 +102,12 @@
       "Oman",
       "Bahrain"
     ],
-    "karakteristik": "Emisi energi per kapita sangat masif dari ekstraksi hidrokarbon. Lahan pertanian sangat terbatas, hampir seluruh komoditas pangan diimpor melalui pasar global.",
+    "karakteristik": "Massive per capita energy emissions driven by hydrocarbon extraction. Highly constrained arable land, relying almost entirely on international food imports.",
     "avg_luc_pc": 0.01,
     "avg_ch4_pc": 4.12,
     "avg_n2o_pc": 0.35,
     "avg_co2_pc": 19.5,
     "color": "#64748b",
-    "badge": "Transisi Energi & Impor"
+    "badge": "Energy Transition & Trade Exposure"
   }
 ]

@@ -1,44 +1,44 @@
 [
   {
-    "variabel": "log Metana/kap (CH4)",
+    "variabel": "log Methane/capita (CH₄)",
     "beta": 0.3694,
     "t_stat": 15.77,
     "p_val": "<0.001",
-    "tipe": "Domestik (X)"
+    "tipe": "Domestic (X)"
   },
   {
-    "variabel": "log N2O/kap (Pupuk)",
+    "variabel": "log N₂O/capita (Fertilizer)",
     "beta": 0.4179,
     "t_stat": 12.02,
     "p_val": "<0.001",
-    "tipe": "Domestik (X)"
+    "tipe": "Domestic (X)"
   },
   {
-    "variabel": "log CO2 energi/kap",
+    "variabel": "log Energy CO₂/capita",
     "beta": -0.3093,
     "t_stat": -18.63,
     "p_val": "<0.001",
-    "tipe": "Domestik (X)"
+    "tipe": "Domestic (X)"
   },
   {
-    "variabel": "W \u00d7 log Metana/kap",
+    "variabel": "W × log Methane/capita",
     "beta": -0.3342,
     "t_stat": -8.74,
     "p_val": "<0.001",
-    "tipe": "Limpahan Spasial (WX)"
+    "tipe": "Spatial Spillover (WX)"
   },
   {
-    "variabel": "W \u00d7 log N2O/kap",
+    "variabel": "W × log N₂O/capita",
     "beta": 0.3586,
     "t_stat": 3.66,
     "p_val": "<0.001",
-    "tipe": "Limpahan Spasial (WX)"
+    "tipe": "Spatial Spillover (WX)"
   },
   {
-    "variabel": "W \u00d7 log CO2 energi/kap",
+    "variabel": "W × log Energy CO₂/capita",
     "beta": 0.1299,
     "t_stat": 4.55,
     "p_val": "<0.001",
-    "tipe": "Limpahan Spasial (WX)"
+    "tipe": "Spatial Spillover (WX)"
   }
 ]

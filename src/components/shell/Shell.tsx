@@ -44,38 +44,38 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   {
     path: "/clustering",
-    label: "Peta & 5 Klaster",
+    label: "Cartography & 5 Clusters",
     icon: Layers,
     badge: "k=5",
-    subtitle: "Tipologi Sistem Pangan & Emisi",
+    subtitle: "Agrifood Typologies & Emissions",
   },
   {
     path: "/spasial",
-    label: "Ekonometrika Spasial",
+    label: "Spatial Econometrics",
     icon: Network,
     badge: "SDM",
-    subtitle: "Moran's I & LeSage-Pace Multiplier",
+    subtitle: "Moran's I & LeSage–Pace Multipliers",
   },
   {
     path: "/simulator",
-    label: "Simulator Kebijakan",
+    label: "Policy Simulator",
     icon: Sliders,
     badge: "Real-time",
-    subtitle: "Intervensi N₂O, Moratorium, AWD",
+    subtitle: "N₂O, Moratorium, & AWD Levers",
   },
   {
     path: "/forecasting",
-    label: "Peramalan 2025–2035",
+    label: "Forecasting 2025–2035",
     icon: TrendingUp,
     badge: "MAPE 1.3%",
-    subtitle: "CV Bebas Bocor 2.904 Fold",
+    subtitle: "Leak-Free 2,904-Fold CV",
   },
   {
     path: "/metodologi",
-    label: "Metodologi Ilmiah",
+    label: "Scientific Methodology",
     icon: BookOpen,
     badge: "LR Test",
-    subtitle: "Panel 44 Negara × 64 Tahun",
+    subtitle: "Balanced 44-Country Panel Matrix",
   },
 ];
 
@@ -83,37 +83,37 @@ const WALKTHROUGH_STEPS = [
   {
     path: "/clustering",
     stepNum: "01",
-    title: "1. Pemetaan Tipologi Spasial",
-    shortTitle: "Tipologi Spasial",
-    hint: "Lihat konsentrasi 7 negara ASEAN di Klaster Frontier",
+    title: "1. Spatial Typology Mapping",
+    shortTitle: "Spatial Typology",
+    hint: "Inspect 7 ASEAN members clustered in Land Frontier",
   },
   {
     path: "/spasial",
     stepNum: "02",
-    title: "2. Verifikasi Efek Limpahan",
-    shortTitle: "Efek Limpahan",
-    hint: "Periksa Moran's I (+0,729) & LeSage-Pace multiplier",
+    title: "2. Spillover Verification",
+    shortTitle: "Spillover Verification",
+    hint: "Examine Moran's I (+0.729) & LeSage-Pace multipliers",
   },
   {
     path: "/simulator",
     stepNum: "03",
-    title: "3. Simulasi Dampak Regional",
-    shortTitle: "Simulasi Kebijakan",
-    hint: "Uji 3 tuas intervensi dan kalkulasi limpahan",
+    title: "3. Regional Policy Simulation",
+    shortTitle: "Policy Simulator",
+    hint: "Test 3 intervention levers and net mitigation",
   },
   {
     path: "/forecasting",
     stepNum: "04",
-    title: "4. Evaluasi Proyeksi 10 Tahun",
-    shortTitle: "Proyeksi 10 Tahun",
-    hint: "Tinjau fanchart selang keyakinan metana",
+    title: "4. 10-Year Horizon Forecast",
+    shortTitle: "10-Year Forecast",
+    hint: "Review multi-horizon empirical fancharts",
   },
   {
     path: "/metodologi",
     stepNum: "05",
-    title: "5. Audit Metodologis",
-    shortTitle: "Audit Metodologi",
-    hint: "Verifikasi struktur panel seimbang 44 negara",
+    title: "5. Methodological Audit",
+    shortTitle: "Methodology Audit",
+    hint: "Audit 44-country balanced panel & W matrix",
   },
 ];
 
@@ -217,7 +217,7 @@ export function Shell({ children }: { children: ReactNode }) {
       if (e.key.toLowerCase() === "b" && !e.ctrlKey && !e.metaKey && !e.altKey) {
         e.preventDefault();
         toggleCollapse();
-        triggerToast(collapsed ? "Buka Sidebar" : "Sembunyikan Sidebar", "B");
+        triggerToast(collapsed ? "Expand Sidebar" : "Collapse Sidebar", "B");
         return;
       }
 
@@ -225,7 +225,7 @@ export function Shell({ children }: { children: ReactNode }) {
       if ((e.key.toLowerCase() === "h" || e.key === "0") && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         navigate("/");
-        triggerToast("Beranda Naratif", "H");
+        triggerToast("Narrative Overview", "H");
         return;
       }
 
@@ -236,7 +236,7 @@ export function Shell({ children }: { children: ReactNode }) {
         const targetStep = WALKTHROUGH_STEPS[num - 1];
         if (targetStep) {
           navigate(targetStep.path);
-          triggerToast(`Modul ${num}: ${targetStep.shortTitle}`, String(num));
+          triggerToast(`Module ${num}: ${targetStep.shortTitle}`, String(num));
         }
         return;
       }
@@ -249,7 +249,7 @@ export function Shell({ children }: { children: ReactNode }) {
           navigate(prevStep.path);
           triggerToast(`← ${prevStep.shortTitle}`, "[");
         } else {
-          triggerToast("Sudah di Modul Pertama", "1");
+          triggerToast("First Module Active", "1");
         }
         return;
       }
@@ -262,7 +262,7 @@ export function Shell({ children }: { children: ReactNode }) {
           navigate(nextStep.path);
           triggerToast(`→ ${nextStep.shortTitle}`, "]");
         } else {
-          triggerToast("Sudah di Modul Terakhir", "5");
+          triggerToast("Final Module Active", "5");
         }
         return;
       }
@@ -277,58 +277,58 @@ export function Shell({ children }: { children: ReactNode }) {
     // Modules
     {
       id: "mod-home",
-      group: "Halaman & Modul",
-      title: "Landing Page (Beranda Naratif)",
-      hint: "Simulasi 44 negara & overview solusi",
+      group: "Pages & Modules",
+      title: "Landing Page (Narrative Overview)",
+      hint: "44-country simulation & empirical synthesis",
       icon: Home,
       run: () => navigate("/"),
     },
     {
       id: "mod-clustering",
-      group: "Halaman & Modul",
-      title: "Peta & 5 Klaster Pangan",
-      hint: "Kartografi interaktif dan profil 5 tipologi",
+      group: "Pages & Modules",
+      title: "Cartography & 5 Agrifood Clusters",
+      hint: "Interactive map and 5 regional typologies",
       icon: Layers,
       run: () => navigate("/clustering"),
     },
     {
       id: "mod-spasial",
-      group: "Halaman & Modul",
-      title: "Ekonometrika Spasial Lanjut",
-      hint: "Global Moran's I & model SDM LeSage-Pace",
+      group: "Pages & Modules",
+      title: "Advanced Spatial Econometrics",
+      hint: "Global Moran's I & LeSage–Pace SDM decomposition",
       icon: Network,
       run: () => navigate("/spasial"),
     },
     {
       id: "mod-simulator",
-      group: "Halaman & Modul",
-      title: "Laboratorium Simulator Kebijakan",
-      hint: "Simulasi pupuk N₂O, moratorium, & AWD padi",
+      group: "Pages & Modules",
+      title: "Regional Policy Simulator Lab",
+      hint: "Simulate N₂O fertilizer, forest moratoria, & AWD",
       icon: Sliders,
       run: () => navigate("/simulator"),
     },
     {
       id: "mod-forecasting",
-      group: "Halaman & Modul",
-      title: "Peramalan Metana 2025–2035",
-      hint: "Proyeksi deret waktu bebas bocor 2.904 fold CV",
+      group: "Pages & Modules",
+      title: "Methane Forecasting 2025–2035",
+      hint: "Leak-free projections with 2,904-fold CV",
       icon: TrendingUp,
       run: () => navigate("/forecasting"),
     },
     {
       id: "mod-metodologi",
-      group: "Halaman & Modul",
-      title: "Metodologi & Transparansi Ilmiah",
-      hint: "Data panel seimbang, matriks W k-NN, uji LR",
+      group: "Pages & Modules",
+      title: "Methodology & Scientific Transparency",
+      hint: "Balanced panel, k-NN W-matrix, LR specification tests",
       icon: BookOpen,
       run: () => navigate("/metodologi"),
     },
     // Countries (ASEAN first)
     ...COUNTRIES_44.map((c) => ({
       id: `country-${c.name}`,
-      group: c.isAsean ? "Negara ASEAN-10" : "Negara Asia-Pasifik",
+      group: c.isAsean ? "ASEAN-10 Economies" : "Asia-Pacific Economies",
       title: c.name,
-      hint: `${c.clusterName} · ${c.luc_pc.toFixed(2)} t CO₂/kapita`,
+      hint: `${c.clusterName} · ${c.luc_pc.toFixed(2)} t CO₂/capita`,
       icon: MapPin,
       keywords: `${c.name} ${c.clusterName} ${c.isAsean ? "asean" : ""}`,
       run: () => navigate("/clustering"),
@@ -336,9 +336,9 @@ export function Shell({ children }: { children: ReactNode }) {
     // Clusters
     ...[0, 1, 2, 3, 4].map((k) => ({
       id: `cluster-${k}`,
-      group: "Tipologi Klaster",
-      title: `Klaster ${k}: ${CLUSTER_NAMES[k]}`,
-      hint: "Buka analisis klaster",
+      group: "Agrifood Typologies",
+      title: `Cluster ${k}: ${CLUSTER_NAMES[k]}`,
+      hint: "Open cluster profile & audit",
       icon: Layers,
       run: () => navigate("/clustering"),
     })),
@@ -346,7 +346,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen text-slate-100 flex flex-col font-sans relative overflow-x-hidden selection:bg-emerald-500/30 selection:text-white">
-      {/* Pipo Mesh Backdrop (Bloom Field adapted for GRAIN emerald/cyan/obsidian palette) */}
+      {/* Pipo Mesh Backdrop */}
       <ThemeBackdrop />
 
       {/* Top Header Bar (Navbar) */}
@@ -354,19 +354,19 @@ export function Shell({ children }: { children: ReactNode }) {
         {/* Subtle laser highlight on top edge */}
         <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-emerald-400/60 via-cyan-400/50 to-transparent pointer-events-none" />
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 min-w-0">
           {/* Mobile drawer toggle */}
           <button
             type="button"
             onClick={() => setMobileOpen((o) => !o)}
-            className="rounded-xl p-2 text-slate-400 hover:bg-slate-900/80 hover:text-white md:hidden border border-white/5 transition-colors"
-            aria-label="Buka menu navigasi"
+            className="rounded-xl p-2 text-slate-400 hover:bg-slate-900/80 hover:text-white md:hidden border border-white/5 transition-colors shrink-0"
+            aria-label="Open navigation menu"
           >
             {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
 
           {/* Brand Link */}
-          <a href="/" className="flex items-center gap-3 no-underline group">
+          <a href="/" className="flex items-center gap-3 no-underline group shrink-0">
             <div className="relative grid size-9 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(16,185,129,0.5)] ring-1 ring-white/25 group-hover:scale-105 transition-transform duration-200">
               <Compass className="size-4.5 text-slate-950" strokeWidth={2.5} />
             </div>
@@ -387,13 +387,13 @@ export function Shell({ children }: { children: ReactNode }) {
           </a>
 
           {/* Active Breadcrumb with rich glass chip */}
-          <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-[11.5px] text-slate-400">
-            <span className="text-slate-400">Asia-Pasifik (N=44)</span>
-            <ChevronRight className="size-3 text-slate-500" />
-            <span className="text-slate-400">Panel 1961–2024</span>
-            <ChevronRight className="size-3 text-slate-500" />
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)]">
-              <CurrentIcon className="size-3.5 text-emerald-400" />
+          <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-[11.5px] text-slate-400 shrink-0">
+            <span className="text-slate-400 whitespace-nowrap">Asia-Pacific (N=44)</span>
+            <ChevronRight className="size-3 text-slate-500 shrink-0" />
+            <span className="text-slate-400 whitespace-nowrap">Panel 1961–2024</span>
+            <ChevronRight className="size-3 text-slate-500 shrink-0" />
+            <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)] whitespace-nowrap">
+              <CurrentIcon className="size-3.5 text-emerald-400 shrink-0" />
               {currentNav?.label || "Workspace"}
             </span>
           </div>
@@ -401,11 +401,11 @@ export function Shell({ children }: { children: ReactNode }) {
 
         {/* Topbar Center: Quick Guided Walkthrough Step Pill */}
         {currentStepIdx >= 0 && (
-          <div className="hidden xl:flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-slate-900/80 px-3.5 py-1 text-[12px] shadow-[0_0_16px_rgba(16,185,129,0.15)] backdrop-blur-md">
+          <div className="hidden xl:flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-slate-900/80 px-3.5 py-1 text-[12px] shadow-[0_0_16px_rgba(16,185,129,0.15)] backdrop-blur-md shrink-0">
             <span className="inline-flex items-center justify-center rounded-full bg-emerald-400/20 border border-emerald-400/40 px-2 py-0.5 font-mono font-bold text-[10.5px] text-emerald-300">
               {WALKTHROUGH_STEPS[currentStepIdx].stepNum}/05
             </span>
-            <span className="text-slate-200 font-semibold text-[12.5px]">
+            <span className="text-slate-200 font-semibold text-[12.5px] whitespace-nowrap">
               {WALKTHROUGH_STEPS[currentStepIdx].title}
             </span>
             {currentStepIdx < WALKTHROUGH_STEPS.length - 1 && (
@@ -414,14 +414,14 @@ export function Shell({ children }: { children: ReactNode }) {
                 onClick={() => navigate(WALKTHROUGH_STEPS[currentStepIdx + 1].path)}
                 className="ml-1 inline-flex items-center gap-1 rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 px-2.5 py-0.5 font-semibold text-[11px] text-emerald-300 hover:text-white transition-all shadow-[0_0_8px_rgba(16,185,129,0.2)]"
               >
-                Lanjut <ArrowRight className="size-3" />
+                Next <ArrowRight className="size-3" />
               </button>
             )}
           </div>
         )}
 
         {/* Topbar Right: Pipo Indicator, Shortcuts Button, Search trigger & Return to Landing */}
-        <div className="flex items-center gap-2 sm:gap-2.5">
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           {/* Active Pipo Mesh Theme Indicator */}
           <PipoThemeIndicator />
 
@@ -429,12 +429,12 @@ export function Shell({ children }: { children: ReactNode }) {
           <button
             type="button"
             onClick={() => setShortcutsModalOpen(true)}
-            className="group hidden md:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-2.5 py-1.5 text-[12px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-sm"
-            title="Daftar Pintasan Keyboard (Tekan '?')"
-            aria-label="Pintasan Keyboard"
+            className="group hidden md:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-2.5 py-1.5 text-[12px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-sm shrink-0"
+            title="Keyboard Shortcuts Guide (Press '?')"
+            aria-label="Keyboard Shortcuts"
           >
             <Keyboard className="size-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="hidden lg:inline text-slate-400 group-hover:text-slate-200 font-mono text-[11px]">Pintasan</span>
+            <span className="hidden lg:inline text-slate-400 group-hover:text-slate-200 font-mono text-[11px]">Shortcuts</span>
             <kbd className="font-mono text-[10px] text-slate-300 border border-white/15 rounded px-1.5 py-0.2 bg-slate-800 font-bold">
               ?
             </kbd>
@@ -444,10 +444,10 @@ export function Shell({ children }: { children: ReactNode }) {
           <button
             type="button"
             onClick={() => setCmdOpen(true)}
-            className="group flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-3 py-1.5 text-[12.5px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-[0_0_12px_rgba(0,0,0,0.3)] hover:shadow-[0_0_16px_rgba(16,185,129,0.18)]"
+            className="group flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-3 py-1.5 text-[12.5px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-[0_0_12px_rgba(0,0,0,0.3)] hover:shadow-[0_0_16px_rgba(16,185,129,0.18)] shrink-0"
           >
             <Search className="size-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline font-medium">Cari data / modul…</span>
+            <span className="hidden sm:inline font-medium">Search matrix…</span>
             <kbd className="hidden sm:inline-flex items-center rounded border border-white/15 bg-slate-800/90 px-1.5 py-0.5 font-mono text-[10px] text-slate-300 shadow-sm">
               Ctrl+K
             </kbd>
@@ -456,11 +456,11 @@ export function Shell({ children }: { children: ReactNode }) {
           {/* Return to Landing Page */}
           <a
             href="/"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-emerald-500/15 hover:border-emerald-500/35 hover:text-emerald-300 px-3 py-1.5 text-[12.5px] font-semibold text-slate-300 transition-all no-underline backdrop-blur-md"
-            title="Kembali ke Landing Page (Tekan 'H')"
+            className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-emerald-500/15 hover:border-emerald-500/35 hover:text-emerald-300 px-3 py-1.5 text-[12.5px] font-semibold text-slate-300 transition-all no-underline backdrop-blur-md shrink-0"
+            title="Return to Landing Page (Press 'H')"
           >
             <Home className="size-3.5 text-emerald-400" />
-            <span className="hidden sm:inline">Landing Page</span>
+            <span className="hidden sm:inline">Landing</span>
             <kbd className="hidden xl:inline-flex items-center rounded border border-white/10 bg-slate-800 px-1 text-[9.5px] font-mono text-slate-400">
               H
             </kbd>
@@ -470,16 +470,16 @@ export function Shell({ children }: { children: ReactNode }) {
 
       {/* Walkthrough Progress Bar Strip (Secondary Nav) */}
       <nav
-        aria-label="Alur Analisis Berkelanjutan"
+        aria-label="Sequential Analytical Walkthrough"
         className="border-b border-white/10 bg-slate-950/70 px-4 py-2.5 backdrop-blur-xl relative z-30"
       >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 overflow-x-auto">
+        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 overflow-x-auto scrollbar-none">
           <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400 shrink-0">
             <span className="relative flex size-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full size-2 bg-emerald-400" />
             </span>
-            <span className="text-slate-300 font-semibold">Alur Investigasi:</span>
+            <span className="text-slate-300 font-semibold">Analytical Track:</span>
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
@@ -491,7 +491,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   <button
                     type="button"
                     onClick={() => navigate(s.path)}
-                    title={`${s.hint} (Pintasan: '${idx + 1}')`}
+                    title={`${s.hint} (Shortcut: '${idx + 1}')`}
                     className={cn(
                       "flex items-center gap-2 rounded-xl px-3 py-1.5 text-[12px] font-medium transition-all whitespace-nowrap",
                       isActive
@@ -531,9 +531,9 @@ export function Shell({ children }: { children: ReactNode }) {
 
           <div className="hidden lg:flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/60 px-3 py-1 font-mono text-[11px] text-slate-400 shrink-0">
             <span className="size-1.5 rounded-full bg-cyan-400" />
-            <span>Dataset Panel:</span>
+            <span>Panel Dataset:</span>
             <span className="rounded bg-slate-800/90 px-1.5 py-0.5 text-emerald-300 font-bold border border-white/5">
-              44 Negara (1961–2024)
+              44 Economies (1961–2024)
             </span>
           </div>
         </div>
@@ -554,10 +554,10 @@ export function Shell({ children }: { children: ReactNode }) {
               <div className="flex items-center justify-between px-2 py-1">
                 <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center gap-1.5">
                   <Layers className="size-3.5 text-emerald-400" />
-                  Modul Analitik
+                  Analytical Modules
                 </span>
                 <span className="rounded-md bg-emerald-500/10 border border-emerald-500/25 px-1.5 py-0.2 font-mono text-[9px] font-bold text-emerald-300">
-                  5 MODUL
+                  5 SUITES
                 </span>
               </div>
             ) : (
@@ -577,7 +577,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   key={item.path}
                   type="button"
                   onClick={() => navigate(item.path)}
-                  title={collapsed ? `${item.label} (Tekan '${idx + 1}')` : undefined}
+                  title={collapsed ? `${item.label} (Press '${idx + 1}')` : undefined}
                   className={cn(
                     "group relative flex w-full items-center rounded-xl transition-all duration-200 text-left",
                     collapsed ? "justify-center p-3" : "gap-3 px-3 py-2.5",
@@ -632,10 +632,10 @@ export function Shell({ children }: { children: ReactNode }) {
                             className={cn(
                               "inline-flex size-5 items-center justify-center rounded border font-mono text-[9.5px] font-bold shadow-sm transition-colors",
                               active
-                                ? "border-emerald-400/40 bg-emerald-400/20 text-emerald-200"
-                                : "border-white/10 bg-slate-900/90 text-slate-400 group-hover:border-emerald-500/40 group-hover:text-emerald-300"
+                                  ? "border-emerald-400/40 bg-emerald-400/20 text-emerald-200"
+                                  : "border-white/10 bg-slate-900/90 text-slate-400 group-hover:border-emerald-500/40 group-hover:text-emerald-300"
                             )}
-                            title={`Pintasan keyboard: Tekan '${idx + 1}'`}
+                            title={`Keyboard shortcut: Press '${idx + 1}'`}
                           >
                             {idx + 1}
                           </kbd>
@@ -658,7 +658,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 <div className="flex items-center justify-between text-slate-400 pb-1.5 border-b border-white/5">
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center gap-1.5">
                     <Cpu className="size-3 text-emerald-400" />
-                    Telemetri Model
+                    Model Telemetry
                   </span>
                   <span className="inline-flex items-center gap-1 text-emerald-400 font-bold font-mono text-[10.5px]">
                     <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -667,16 +667,16 @@ export function Shell({ children }: { children: ReactNode }) {
                 </div>
                 <div className="mt-2 space-y-1 font-mono text-[10.5px]">
                   <div className="flex justify-between text-slate-400">
-                    <span>Estimasi:</span>
+                    <span>Estimation:</span>
                     <span className="text-slate-200 font-semibold">SDM Time-FE</span>
                   </div>
                   <div className="flex justify-between text-slate-400">
-                    <span>Matriks W:</span>
+                    <span>W-Matrix:</span>
                     <span className="text-cyan-400 font-semibold">k-NN (k=4)</span>
                   </div>
                   <div className="flex justify-between text-slate-400">
                     <span>Moran's I:</span>
-                    <span className="text-emerald-300 font-bold">+0,729 (p&lt;0,001)</span>
+                    <span className="text-emerald-300 font-bold">+0.729 (p&lt;0.001)</span>
                   </div>
                 </div>
               </div>
@@ -691,13 +691,13 @@ export function Shell({ children }: { children: ReactNode }) {
                   "flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group",
                   collapsed ? "w-full" : "flex-1"
                 )}
-                title="Daftar Pintasan Keyboard (Tekan '?')"
-                aria-label="Pintasan Keyboard"
+                title="Keyboard Shortcuts Cheat Sheet (Press '?')"
+                aria-label="Keyboard Shortcuts"
               >
                 <Keyboard className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
                 {!collapsed && (
                   <span className="text-[12px] font-semibold text-slate-300 group-hover:text-white">
-                    Pintasan
+                    Shortcuts
                   </span>
                 )}
                 {!collapsed && (
@@ -712,8 +712,8 @@ export function Shell({ children }: { children: ReactNode }) {
                 type="button"
                 onClick={toggleCollapse}
                 className="flex items-center justify-center rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group"
-                title={collapsed ? "Buka panel samping (Tekan 'B')" : "Sembunyikan panel samping (Tekan 'B')"}
-                aria-label={collapsed ? "Buka panel samping" : "Sembunyikan panel samping"}
+                title={collapsed ? "Expand sidebar (Press 'B')" : "Collapse sidebar (Press 'B')"}
+                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
               >
                 {collapsed ? (
                   <ChevronRight className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
@@ -738,7 +738,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   <div className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-950">
                     <Compass className="size-4" strokeWidth={2.4} />
                   </div>
-                  <span className="font-bold text-[15px] text-white">Menu Navigasi</span>
+                  <span className="font-bold text-[15px] text-white">Navigation Menu</span>
                 </div>
                 <button
                   type="button"
@@ -796,7 +796,7 @@ export function Shell({ children }: { children: ReactNode }) {
         )}
 
         {/* Primary Page Content Outlet with Smooth Transition */}
-        <main className="flex-1 overflow-y-auto relative z-10">
+        <main className="flex-1 overflow-y-auto relative z-10 min-w-0">
           <div
             key={location.pathname}
             className="animate-in fade-in duration-250 ease-out"

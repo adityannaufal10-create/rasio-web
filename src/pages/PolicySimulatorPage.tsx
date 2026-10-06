@@ -10,18 +10,18 @@ export const PolicySimulatorPage: React.FC = () => {
       <div className="pb-6 border-b border-white/10">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30 uppercase tracking-wider">
-            Alat Pengambilan Keputusan
+            Decision Support System
           </span>
           <span className="text-xs text-slate-400 font-mono">
-            Integrasi Parameter SDM LeSage–Pace
+            LeSage–Pace SDM Parameter Calibration
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
           <Sliders className="size-6 text-amber-400" />
-          <span>Laboratorium Intervensi & Dampak Limpahan Kawasan</span>
+          <span>Policy Intervention Laboratory & Regional Spillover Assessment</span>
         </h1>
         <p className="text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
-          Simulasikan berbagai skenario efisiensi input pertanian, perlindungan hutan, dan pengairan sawah untuk mengukur dampak gabungan ke tingkat regional ASEAN.
+          Simulate policy scenarios across agricultural input efficiency, forest conservation covenants, and AWD water management to evaluate aggregate regional ASEAN emissions.
         </p>
       </div>
 
@@ -36,12 +36,12 @@ export const PolicySimulatorPage: React.FC = () => {
               <Lightbulb className="size-5" />
             </div>
             <CardTitle className="text-base font-bold text-white">
-              Rasionalisasi Pupuk Nitrogen
+              Nitrogen Fertilizer Rationalization
             </CardTitle>
           </CardHeader>
           <CardContent className="p-5 sm:p-6 pt-1">
             <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
-              Karena elastisitas limpahan N₂O adalah <strong className="text-cyan-300 font-mono">+1.1046</strong>, subsidi pupuk yang tidak efisien di satu negara menciptakan efek persaingan harga yang mendorong perluasan lahan di negara tetangga. ASEAN memerlukan regulasi batas atas intensitas pupuk berbasis ekologis.
+              With an indirect N₂O spillover elasticity of <strong className="text-cyan-300 font-mono">+1.1046</strong>, untargeted synthetic fertilizer subsidies in one economy induce regional cross-border land clearing. ASEAN requires harmonized, ecologically bounded nutrient caps.
             </p>
           </CardContent>
         </Card>
@@ -52,12 +52,12 @@ export const PolicySimulatorPage: React.FC = () => {
               <ShieldCheck className="size-5" />
             </div>
             <CardTitle className="text-base font-bold text-white">
-              Koridor Hutan Lintas Batas
+              Transboundary Forest Compact
             </CardTitle>
           </CardHeader>
           <CardContent className="p-5 sm:p-6 pt-1">
             <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
-              Tujuh negara ASEAN berada dalam satu klaster <strong className="text-red-300">Frontier Konversi Lahan</strong>. Moratorium deforestasi sepihak di Indonesia tanpa koordinasi dengan Malaysia dan Indocina hanya akan menggeser deforestasi ke wilayah frontier tetangga (*leakage effect*).
+              Seven ASEAN economies cluster within the <strong className="text-red-300">Land Conversion Frontier</strong>. Unilateral forest moratoria in Indonesia absent coordinated pacts with Malaysia and Indochina simply displace agricultural clearing onto neighboring frontier buffers (*carbon leakage*).
             </p>
           </CardContent>
         </Card>
@@ -68,12 +68,12 @@ export const PolicySimulatorPage: React.FC = () => {
               <Users className="size-5" />
             </div>
             <CardTitle className="text-base font-bold text-white">
-              Pendanaan Transisi Adil
+              Just Transition Climate Finance
             </CardTitle>
           </CardHeader>
           <CardContent className="p-5 sm:p-6 pt-1">
             <p className="text-xs sm:text-[13px] text-slate-400 leading-relaxed">
-              Singapura yang berada di klaster industri rendah-lahan mengimpor sebagian besar pangannya dari negara-negara Frontier. Mekanisme pendanaan bersama (*ASEAN Green Agri-Fund*) harus dibentuk agar negara pengimpor ikut membiayai transisi hijau produsen pangan.
+              Singapore, anchored in the land-sparing industrial cluster, sources nearly all agrifood intake from neighboring Frontier economies. A joint financing mechanism (*ASEAN Green Agrifood Transition Facility*) must channel consumption revenues toward decarbonizing upstream producers.
             </p>
           </CardContent>
         </Card>

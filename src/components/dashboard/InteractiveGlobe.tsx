@@ -367,10 +367,10 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
           <div className="flex items-center gap-2 border-b border-white/10 pb-2 mb-2.5">
             <Layers className="size-4 text-emerald-400" />
             <span className="font-mono text-xs font-bold text-white uppercase tracking-wider">
-              {activeLayer === "cluster" && "Tipologi 5 Klaster"}
-              {activeLayer === "lisa" && "LISA Hotspot 2024"}
-              {activeLayer === "luc" && "CO₂ Lahan (LUC)"}
-              {activeLayer === "ch4" && "Metana Pertanian (CH₄)"}
+              {activeLayer === "cluster" && "5-Cluster Typology"}
+              {activeLayer === "lisa" && "LISA Hotspots 2024"}
+              {activeLayer === "luc" && "Land CO₂ (LUC)"}
+              {activeLayer === "ch4" && "Agricultural Methane (CH₄)"}
             </span>
           </div>
 
@@ -378,26 +378,26 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             <div className="space-y-1.5 text-[11.5px]">
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#ef4444]" />
-                <span className="text-white font-medium">Frontier Konversi (7 ASEAN)</span>
+                <span className="text-white font-medium">Conversion Frontier (7 ASEAN)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#f59e0b]" />
-                <span className="text-slate-300">Padat Penduduk (Filipina)</span>
+                <span className="text-slate-300">High-Density Agrarian (Philippines)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#3b82f6]" />
-                <span className="text-slate-300">Industri Mapan (Singapura)</span>
+                <span className="text-slate-300">Land-Sparing Industrial (Singapore)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#8b5cf6]" />
-                <span className="text-slate-300">Peternakan Ekstensif (Brunei)</span>
+                <span className="text-slate-300">Extensive Pastoral (Brunei)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#64748b]" />
-                <span className="text-slate-300">Petro-Ekonomi Pengimpor</span>
+                <span className="text-slate-300">Food-Importing Petro-Economies</span>
               </div>
               <p className="pt-1.5 text-[10.5px] text-slate-400 border-t border-white/5">
-                Busur cyan menandai keterkaitan limpahan ekonometrika antarnegara ASEAN.
+                Cyan arcs delineate econometric spatial spillover pathways across ASEAN economies.
               </p>
             </div>
           )}
@@ -418,10 +418,10 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#64748b]" />
-                <span className="text-slate-400">Tidak Signifikan (p &gt; 0,05)</span>
+                <span className="text-slate-400">Not Significant (p &gt; 0.05)</span>
               </div>
               <p className="pt-1.5 text-[10.5px] text-emerald-400 border-t border-white/5 font-mono">
-                Moran's I = +0,729 (p &lt; 0,001)
+                Moran's I = +0.729 (p &lt; 0.001)
               </p>
             </div>
           )}
@@ -429,16 +429,16 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
           {activeLayer === "luc" && (
             <div className="space-y-2 text-[11.5px]">
               <div className="flex justify-between text-[11px] font-mono text-slate-400">
-                <span>Net Konservasi</span>
-                <span className="text-red-400 font-bold">&gt; 3,0 t CO₂/kap</span>
+                <span>Net Conservation</span>
+                <span className="text-red-400 font-bold">&gt; 3.0 t CO₂/cap</span>
               </div>
               <div className="h-2 w-full rounded-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500" />
               <div className="pt-1 text-[11px] text-slate-300 space-y-1">
                 <p>
-                  Pangsa ASEAN: <strong className="text-red-400 font-mono">22,78% Dunia</strong>
+                  ASEAN Share: <strong className="text-red-400 font-mono">22.78% Global</strong>
                 </p>
                 <p>
-                  Episentrum: <strong className="text-white">Indonesia (12,57%)</strong>
+                  Epicenter: <strong className="text-white">Indonesia (12.57%)</strong>
                 </p>
               </div>
             </div>
@@ -447,16 +447,16 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
           {activeLayer === "ch4" && (
             <div className="space-y-2 text-[11.5px]">
               <div className="flex justify-between text-[11px] font-mono text-slate-400">
-                <span>Rendah (&lt; 0,8 t)</span>
-                <span className="text-purple-400 font-bold">&gt; 4,0 t (Tinggi)</span>
+                <span>Low (&lt; 0.8 t)</span>
+                <span className="text-purple-400 font-bold">&gt; 4.0 t (High)</span>
               </div>
               <div className="h-2 w-full rounded-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-purple-500" />
               <div className="pt-1 text-[11px] text-slate-300 space-y-1">
                 <p>
-                  Sumber utama: <strong className="text-cyan-300">Padi sawah & ternak</strong>
+                  Primary drivers: <strong className="text-cyan-300">Paddy rice & enteric livestock</strong>
                 </p>
                 <p>
-                  ASEAN rata-rata: <strong className="text-white font-mono">~1,02 t CO₂eq</strong>
+                  ASEAN Average: <strong className="text-white font-mono">~1.02 t CO₂eq</strong>
                 </p>
               </div>
             </div>
@@ -478,7 +478,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             )}
           >
             <RotateCw className={cn("size-3.5", isAutoRotate && "animate-spin")} style={{ animationDuration: "10s" }} />
-            <span>{isAutoRotate ? "Rotasi Aktif" : "Rotasi Diam"}</span>
+            <span>{isAutoRotate ? "Auto-Rotate" : "Stationary"}</span>
           </button>
 
           <button
@@ -488,7 +488,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/80 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:border-emerald-500/40 hover:text-white backdrop-blur-xl transition-all shadow-lg"
           >
             <Compass className="size-3.5 text-emerald-400" />
-            <span>Fokus ASEAN</span>
+            <span>Focus ASEAN</span>
           </button>
         </div>
       </div>
@@ -499,7 +499,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
           <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
             <div>
               <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block">
-                {hoveredCountry ? "Sorotan Kursor" : selectedCountry ? "Negara Terpilih" : "Episentrum Kawasan"}
+                {hoveredCountry ? "Cursor Focus" : selectedCountry ? "Selected Economy" : "Regional Epicenter"}
               </span>
               <h4 className="text-lg font-bold text-white flex items-center gap-2 mt-0.5">
                 <MapPin className="size-4 text-emerald-400" />
@@ -516,7 +516,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
           <div className="mt-3 space-y-2 text-xs">
             {/* Cluster Tag */}
             <div className="flex justify-between items-center rounded-lg bg-slate-800/60 p-2 border border-white/5">
-              <span className="text-slate-400">Tipologi:</span>
+              <span className="text-slate-400">Typology:</span>
               <span
                 className="font-bold text-[11.5px] truncate max-w-[150px]"
                 style={{ color: CLUSTER_COLORS[inspectorCountry.klaster] }}
@@ -527,7 +527,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
             {/* LISA Status */}
             <div className="flex justify-between items-center px-1">
-              <span className="text-slate-400">Signifikansi LISA:</span>
+              <span className="text-slate-400">LISA Significance:</span>
               <span
                 className={cn(
                   "font-mono font-bold text-[11.5px]",
@@ -538,7 +538,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
                     : "text-slate-300"
                 )}
               >
-                {inspectorLisa?.lisa || "Tidak signifikan"}
+                {inspectorLisa?.lisa || "Not significant"}
               </span>
             </div>
 
@@ -547,38 +547,38 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
               <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
                 <div className="flex items-center gap-1 text-[10px] text-slate-400 font-sans">
                   <Flame className="size-3 text-red-400" />
-                  <span>CO₂ Lahan (LUC)</span>
+                  <span>Land CO₂ (LUC)</span>
                 </div>
                 <p className="font-bold text-white text-sm mt-0.5">
                   {inspectorCountry.luc_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/kap</span>
+                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
                 </p>
               </div>
 
               <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
                 <div className="flex items-center gap-1 text-[10px] text-slate-400 font-sans">
                   <Wind className="size-3 text-cyan-400" />
-                  <span>Metana (CH₄)</span>
+                  <span>Methane (CH₄)</span>
                 </div>
                 <p className="font-bold text-cyan-400 text-sm mt-0.5">
                   {inspectorCountry.ch4_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/kap</span>
+                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
                 </p>
               </div>
 
               <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
-                <span className="text-[10px] text-slate-400 font-sans block">N₂O Pupuk</span>
+                <span className="text-[10px] text-slate-400 font-sans block">Fertilizer N₂O</span>
                 <p className="font-bold text-amber-300 text-sm mt-0.5">
                   {inspectorCountry.n2o_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/kap</span>
+                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
                 </p>
               </div>
 
               <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
-                <span className="text-[10px] text-slate-400 font-sans block">CO₂ Energi</span>
+                <span className="text-[10px] text-slate-400 font-sans block">Energy CO₂</span>
                 <p className="font-bold text-slate-200 text-sm mt-0.5">
                   {inspectorCountry.co2_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/kap</span>
+                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
                 </p>
               </div>
             </div>
@@ -589,7 +589,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
               className="w-full mt-2 py-1.5 px-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-semibold text-xs hover:bg-emerald-500 hover:text-slate-950 transition-all text-center flex items-center justify-center gap-1.5"
             >
               <CheckCircle2 className="size-3.5" />
-              <span>{selectedCountry?.country === inspectorCountry.country ? "Negara Aktif" : "Pilih Negara Ini"}</span>
+              <span>{selectedCountry?.country === inspectorCountry.country ? "Active Economy" : "Select This Economy"}</span>
             </button>
           </div>
         </Card>
@@ -599,7 +599,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl max-w-[94vw]">
         <div className="flex items-center gap-1.5 px-2 text-[11px] font-mono text-slate-400 shrink-0">
           <MapPin className="size-3 text-emerald-400" />
-          <span className="font-bold hidden sm:inline">Fokus:</span>
+          <span className="font-bold hidden sm:inline">Focus:</span>
         </div>
 
         {/* ASEAN Key Focus Chips */}
@@ -648,7 +648,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             className="bg-slate-800/90 text-slate-200 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-medium outline-none cursor-pointer hover:border-emerald-500/40 focus:border-emerald-500 max-w-[130px] sm:max-w-[170px] truncate"
           >
             <option value="" disabled>
-              Semua {countries.length} Negara…
+              All {countries.length} Economies…
             </option>
             <optgroup label="ASEAN-10">
               {countries
@@ -659,7 +659,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
                   </option>
                 ))}
             </optgroup>
-            <optgroup label="Asia-Pasifik Non-ASEAN">
+            <optgroup label="Non-ASEAN Asia-Pacific">
               {countries
                 .filter((c) => c.is_asean !== 1)
                 .map((c) => (

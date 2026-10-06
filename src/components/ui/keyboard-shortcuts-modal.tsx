@@ -13,31 +13,31 @@ interface ShortcutGroup {
 
 const SHORTCUT_GROUPS: ShortcutGroup[] = [
   {
-    category: "Pindah Cepat Antar Modul (Langsung)",
+    category: "Direct Module Navigation",
     items: [
-      { keys: ["1"], description: "Buka Modul 1: Peta & 5 Klaster", actionHint: "/clustering" },
-      { keys: ["2"], description: "Buka Modul 2: Ekonometrika Spasial (SDM)", actionHint: "/spasial" },
-      { keys: ["3"], description: "Buka Modul 3: Simulator Kebijakan Pangan", actionHint: "/simulator" },
-      { keys: ["4"], description: "Buka Modul 4: Peramalan Metana 2025–2035", actionHint: "/forecasting" },
-      { keys: ["5"], description: "Buka Modul 5: Metodologi Ilmiah & Uji LR", actionHint: "/metodologi" },
+      { keys: ["1"], description: "Open Module 1: Cartography & 5 Clusters", actionHint: "/clustering" },
+      { keys: ["2"], description: "Open Module 2: Spatial Econometrics (SDM)", actionHint: "/spasial" },
+      { keys: ["3"], description: "Open Module 3: Regional Policy Simulator", actionHint: "/simulator" },
+      { keys: ["4"], description: "Open Module 4: Methane Forecasting 2025–2035", actionHint: "/forecasting" },
+      { keys: ["5"], description: "Open Module 5: Methodology & Specification Tests", actionHint: "/metodologi" },
     ],
   },
   {
-    category: "Alur Navigasi Investigasi (Sekuensial)",
+    category: "Sequential Investigation Track",
     items: [
-      { keys: ["[", "←"], description: "Pindah ke Modul Sebelumnya", actionHint: "Previous Step" },
-      { keys: ["]", "→"], description: "Lanjut ke Modul Berikutnya", actionHint: "Next Step" },
-      { keys: ["H", "0"], description: "Kembali ke Beranda Naratif (Landing Page)", actionHint: "/" },
+      { keys: ["[", "←"], description: "Navigate to Previous Module", actionHint: "Previous Step" },
+      { keys: ["]", "→"], description: "Advance to Next Module", actionHint: "Next Step" },
+      { keys: ["H", "0"], description: "Return to Landing Page Overview", actionHint: "/" },
     ],
   },
   {
-    category: "Kontrol Workspace & Utilitas",
+    category: "Workspace Controls & Utilities",
     items: [
-      { keys: ["B"], description: "Buka / Sembunyikan Panel Samping (Sidebar)", actionHint: "Toggle Sidebar" },
-      { keys: ["Ctrl", "K"], description: "Buka Pencarian Cepat / Command Palette", actionHint: "Search" },
-      { keys: ["/"], description: "Fokus ke Pencarian Data & Negara", actionHint: "Quick Find" },
-      { keys: ["?"], description: "Buka Panduan Pintasan Keyboard Ini", actionHint: "Help" },
-      { keys: ["Esc"], description: "Tutup Dialog / Modal / Palette", actionHint: "Close" },
+      { keys: ["B"], description: "Toggle Sidebar Panel Expand/Collapse", actionHint: "Toggle Sidebar" },
+      { keys: ["Ctrl", "K"], description: "Open Command Palette Search", actionHint: "Search" },
+      { keys: ["/"], description: "Focus Data & Country Search", actionHint: "Quick Find" },
+      { keys: ["?"], description: "Open This Keyboard Shortcuts Guide", actionHint: "Help" },
+      { keys: ["Esc"], description: "Close Active Modal / Dialog / Drawer", actionHint: "Close" },
     ],
   },
 ];
@@ -87,14 +87,14 @@ export function KeyboardShortcutsModal({
             <div>
               <div className="flex items-center gap-2">
                 <h2 id="shortcuts-title" className="text-lg font-bold text-white tracking-tight">
-                  Pintasan Keyboard (Keyboard Shortcuts)
+                  Keyboard Shortcuts Guide
                 </h2>
                 <span className="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-300">
                   SMOOTH NAV
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
-                Navigasi cepat antar modul analitik & data panel tanpa menyentuh mouse
+                Rapid navigation across analytical modules without touching the mouse
               </p>
             </div>
           </div>
@@ -103,7 +103,7 @@ export function KeyboardShortcutsModal({
             type="button"
             onClick={onClose}
             className="rounded-xl p-2 text-slate-400 hover:bg-slate-800 hover:text-white border border-white/5 transition-colors"
-            aria-label="Tutup panduan shortcut"
+            aria-label="Close shortcuts guide"
           >
             <X className="size-5" />
           </button>
@@ -149,14 +149,14 @@ export function KeyboardShortcutsModal({
         <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
           <div className="flex items-center gap-2 font-mono text-[11px]">
             <Sparkles className="size-3.5 text-emerald-400" />
-            <span>Pintasan aktif di seluruh tampilan dashboard</span>
+            <span>Shortcuts enabled across all workspace views</span>
           </div>
           <button
             type="button"
             onClick={onClose}
             className="rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 px-3 py-1 font-semibold text-emerald-300 hover:text-white transition-colors"
           >
-            Tutup (Esc)
+            Close (Esc)
           </button>
         </div>
       </div>

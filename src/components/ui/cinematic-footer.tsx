@@ -215,14 +215,14 @@ MagneticButton.displayName = "MagneticButton";
 const MarqueeItem = () => (
   <div className="flex items-center space-x-12 px-6">
     <span className="text-white">GRAIN PLATFORM</span> <span className="text-emerald-400">✦</span>
-    <span>44 NEGARA ASIA-PASIFIK</span> <span className="text-cyan-400">✦</span>
-    <span>64 TAHUN PANEL SEIMBANG</span> <span className="text-emerald-400">✦</span>
-    <span>5 KLASTER TIPOLOGI PANGAN</span> <span className="text-cyan-400">✦</span>
-    <span>GLOBAL MORAN'S I +0,729</span> <span className="text-emerald-400">✦</span>
+    <span>44 ASIA-PACIFIC ECONOMIES</span> <span className="text-cyan-400">✦</span>
+    <span>64-YEAR BALANCED PANEL</span> <span className="text-emerald-400">✦</span>
+    <span>5 AGRIFOOD TYPOLOGY CLUSTERS</span> <span className="text-cyan-400">✦</span>
+    <span>GLOBAL MORAN'S I +0.729</span> <span className="text-emerald-400">✦</span>
     <span>SPATIAL DURBIN MODEL (SDM)</span> <span className="text-cyan-400">✦</span>
-    <span>EFEK LIMPAHAN N₂O 2,20×</span> <span className="text-emerald-400">✦</span>
-    <span>2.904 FOLD WALK-FORWARD CV</span> <span className="text-cyan-400">✦</span>
-    <span className="text-emerald-300">TIM IRIS | RASIO 10.0</span> <span className="text-emerald-400">✦</span>
+    <span>N₂O SPILLOVER EFFECT 2.20×</span> <span className="text-emerald-400">✦</span>
+    <span>2,904-FOLD WALK-FORWARD CV</span> <span className="text-cyan-400">✦</span>
+    <span className="text-emerald-300">TEAM IRIS | RASIO 10.0</span> <span className="text-emerald-400">✦</span>
   </div>
 );
 
@@ -328,11 +328,11 @@ export function CinematicFooter() {
               ref={headingRef}
               className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black footer-text-glow tracking-tight mb-4 text-center"
             >
-              Siap Menjelajahi GRAIN?
+              Ready to Explore GRAIN?
             </h2>
 
             <p className="max-w-2xl text-center text-sm md:text-base text-slate-300 font-light mb-10 leading-relaxed">
-              Buka ruang kendali ekonometrika spasial, telusuri 5 tipologi klaster pangan, dan jalankan simulasi mitigasi kebocoran karbon regional Asia-Pasifik.
+              Access the spatial econometrics command center, examine 5 agrifood cluster typologies, and execute regional Asia-Pacific carbon leakage mitigation simulations.
             </p>
 
             {/* Interactive Magnetic Pills: 2 Primary Buttons + Secondary Links */}
@@ -346,7 +346,7 @@ export function CinematicFooter() {
                   className="footer-glass-pill px-8 md:px-10 py-4 md:py-5 rounded-full text-white font-bold text-sm md:text-base flex items-center gap-3 group border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25 shadow-[0_0_30px_rgba(16,185,129,0.25)] no-underline"
                 >
                   <Compass className="size-5 text-emerald-400 group-hover:rotate-45 transition-transform duration-300" />
-                  <span>Buka Prototype Workspace</span>
+                  <span>Launch Prototype Workspace</span>
                   <ArrowUpRight className="size-4 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </MagneticButton>
 
@@ -356,7 +356,7 @@ export function CinematicFooter() {
                   className="footer-glass-pill px-8 md:px-10 py-4 md:py-5 rounded-full text-slate-200 font-bold text-sm md:text-base flex items-center gap-3 group border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.15)] no-underline"
                 >
                   <BookOpen className="size-5 text-cyan-400 group-hover:scale-110 transition-transform duration-300" />
-                  <span>Dokumentasi Metodologi</span>
+                  <span>Methodology Documentation</span>
                   <ArrowUpRight className="size-4 text-cyan-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </MagneticButton>
               </div>
@@ -364,33 +364,33 @@ export function CinematicFooter() {
               {/* Secondary Navigation Pills */}
               <div className="flex flex-wrap justify-center gap-2.5 md:gap-4 w-full mt-2">
                 <MagneticButton as="a" href="/clustering" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-400 font-medium text-xs md:text-sm hover:text-emerald-300 no-underline">
-                  Peta 5 Klaster
+                  5-Cluster Map
                 </MagneticButton>
                 <MagneticButton as="a" href="/spasial" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-400 font-medium text-xs md:text-sm hover:text-emerald-300 no-underline">
-                  Ekonometrika Spasial
+                  Spatial Econometrics
                 </MagneticButton>
                 <MagneticButton as="a" href="/simulator" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-400 font-medium text-xs md:text-sm hover:text-emerald-300 no-underline">
-                  Simulator Kebijakan
+                  Policy Simulator
                 </MagneticButton>
                 <MagneticButton as="a" href="/forecasting" className="footer-glass-pill px-5 py-2.5 rounded-full text-slate-400 font-medium text-xs md:text-sm hover:text-emerald-300 no-underline">
-                  Peramalan Metana 2025–2035
+                  Methane Forecast 2025–2035
                 </MagneticButton>
               </div>
             </div>
           </div>
 
-          {/* 3. Bottom Bar / Credits (Tim IRIS | Rasio 10.0) */}
+          {/* 3. Bottom Bar / Credits (Team IRIS | RASIO 10.0) */}
           <div className="relative z-20 w-full pb-8 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
             
             {/* Copyright */}
             <div className="text-slate-400 text-[11px] md:text-xs font-semibold tracking-widest uppercase order-2 md:order-1 font-mono">
-              © 2026 Tim IRIS | Rasio 10.0
+              © 2026 Team IRIS | RASIO 10.0
             </div>
 
-            {/* Center Badge: Tim IRIS | Rasio 10.0 */}
+            {/* Center Badge: Team IRIS | RASIO 10.0 */}
             <div className="footer-glass-pill px-6 py-2.5 rounded-full flex items-center gap-2 order-1 md:order-2 cursor-default border-emerald-500/30">
               <span className="text-emerald-400 text-[11px] md:text-xs font-bold uppercase tracking-wider font-mono">
-                Tim IRIS | Rasio 10.0
+                Team IRIS | RASIO 10.0
               </span>
             </div>
 
@@ -398,7 +398,7 @@ export function CinematicFooter() {
             <MagneticButton
               as="button"
               onClick={scrollToTop}
-              aria-label="Kembali ke atas"
+              aria-label="Back to top"
               className="size-11 rounded-full footer-glass-pill flex items-center justify-center text-slate-400 hover:text-emerald-400 group order-3 border-white/10"
             >
               <ChevronUp className="size-5 transform group-hover:-translate-y-1 transition-transform duration-300" />

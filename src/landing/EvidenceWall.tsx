@@ -6,24 +6,24 @@ import { cn } from "@/lib/utils";
 
 const SVG_EVIDENCE = [
   {
-    title: "Silhouette Kohesi K-Means",
+    title: "K-Means Silhouette Cohesion",
     src: "/figures/02_silhouette.svg",
-    desc: "Evaluasi k=5 menghasilkan skor 0,5336 dengan pemisahan klaster frontier yang tegas.",
+    desc: "Evaluation at k=5 yields a score of 0.5336 with distinct cluster partitioning.",
   },
   {
     title: "Moran Scatterplot 2024",
     src: "/figures/04_pencar_moran.svg",
-    desc: "Distribusi kuadran LISA: 7 negara ASEAN dominan di kuadran High-High Hotspot.",
+    desc: "LISA quadrant distribution: 7 ASEAN economies dominate the High-High Hotspot quadrant.",
   },
   {
-    title: "Dekomposisi Efek LeSage-Pace",
+    title: "LeSage–Pace Effect Decomposition",
     src: "/figures/08_dekomposisi_efek.svg",
-    desc: "Limpahan tak langsung pupuk nitrogen melampaui efek domestik sebesar 2,20×.",
+    desc: "Indirect nitrogen fertilizer spillovers exceed domestic direct impacts by 2.20-fold.",
   },
   {
-    title: "Lintasan ASEAN 64 Tahun",
+    title: "64-Year ASEAN Trajectory",
     src: "/figures/07_lintasan_asean.svg",
-    desc: "Trajektori emisi historis 10 negara anggota ASEAN dari 1961 hingga 2024.",
+    desc: "Historical emission trajectories across 10 ASEAN member states from 1961 through 2024.",
   },
 ];
 
@@ -34,7 +34,7 @@ export default function EvidenceWall() {
   return (
     <section
       id="evidence"
-      aria-label="Dinding Bukti Ilmiah"
+      aria-label="Empirical Evidence Wall"
       className="relative overflow-hidden border-t border-white/10 py-28"
     >
       <div className="mx-auto grid max-w-[1320px] gap-12 px-4 sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:items-center">
@@ -42,15 +42,15 @@ export default function EvidenceWall() {
         <div className="relative z-10">
           <div className="flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-wider text-emerald-400">
             <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Bukti Empiris & Validasi Ekonometrika</span>
+            <span>Empirical Evidence & Econometric Validation</span>
           </div>
 
           <h2 className="mt-3 text-[clamp(2rem,3.8vw,3.2rem)] font-extrabold tracking-tight text-white leading-tight">
-            Data Menjawab. Tidak Ada Asumsi yang Dikarang.
+            The Data Answers. Zero Fabricated Assumptions.
           </h2>
 
           <p className="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-slate-300">
-            Setiap kesimpulan dalam prototype ini berakar dari data panel seimbang 44 negara selama 64 tahun (1961–2024) dengan 2.816 observasi tanpa interpolasi buatan.
+            Every conclusion in this prototype is grounded in a balanced panel of 44 economies across 64 consecutive years (1961–2024) spanning 2,816 observations with zero artificial interpolation.
           </p>
 
           <ul className="mt-8 flex flex-col divide-y divide-white/10">
@@ -129,7 +129,7 @@ export default function EvidenceWall() {
             </Marquee>
           </div>
 
-          {/* Fade gradients over top, bottom, left, right */}
+          {/* Fade gradients */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 lp-fade-t" />
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 lp-fade-b" />
           <div className="pointer-events-none absolute inset-y-0 left-0 w-1/5 lp-fade-l" />

@@ -20,13 +20,13 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
           <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-            <span>5 Klaster Tipologi Sistem Pangan</span>
+            <span>5 Agrifood System Typology Clusters</span>
             <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold">
               Silhouette 0.5336 · ARI 0.973
             </span>
           </h3>
           <p className="text-xs text-slate-400 mt-0.5">
-            Konfigurasi optimal dari 864 kombinasi grid search (POTRET · Standard · PCA2 · KMeans · k=5).
+            Optimal configuration identified across 864 grid search specifications (SNAPSHOT · Standard · PCA2 · KMeans · k=5).
           </p>
         </div>
 
@@ -35,7 +35,7 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
             onClick={() => onSelectCluster(null)}
             className="text-xs px-3 py-1.5 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700/80 transition-all hover:bg-slate-700/80 w-fit"
           >
-            Reset Filter Klaster
+            Reset Cluster Filter
           </button>
         )}
       </div>
@@ -76,7 +76,7 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
                     {profile.badge}
                   </span>
                   <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
-                    {profile.n_negara} negara
+                    {profile.n_negara} economies
                   </span>
                 </div>
 
@@ -93,10 +93,10 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
                 <div className="pt-3 border-t border-white/5">
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[11px] font-semibold text-slate-300">
-                      Anggota ASEAN:
+                      ASEAN Members:
                     </span>
                     <span className="text-[10.5px] font-mono text-slate-400">
-                      {profile.asean_members.length} Negara
+                      {profile.asean_members.length} Economies
                     </span>
                   </div>
 
@@ -118,7 +118,7 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
                     </div>
                   ) : (
                     <span className="text-[11px] text-slate-500 italic block">
-                      Tidak ada negara ASEAN
+                      No ASEAN member economies
                     </span>
                   )}
                 </div>
@@ -126,17 +126,17 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
                 {/* Metrics Grid */}
                 <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
                   <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-                    <span className="text-slate-500 text-[10.5px]">Rerata CO₂ Lahan:</span>
+                    <span className="text-slate-500 text-[10.5px]">Mean Land CO₂:</span>
                     <span className="font-mono font-bold text-red-400 text-[13px] mt-0.5">
                       {profile.avg_luc_pc.toFixed(2)}{" "}
-                      <span className="text-[10px] font-sans font-normal text-slate-400">t/kap</span>
+                      <span className="text-[10px] font-sans font-normal text-slate-400">t/cap</span>
                     </span>
                   </div>
                   <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-                    <span className="text-slate-500 text-[10.5px]">Rerata CH₄:</span>
+                    <span className="text-slate-500 text-[10.5px]">Mean CH₄:</span>
                     <span className="font-mono font-bold text-cyan-400 text-[13px] mt-0.5">
                       {profile.avg_ch4_pc.toFixed(2)}{" "}
-                      <span className="text-[10px] font-sans font-normal text-slate-400">t/kap</span>
+                      <span className="text-[10px] font-sans font-normal text-slate-400">t/cap</span>
                     </span>
                   </div>
                 </div>

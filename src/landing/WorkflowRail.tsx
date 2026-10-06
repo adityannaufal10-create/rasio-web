@@ -41,7 +41,7 @@ export default function WorkflowRail() {
     <section
       id="workflow"
       ref={section}
-      aria-label="Alur Analisis 6 Modul"
+      aria-label="6-Module Analytical Pipeline"
       className="relative border-t border-white/10"
       style={{ height: pinned ? "360vh" : "auto" }}
     >
@@ -50,13 +50,13 @@ export default function WorkflowRail() {
         <div className="mx-auto w-full max-w-[1320px] px-4 pb-8 sm:px-8">
           <div className="flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-wider text-emerald-400">
             <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Alur Narasi & Rekayasa Analitik</span>
+            <span>Narrative Arc & Analytical Architecture</span>
           </div>
           <h2 className="mt-2 text-[clamp(1.9rem,3.6vw,3rem)] font-extrabold tracking-tight text-white leading-tight">
-            Enam Pilar Solusi, Satu Kerangka Kebijakan Terpadu.
+            Six Solution Pillars, One Harmonized Regional Framework.
           </h2>
           <p className="mt-3 max-w-[68ch] text-[15.5px] leading-relaxed text-slate-400">
-            Arsitektur prototype dirancang bertingkat: dari pemetaan tipologi empiris, verifikasi ekonometrika spasial, hingga simulator intervensi kebijakan yang memperhitungkan efek limpahan ke negara tetangga.
+            The prototype architecture is constructed hierarchically: from empirical typology mapping and spatial econometric verification to policy intervention simulators accounting for transboundary spillover multipliers.
           </p>
         </div>
 
@@ -102,7 +102,7 @@ export default function WorkflowRail() {
                   {/* Scientific Metric Badge */}
                   <div className="mt-6 rounded-xl border border-white/10 bg-slate-800/50 px-4 py-3">
                     <span className="block font-mono text-[11px] uppercase tracking-wider text-slate-400">
-                      Tolok Ukur Ilmiah
+                      Scientific Benchmark
                     </span>
                     <span className="mt-0.5 block font-mono text-[13.5px] font-bold text-emerald-300">
                       {step.metrics}
@@ -112,7 +112,7 @@ export default function WorkflowRail() {
 
                 {/* Footer Link */}
                 <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between">
-                  <span className="text-[12.5px] text-slate-400">Modul Interaktif</span>
+                  <span className="text-[12.5px] text-slate-400">Interactive Module</span>
                   <a
                     href={step.path}
                     className="inline-flex items-center gap-2 rounded-xl bg-emerald-500/15 border border-emerald-500/30 px-4 py-2 text-[13.5px] font-semibold text-emerald-300 transition-all hover:bg-emerald-500 hover:text-slate-950 hover:shadow-lg hover:shadow-emerald-500/25"

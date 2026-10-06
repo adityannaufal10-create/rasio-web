@@ -24,10 +24,10 @@ export const MoranTrajectoryChart: React.FC<MoranTrajectoryChartProps> = ({ data
         <div>
           <CardTitle className="flex items-center gap-2">
             <TrendingUp className="size-5 text-emerald-400" />
-            <span>Lintasan Autokorelasi Spasial (Moran's I 1961–2024)</span>
+            <span>Spatial Autocorrelation Trajectory (Moran's I 1961–2024)</span>
           </CardTitle>
           <CardDescription className="mt-1">
-            Derajat pengelompokan spasial emisi alih guna lahan (CO₂ LUC) per kapita makin mengetat.
+            Spatial clustering degree of land-use change (LUC CO₂) per capita has strengthened progressively.
           </CardDescription>
         </div>
         <div className="flex items-center gap-2">
@@ -61,13 +61,13 @@ export const MoranTrajectoryChart: React.FC<MoranTrajectoryChartProps> = ({ data
                   boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
                 }}
                 formatter={(val: number) => [`+${val.toFixed(4)}`, "Moran's I"]}
-                labelFormatter={(label) => `Tahun: ${label}`}
+                labelFormatter={(label) => `Year: ${label}`}
               />
               <ReferenceLine
                 y={-0.023}
                 stroke="#475569"
                 strokeDasharray="4 4"
-                label={{ value: 'E(I) = -0.023 (Acak)', position: 'insideBottomRight', fill: '#64748b', fontSize: 10 }}
+                label={{ value: 'E(I) = -0.023 (Random expectation)', position: 'insideBottomRight', fill: '#64748b', fontSize: 10 }}
               />
               <Line
                 type="monotone"
@@ -83,16 +83,16 @@ export const MoranTrajectoryChart: React.FC<MoranTrajectoryChartProps> = ({ data
 
         <div className="mt-4 pt-4 border-t border-white/5 grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-            <span className="text-slate-500 text-[11px] block">Titik Awal (1961):</span>
-            <span className="font-mono font-bold text-slate-200 mt-1">+0.2552 (Signifikan)</span>
+            <span className="text-slate-500 text-[11px] block">Baseline (1961):</span>
+            <span className="font-mono font-bold text-slate-200 mt-1">+0.2552 (Significant)</span>
           </div>
           <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-            <span className="text-slate-500 text-[11px] block">Kenaikan 64 Tahun:</span>
-            <span className="font-mono font-bold text-emerald-400 mt-1">+185% Penguatan Klaster</span>
+            <span className="text-slate-500 text-[11px] block">64-Year Expansion:</span>
+            <span className="font-mono font-bold text-emerald-400 mt-1">+185% Cluster Tightening</span>
           </div>
           <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-            <span className="text-slate-500 text-[11px] block">P-Value Pengujian:</span>
-            <span className="font-mono font-bold text-cyan-400 mt-1">p &lt; 0.005 (Seluruh Titik)</span>
+            <span className="text-slate-500 text-[11px] block">Hypothesis p-Value:</span>
+            <span className="font-mono font-bold text-cyan-400 mt-1">p &lt; 0.005 (All Benchmarks)</span>
           </div>
         </div>
       </CardContent>

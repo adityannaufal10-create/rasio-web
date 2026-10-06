@@ -18,8 +18,8 @@ export function CommandPalette({
   open,
   onClose,
   items,
-  placeholder = "Cari modul, negara, klaster, atau metrik…",
-  emptyHint = "Coba cari 'Indonesia', 'Moran', 'Klaster Frontier', atau 'Simulator'",
+  placeholder = "Search modules, economies, clusters, or metrics…",
+  emptyHint = "Try searching 'Indonesia', 'Moran', 'Land Frontier', or 'Simulator'",
   limitPerGroup = 6,
 }: {
   open: boolean;
@@ -104,7 +104,7 @@ export function CommandPalette({
       <div
         role="dialog"
         aria-modal="true"
-        aria-label="Cari RASIO 10.0"
+        aria-label="Search RASIO 10.0"
         onKeyDown={onKey}
         className="relative w-full max-w-[620px] overflow-hidden rounded-2xl border border-emerald-500/30 bg-slate-900/95 text-slate-100 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8),0_0_35px_-5px_rgba(16,185,129,0.15)] backdrop-blur-2xl animate-fade-in"
       >
@@ -125,7 +125,7 @@ export function CommandPalette({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Tutup pencarian"
+            aria-label="Close search"
             className="rounded-md p-1 text-slate-400 hover:bg-slate-800 hover:text-white sm:hidden"
           >
             <X className="size-5" />
@@ -135,7 +135,7 @@ export function CommandPalette({
         <div ref={list} role="listbox" className="max-h-[min(60vh,460px)] overflow-y-auto p-2">
           {flat.length === 0 && (
             <div className="px-4 py-10 text-center">
-              <p className="text-[14px] font-semibold text-white">Tidak ada hasil untuk “{q}”</p>
+              <p className="text-[14px] font-semibold text-white">No results found for “{q}”</p>
               {emptyHint && <p className="mt-1 text-[13px] text-slate-400">{emptyHint}</p>}
             </div>
           )}

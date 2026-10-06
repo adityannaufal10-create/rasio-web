@@ -39,32 +39,32 @@ export const ClusteringPage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 mb-2">
             <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 uppercase tracking-wider">
-              Tipologi Spasial Regional
+              Regional Spatial Typology
             </span>
             <span className="text-xs text-slate-400 font-mono">
-              44 Negara Asia-Pasifik · Potret 2015–2024
+              44 Asia-Pacific Economies · 2015–2024 Snapshot
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
             <MapPin className="size-6 text-emerald-400" />
-            <span>Peta Tematik & Klasterisasi Sistem Pangan</span>
+            <span>Thematic Mapping & Agrifood System Clustering</span>
           </h1>
           <p className="text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
-            Mengelompokkan 44 negara berdasarkan 4 dimensi emisi pangan (CO₂ alih guna lahan, metana, N₂O pupuk, dan CO₂ energi) menggunakan K-Means k=5 dan reduksi dimensi PCA.
+            Classifying 44 economies across 4 agrifood emission dimensions (land-use CO₂, methane, fertilizer N₂O, and energy CO₂) using K-Means (k=5) and PCA dimensionality reduction.
           </p>
         </div>
 
         {selectedCountry && (
           <Card className="p-3.5 bg-slate-900/90 border-emerald-500/50 shadow-emerald-950/30 flex items-center gap-3.5 shrink-0">
             <div>
-              <span className="text-[10px] text-slate-400 uppercase font-mono block">Negara Terpilih:</span>
+              <span className="text-[10px] text-slate-400 uppercase font-mono block">Selected Economy:</span>
               <strong className="text-base text-white">{selectedCountry.country}</strong>
               <span className="text-xs text-emerald-400 block font-semibold">{selectedCountry.nama_klaster}</span>
             </div>
             <button
               onClick={() => setSelectedCountry(null)}
               className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors"
-              aria-label="Tutup pemilihan negara"
+              aria-label="Clear economy selection"
             >
               <X className="size-4" />
             </button>
@@ -108,10 +108,10 @@ export const ClusteringPage: React.FC = () => {
             <div>
               <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
                 <Image className="size-5 text-emerald-400" />
-                <span>Galeri Audit Vektor Metodologi Riset</span>
+                <span>Research Methodology Vector Audit Gallery</span>
               </CardTitle>
               <CardDescription className="mt-1">
-                Visualisasi saintifik asli yang diekstraksi langsung dari notebook ekonometrika spasial.
+                Original scientific figures extracted directly from the spatial econometrics pipeline.
               </CardDescription>
             </div>
 
@@ -125,7 +125,7 @@ export const ClusteringPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Pencar PCA
+                PCA Scatter
               </button>
               <button
                 onClick={() => setActiveSvgTab('silhouette')}
@@ -136,7 +136,7 @@ export const ClusteringPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Evaluasi Silhouette
+                Silhouette Evaluation
               </button>
               <button
                 onClick={() => setActiveSvgTab('dendrogram')}
@@ -147,7 +147,7 @@ export const ClusteringPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Dendrogram Ward
+                Ward Dendrogram
               </button>
               <button
                 onClick={() => setActiveSvgTab('lintasan')}
@@ -158,7 +158,7 @@ export const ClusteringPage: React.FC = () => {
                     : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
                 )}
               >
-                Lintasan ASEAN 64 Th
+                64-Yr ASEAN Trajectory
               </button>
             </div>
           </CardHeader>
@@ -170,11 +170,11 @@ export const ClusteringPage: React.FC = () => {
                 <div className="text-center">
                   <img
                     src="/figures/01_sebar_klaster.svg"
-                    alt="Sebar Klaster PCA"
+                    alt="PCA Cluster Scatter"
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Proyeksi PCA 2-Komponen menjelaskan <strong className="text-white font-mono">84,9% ragam</strong> data (PC1 56,6%, PC2 28,3%).
+                    2-Component PCA projection accounts for <strong className="text-white font-mono">84.9% of total variance</strong> (PC1 56.6%, PC2 28.3%).
                   </p>
                 </div>
               )}
@@ -183,11 +183,11 @@ export const ClusteringPage: React.FC = () => {
                 <div className="text-center">
                   <img
                     src="/figures/02_silhouette.svg"
-                    alt="Plot Silhouette"
+                    alt="Silhouette Plot"
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Skor kohesi-separasi klaster <strong className="text-white font-mono">0,5336</strong>. Hanya 1 negara (Lebanon) dengan silhouette negatif.
+                    Mean silhouette cohesion-separation score of <strong className="text-white font-mono">0.5336</strong>. Only 1 economy (Lebanon) displays a negative silhouette.
                   </p>
                 </div>
               )}
@@ -196,11 +196,11 @@ export const ClusteringPage: React.FC = () => {
                 <div className="text-center">
                   <img
                     src="/figures/06_dendrogram.svg"
-                    alt="Dendrogram Ward"
+                    alt="Ward Dendrogram"
                     className="max-h-[460px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Pohon hierarkis pengelompokan Ward mengonfirmasi kedekatan struktural emisi pangan negara-negara ASEAN.
+                    Ward hierarchical clustering tree confirms the structural agrifood emission coherence among ASEAN economies.
                   </p>
                 </div>
               )}
@@ -209,11 +209,11 @@ export const ClusteringPage: React.FC = () => {
                 <div className="text-center">
                   <img
                     src="/figures/07_lintasan_asean.svg"
-                    alt="Lintasan ASEAN 64 Tahun"
+                    alt="64-Year ASEAN Trajectory"
                     className="max-h-[500px] mx-auto rounded-xl shadow-lg"
                   />
                   <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Evolusi trajektori 10 negara ASEAN sejak 1961 hingga 2024 di ruang fitur emisi.
+                    Emission feature trajectory evolution across 10 ASEAN economies from 1961 to 2024.
                   </p>
                 </div>
               )}

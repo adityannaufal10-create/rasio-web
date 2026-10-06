@@ -119,7 +119,7 @@ export function PipoThemeIndicator({ className }: { className?: string }) {
         "hidden lg:inline-flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-[12px] font-mono text-emerald-300 backdrop-blur-md shadow-[0_0_16px_rgba(16,185,129,0.15)] ring-1 ring-emerald-500/20",
         className
       )}
-      title="Tema Latar: Pipo Mesh (Caliber Bloom Field · Emerald & Cyan)"
+      title="Backdrop Theme: Pipo Mesh (Caliber Bloom Field · Emerald & Cyan)"
     >
       <span className="relative flex size-2">
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
@@ -128,7 +128,7 @@ export function PipoThemeIndicator({ className }: { className?: string }) {
       <Sparkles className="size-3.5 text-emerald-400" />
       <span className="font-semibold text-white tracking-wide">Pipo Mesh</span>
       <span className="rounded bg-emerald-500/20 px-1.5 py-0.2 text-[9px] font-bold text-emerald-300 border border-emerald-500/30">
-        AKTIF
+        ACTIVE
       </span>
     </div>
   );

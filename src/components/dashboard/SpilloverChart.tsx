@@ -32,10 +32,10 @@ export const SpilloverChart: React.FC<SpilloverChartProps> = ({ data }) => {
       <CardHeader className="p-5 pb-3">
         <CardTitle className="flex items-center gap-2">
           <Layers className="size-5 text-cyan-400" />
-          <span>Dekomposisi Efek LeSage–Pace (SDM Model)</span>
+          <span>LeSage–Pace Effect Decomposition (SDM Model)</span>
         </CardTitle>
         <CardDescription className="mt-1">
-          Memisahkan dampak domestik murni (efek langsung) versus limpahan lintas batas ke negara tetangga (efek tak langsung).
+          Partitioning pure domestic impacts (direct effects) versus cross-border spillovers onto neighboring economies (indirect effects).
         </CardDescription>
       </CardHeader>
 
@@ -58,9 +58,9 @@ export const SpilloverChart: React.FC<SpilloverChartProps> = ({ data }) => {
               />
               <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
               <ReferenceLine y={0} stroke="#475569" />
-              <Bar dataKey="langsung" name="Efek Langsung (Domestik)" fill="#10b981" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="tak_langsung" name="Efek Tak Langsung (Limpahan Spasial)" fill="#06b6d4" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="total" name="Efek Total (Multiplier)" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="langsung" name="Direct Effect (Domestic)" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="tak_langsung" name="Indirect Effect (Spatial Spillover)" fill="#06b6d4" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="total" name="Total Multiplier Effect" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -72,10 +72,10 @@ export const SpilloverChart: React.FC<SpilloverChartProps> = ({ data }) => {
           </div>
           <div className="space-y-1">
             <p className="font-bold text-cyan-200 text-[12.5px]">
-              Temuan Kritis: Limpahan Pupuk N₂O Lintas Batas ({">"}2× Efek Domestik)
+              Critical Finding: Cross-Border Synthetic N₂O Fertilizer Spillover ({">"}2× Domestic Effect)
             </p>
             <p className="text-slate-300 leading-relaxed text-[11.5px]">
-              Efek tak langsung intensitas pemupukan N₂O adalah <strong className="text-white">+1.1046</strong>, jauh melampaui dampak domestiknya (<strong className="text-white">+0.5011</strong>). Artinya, ekspansi pertanian dan subsidi pupuk di satu negara ASEAN memicu efek limpahan struktural alih guna lahan di negara-negara tetangganya.
+              The indirect effect of synthetic N₂O fertilizer intensity reaches <strong className="text-white">+1.1046</strong>, more than double its direct domestic effect (<strong className="text-white">+0.5011</strong>). This reveals that agricultural expansion and fertilizer subsidies in one ASEAN economy generate structural land conversion spillovers across neighboring territories.
             </p>
           </div>
         </div>

@@ -1,442 +1,442 @@
-[
-  {
-    "country":"Afghanistan",
-    "z":0.027,
-    "Wz":-0.3263,
-    "Ii":-0.0438,
-    "p":0.082,
-    "kuadran":"High-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Armenia",
-    "z":-0.3213,
-    "Wz":-0.2013,
-    "Ii":0.3214,
-    "p":0.412,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Australia",
-    "z":0.6104,
-    "Wz":0.8531,
-    "Ii":2.5867,
-    "p":0.002,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":false
-  },
-  {
-    "country":"Azerbaijan",
-    "z":-0.1005,
-    "Wz":-0.2685,
-    "Ii":0.1341,
-    "p":0.236,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Bangladesh",
-    "z":-0.2477,
-    "Wz":0.2517,
-    "Ii":-0.3097,
-    "p":0.29,
-    "kuadran":"Low-High",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Brunei",
-    "z":0.7068,
-    "Wz":0.3164,
-    "Ii":1.1109,
-    "p":0.122,
-    "kuadran":"High-High",
-    "lisa":"Tidak signifikan",
-    "ASEAN":true
-  },
-  {
-    "country":"Cambodia",
-    "z":0.9126,
-    "Wz":0.66,
-    "Ii":2.9921,
-    "p":0.002,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"China",
-    "z":-0.3293,
-    "Wz":-0.1454,
-    "Ii":0.2379,
-    "p":0.522,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Georgia",
-    "z":-0.3293,
-    "Wz":-0.1994,
-    "Ii":0.3261,
-    "p":0.478,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"India",
-    "z":-0.3243,
-    "Wz":-0.1871,
-    "Ii":0.3014,
-    "p":0.452,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Indonesia",
-    "z":0.7803,
-    "Wz":0.4967,
-    "Ii":1.9254,
-    "p":0.016,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Iran",
-    "z":-0.0942,
-    "Wz":-0.2596,
-    "Ii":0.1215,
-    "p":0.27,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Iraq",
-    "z":-0.2814,
-    "Wz":-0.268,
-    "Ii":0.3747,
-    "p":0.234,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Israel",
-    "z":-0.3293,
-    "Wz":-0.2873,
-    "Ii":0.47,
-    "p":0.2,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Japan",
-    "z":-0.2862,
-    "Wz":-0.1706,
-    "Ii":0.2425,
-    "p":0.506,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Jordan",
-    "z":-0.2213,
-    "Wz":-0.3143,
-    "Ii":0.3455,
-    "p":0.138,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Kazakhstan",
-    "z":-0.3293,
-    "Wz":-0.3275,
-    "Ii":0.5357,
-    "p":0.074,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Kuwait",
-    "z":-0.3273,
-    "Wz":-0.2533,
-    "Ii":0.4118,
-    "p":0.264,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Kyrgyzstan",
-    "z":-0.3293,
-    "Wz":-0.3275,
-    "Ii":0.5357,
-    "p":0.072,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Laos",
-    "z":0.9244,
-    "Wz":0.6197,
-    "Ii":2.846,
-    "p":0.006,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Lebanon",
-    "z":-0.3173,
-    "Wz":-0.3023,
-    "Ii":0.4765,
-    "p":0.18,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Malaysia",
-    "z":0.6798,
-    "Wz":0.4984,
-    "Ii":1.6832,
-    "p":0.018,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Mongolia",
-    "z":0.043,
-    "Wz":-0.2493,
-    "Ii":-0.0532,
-    "p":0.308,
-    "kuadran":"High-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Myanmar",
-    "z":0.5307,
-    "Wz":0.4281,
-    "Ii":1.1286,
-    "p":0.042,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Nepal",
-    "z":-0.1239,
-    "Wz":-0.0926,
-    "Ii":0.057,
-    "p":0.616,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"New Zealand",
-    "z":0.9614,
-    "Wz":0.7653,
-    "Ii":3.6551,
-    "p":0.002,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":false
-  },
-  {
-    "country":"North Korea",
-    "z":-0.0093,
-    "Wz":-0.2254,
-    "Ii":0.0105,
-    "p":0.396,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Pakistan",
-    "z":-0.3293,
-    "Wz":-0.2372,
-    "Ii":0.388,
-    "p":0.306,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Papua New Guinea",
-    "z":0.9638,
-    "Wz":0.5207,
-    "Ii":2.4934,
-    "p":0.008,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":false
-  },
-  {
-    "country":"Philippines",
-    "z":-0.0144,
-    "Wz":0.7416,
-    "Ii":-0.0532,
-    "p":0.004,
-    "kuadran":"Low-High",
-    "lisa":"Low-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Qatar",
-    "z":-0.3223,
-    "Wz":-0.3133,
-    "Ii":0.5016,
-    "p":0.128,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Saudi Arabia",
-    "z":-0.3154,
-    "Wz":-0.3151,
-    "Ii":0.4936,
-    "p":0.174,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Singapore",
-    "z":-0.3124,
-    "Wz":0.7699,
-    "Ii":-1.1948,
-    "p":0.004,
-    "kuadran":"Low-High",
-    "lisa":"Low-High",
-    "ASEAN":true
-  },
-  {
-    "country":"South Korea",
-    "z":-0.3293,
-    "Wz":-0.1454,
-    "Ii":0.2379,
-    "p":0.506,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Sri Lanka",
-    "z":0.0409,
-    "Wz":0.1931,
-    "Ii":0.0393,
-    "p":0.458,
-    "kuadran":"High-High",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Syria",
-    "z":-0.3293,
-    "Wz":-0.2873,
-    "Ii":0.47,
-    "p":0.206,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Tajikistan",
-    "z":-0.3223,
-    "Wz":-0.2402,
-    "Ii":0.3845,
-    "p":0.322,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Thailand",
-    "z":0.6131,
-    "Wz":0.6976,
-    "Ii":2.1246,
-    "p":0.002,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Turkey",
-    "z":-0.3293,
-    "Wz":-0.2993,
-    "Ii":0.4895,
-    "p":0.174,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Turkmenistan",
-    "z":-0.3293,
-    "Wz":-0.2116,
-    "Ii":0.346,
-    "p":0.388,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"United Arab Emirates",
-    "z":-0.3293,
-    "Wz":-0.2648,
-    "Ii":0.4331,
-    "p":0.246,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Uzbekistan",
-    "z":-0.3293,
-    "Wz":-0.2384,
-    "Ii":0.39,
-    "p":0.338,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  },
-  {
-    "country":"Vietnam",
-    "z":0.4226,
-    "Wz":0.7452,
-    "Ii":1.5646,
-    "p":0.002,
-    "kuadran":"High-High",
-    "lisa":"High-High",
-    "ASEAN":true
-  },
-  {
-    "country":"Yemen",
-    "z":-0.3243,
-    "Wz":-0.3235,
-    "Ii":0.5212,
-    "p":0.102,
-    "kuadran":"Low-Low",
-    "lisa":"Tidak signifikan",
-    "ASEAN":false
-  }
+﻿[
+    {
+        "country":  "Afghanistan",
+        "z":  0.027,
+        "Wz":  -0.3263,
+        "Ii":  -0.0438,
+        "p":  0.082,
+        "kuadran":  "High-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Armenia",
+        "z":  -0.3213,
+        "Wz":  -0.2013,
+        "Ii":  0.3214,
+        "p":  0.412,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Australia",
+        "z":  0.6104,
+        "Wz":  0.8531,
+        "Ii":  2.5867,
+        "p":  0.002,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Azerbaijan",
+        "z":  -0.1005,
+        "Wz":  -0.2685,
+        "Ii":  0.1341,
+        "p":  0.236,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Bangladesh",
+        "z":  -0.2477,
+        "Wz":  0.2517,
+        "Ii":  -0.3097,
+        "p":  0.29,
+        "kuadran":  "Low-High",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Brunei",
+        "z":  0.7068,
+        "Wz":  0.3164,
+        "Ii":  1.1109,
+        "p":  0.122,
+        "kuadran":  "High-High",
+        "lisa":  "Not significant",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Cambodia",
+        "z":  0.9126,
+        "Wz":  0.66,
+        "Ii":  2.9921,
+        "p":  0.002,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "China",
+        "z":  -0.3293,
+        "Wz":  -0.1454,
+        "Ii":  0.2379,
+        "p":  0.522,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Georgia",
+        "z":  -0.3293,
+        "Wz":  -0.1994,
+        "Ii":  0.3261,
+        "p":  0.478,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "India",
+        "z":  -0.3243,
+        "Wz":  -0.1871,
+        "Ii":  0.3014,
+        "p":  0.452,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Indonesia",
+        "z":  0.7803,
+        "Wz":  0.4967,
+        "Ii":  1.9254,
+        "p":  0.016,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Iran",
+        "z":  -0.0942,
+        "Wz":  -0.2596,
+        "Ii":  0.1215,
+        "p":  0.27,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Iraq",
+        "z":  -0.2814,
+        "Wz":  -0.268,
+        "Ii":  0.3747,
+        "p":  0.234,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Israel",
+        "z":  -0.3293,
+        "Wz":  -0.2873,
+        "Ii":  0.47,
+        "p":  0.2,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Japan",
+        "z":  -0.2862,
+        "Wz":  -0.1706,
+        "Ii":  0.2425,
+        "p":  0.506,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Jordan",
+        "z":  -0.2213,
+        "Wz":  -0.3143,
+        "Ii":  0.3455,
+        "p":  0.138,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Kazakhstan",
+        "z":  -0.3293,
+        "Wz":  -0.3275,
+        "Ii":  0.5357,
+        "p":  0.074,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Kuwait",
+        "z":  -0.3273,
+        "Wz":  -0.2533,
+        "Ii":  0.4118,
+        "p":  0.264,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Kyrgyzstan",
+        "z":  -0.3293,
+        "Wz":  -0.3275,
+        "Ii":  0.5357,
+        "p":  0.072,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Laos",
+        "z":  0.9244,
+        "Wz":  0.6197,
+        "Ii":  2.846,
+        "p":  0.006,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Lebanon",
+        "z":  -0.3173,
+        "Wz":  -0.3023,
+        "Ii":  0.4765,
+        "p":  0.18,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Malaysia",
+        "z":  0.6798,
+        "Wz":  0.4984,
+        "Ii":  1.6832,
+        "p":  0.018,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Mongolia",
+        "z":  0.043,
+        "Wz":  -0.2493,
+        "Ii":  -0.0532,
+        "p":  0.308,
+        "kuadran":  "High-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Myanmar",
+        "z":  0.5307,
+        "Wz":  0.4281,
+        "Ii":  1.1286,
+        "p":  0.042,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Nepal",
+        "z":  -0.1239,
+        "Wz":  -0.0926,
+        "Ii":  0.057,
+        "p":  0.616,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "New Zealand",
+        "z":  0.9614,
+        "Wz":  0.7653,
+        "Ii":  3.6551,
+        "p":  0.002,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  false
+    },
+    {
+        "country":  "North Korea",
+        "z":  -0.0093,
+        "Wz":  -0.2254,
+        "Ii":  0.0105,
+        "p":  0.396,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Pakistan",
+        "z":  -0.3293,
+        "Wz":  -0.2372,
+        "Ii":  0.388,
+        "p":  0.306,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Papua New Guinea",
+        "z":  0.9638,
+        "Wz":  0.5207,
+        "Ii":  2.4934,
+        "p":  0.008,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Philippines",
+        "z":  -0.0144,
+        "Wz":  0.7416,
+        "Ii":  -0.0532,
+        "p":  0.004,
+        "kuadran":  "Low-High",
+        "lisa":  "Low-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Qatar",
+        "z":  -0.3223,
+        "Wz":  -0.3133,
+        "Ii":  0.5016,
+        "p":  0.128,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Saudi Arabia",
+        "z":  -0.3154,
+        "Wz":  -0.3151,
+        "Ii":  0.4936,
+        "p":  0.174,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Singapore",
+        "z":  -0.3124,
+        "Wz":  0.7699,
+        "Ii":  -1.1948,
+        "p":  0.004,
+        "kuadran":  "Low-High",
+        "lisa":  "Low-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "South Korea",
+        "z":  -0.3293,
+        "Wz":  -0.1454,
+        "Ii":  0.2379,
+        "p":  0.506,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Sri Lanka",
+        "z":  0.0409,
+        "Wz":  0.1931,
+        "Ii":  0.0393,
+        "p":  0.458,
+        "kuadran":  "High-High",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Syria",
+        "z":  -0.3293,
+        "Wz":  -0.2873,
+        "Ii":  0.47,
+        "p":  0.206,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Tajikistan",
+        "z":  -0.3223,
+        "Wz":  -0.2402,
+        "Ii":  0.3845,
+        "p":  0.322,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Thailand",
+        "z":  0.6131,
+        "Wz":  0.6976,
+        "Ii":  2.1246,
+        "p":  0.002,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Turkey",
+        "z":  -0.3293,
+        "Wz":  -0.2993,
+        "Ii":  0.4895,
+        "p":  0.174,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Turkmenistan",
+        "z":  -0.3293,
+        "Wz":  -0.2116,
+        "Ii":  0.346,
+        "p":  0.388,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "United Arab Emirates",
+        "z":  -0.3293,
+        "Wz":  -0.2648,
+        "Ii":  0.4331,
+        "p":  0.246,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Uzbekistan",
+        "z":  -0.3293,
+        "Wz":  -0.2384,
+        "Ii":  0.39,
+        "p":  0.338,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    },
+    {
+        "country":  "Vietnam",
+        "z":  0.4226,
+        "Wz":  0.7452,
+        "Ii":  1.5646,
+        "p":  0.002,
+        "kuadran":  "High-High",
+        "lisa":  "High-High",
+        "ASEAN":  true
+    },
+    {
+        "country":  "Yemen",
+        "z":  -0.3243,
+        "Wz":  -0.3235,
+        "Ii":  0.5212,
+        "p":  0.102,
+        "kuadran":  "Low-Low",
+        "lisa":  "Not significant",
+        "ASEAN":  false
+    }
 ]

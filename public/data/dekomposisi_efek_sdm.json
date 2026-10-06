@@ -1,23 +1,23 @@
 [
   {
-    "variabel":"log Metana\/kap",
-    "langsung":0.3486,
-    "tak_langsung":-0.2759,
-    "total":0.0727,
-    "pangsa_limpahan_%":-379.6395
+    "variabel": "log Methane/capita",
+    "langsung": 0.3486,
+    "tak_langsung": -0.2759,
+    "total": 0.0727,
+    "pangsa_limpahan_%": -379.6395
   },
   {
-    "variabel":"log N2O\/kap",
-    "langsung":0.5011,
-    "tak_langsung":1.1046,
-    "total":1.6057,
-    "pangsa_limpahan_%":68.7944
+    "variabel": "log N₂O/capita",
+    "langsung": 0.5011,
+    "tak_langsung": 1.1046,
+    "total": 1.6057,
+    "pangsa_limpahan_%": 68.7944
   },
   {
-    "variabel":"log CO2 energi\/kap",
-    "langsung":-0.3137,
-    "tak_langsung":-0.0573,
-    "total":-0.371,
-    "pangsa_limpahan_%":15.4524
+    "variabel": "log Energy CO₂/capita",
+    "langsung": -0.3137,
+    "tak_langsung": -0.0573,
+    "total": -0.371,
+    "pangsa_limpahan_%": 15.4524
   }
 ]
