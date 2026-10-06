@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Activity,
@@ -13,6 +13,7 @@ import {
   FileText,
   Globe,
   Home,
+  Keyboard,
   Layers,
   MapPin,
   Menu,
@@ -26,6 +27,7 @@ import {
 } from "lucide-react";
 import { CommandPalette, type CommandItem } from "@/components/ui/command-palette";
 import { ThemeBackdrop, PipoThemeIndicator } from "@/components/ThemeBackdrop";
+import { KeyboardShortcutsModal } from "@/components/ui/keyboard-shortcuts-modal";
 import { COUNTRIES_44, CLUSTER_NAMES } from "@/landing/facts";
 import { cn } from "@/lib/utils";
 
@@ -129,6 +131,18 @@ export function Shell({ children }: { children: ReactNode }) {
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
+  const [shortcutsModalOpen, setShortcutsModalOpen] = useState(false);
+  const [toast, setToast] = useState<{ message: string; key: string } | null>(null);
+  const toastTimerRef = useRef<number | null>(null);
+
+  // Trigger floating micro-toast confirming shortcut action
+  const triggerToast = (message: string, key: string) => {
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    setToast({ message, key });
+    toastTimerRef.current = window.setTimeout(() => {
+      setToast(null);
+    }, 1300);
+  };
 
   // Toggle collapse and persist
   const toggleCollapse = () => {
@@ -141,17 +155,122 @@ export function Shell({ children }: { children: ReactNode }) {
     });
   };
 
-  // Keyboard shortcut Ctrl+K / Cmd+K
+  // Current active navigation and walkthrough step
+  const currentNav = NAV_ITEMS.find((n) => n.path === location.pathname);
+  const CurrentIcon = currentNav?.icon || Layers;
+  const currentStepIdx = WALKTHROUGH_STEPS.findIndex((s) => s.path === location.pathname);
+
+  // Global Keyboard Shortcuts
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      const isInput =
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable;
+
+      // Ctrl+K / Cmd+K always toggles Command Palette
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setCmdOpen((o) => !o);
+        return;
+      }
+
+      // Escape closes open dialogs/drawers
+      if (e.key === "Escape") {
+        if (shortcutsModalOpen) {
+          e.preventDefault();
+          setShortcutsModalOpen(false);
+          return;
+        }
+        if (cmdOpen) {
+          e.preventDefault();
+          setCmdOpen(false);
+          return;
+        }
+        if (mobileOpen) {
+          e.preventDefault();
+          setMobileOpen(false);
+          return;
+        }
+      }
+
+      // Non-modifier shortcuts below only run when NOT typing in an input field
+      if (isInput) return;
+
+      // '?' or 'Shift + /' opens Keyboard Shortcuts Cheat Sheet Modal
+      if (e.key === "?" || (e.shiftKey && e.key === "/")) {
+        e.preventDefault();
+        setShortcutsModalOpen((o) => !o);
+        return;
+      }
+
+      // '/' opens Command Palette (like GitHub / Linear)
+      if (e.key === "/" && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        setCmdOpen(true);
+        return;
+      }
+
+      // 'b' or 'B' toggles sidebar collapse
+      if (e.key.toLowerCase() === "b" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+        e.preventDefault();
+        toggleCollapse();
+        triggerToast(collapsed ? "Buka Sidebar" : "Sembunyikan Sidebar", "B");
+        return;
+      }
+
+      // 'h' or 'H' or '0' jumps to Landing Page
+      if ((e.key.toLowerCase() === "h" || e.key === "0") && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        navigate("/");
+        triggerToast("Beranda Naratif", "H");
+        return;
+      }
+
+      // Number keys 1-5 jump directly to modules 1-5
+      const num = parseInt(e.key, 10);
+      if (num >= 1 && num <= 5 && !e.ctrlKey && !e.metaKey) {
+        e.preventDefault();
+        const targetStep = WALKTHROUGH_STEPS[num - 1];
+        if (targetStep) {
+          navigate(targetStep.path);
+          triggerToast(`Modul ${num}: ${targetStep.shortTitle}`, String(num));
+        }
+        return;
+      }
+
+      // Sequential navigation: '[' (Previous Step)
+      if (e.key === "[" || (e.altKey && e.key === "ArrowLeft")) {
+        e.preventDefault();
+        if (currentStepIdx > 0) {
+          const prevStep = WALKTHROUGH_STEPS[currentStepIdx - 1];
+          navigate(prevStep.path);
+          triggerToast(`← ${prevStep.shortTitle}`, "[");
+        } else {
+          triggerToast("Sudah di Modul Pertama", "1");
+        }
+        return;
+      }
+
+      // Sequential navigation: ']' (Next Step)
+      if (e.key === "]" || (e.altKey && e.key === "ArrowRight")) {
+        e.preventDefault();
+        if (currentStepIdx < WALKTHROUGH_STEPS.length - 1) {
+          const nextStep = WALKTHROUGH_STEPS[currentStepIdx + 1];
+          navigate(nextStep.path);
+          triggerToast(`→ ${nextStep.shortTitle}`, "]");
+        } else {
+          triggerToast("Sudah di Modul Terakhir", "5");
+        }
+        return;
       }
     };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [currentStepIdx, collapsed, shortcutsModalOpen, cmdOpen, mobileOpen, navigate]);
 
   // Search items for Command Palette
   const commandItems: CommandItem[] = [
@@ -224,11 +343,6 @@ export function Shell({ children }: { children: ReactNode }) {
       run: () => navigate("/clustering"),
     })),
   ];
-
-  // Current active navigation and walkthrough step
-  const currentNav = NAV_ITEMS.find((n) => n.path === location.pathname);
-  const CurrentIcon = currentNav?.icon || Layers;
-  const currentStepIdx = WALKTHROUGH_STEPS.findIndex((s) => s.path === location.pathname);
 
   return (
     <div className="min-h-screen text-slate-100 flex flex-col font-sans relative overflow-x-hidden selection:bg-emerald-500/30 selection:text-white">
@@ -306,10 +420,25 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
         )}
 
-        {/* Topbar Right: Pipo Indicator, Search trigger & Return to Landing */}
-        <div className="flex items-center gap-2.5 sm:gap-3">
+        {/* Topbar Right: Pipo Indicator, Shortcuts Button, Search trigger & Return to Landing */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
           {/* Active Pipo Mesh Theme Indicator */}
           <PipoThemeIndicator />
+
+          {/* Keyboard Shortcuts Trigger Button */}
+          <button
+            type="button"
+            onClick={() => setShortcutsModalOpen(true)}
+            className="group hidden md:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-2.5 py-1.5 text-[12px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-sm"
+            title="Daftar Pintasan Keyboard (Tekan '?')"
+            aria-label="Pintasan Keyboard"
+          >
+            <Keyboard className="size-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
+            <span className="hidden lg:inline text-slate-400 group-hover:text-slate-200 font-mono text-[11px]">Pintasan</span>
+            <kbd className="font-mono text-[10px] text-slate-300 border border-white/15 rounded px-1.5 py-0.2 bg-slate-800 font-bold">
+              ?
+            </kbd>
+          </button>
 
           {/* Search trigger button */}
           <button
@@ -328,9 +457,13 @@ export function Shell({ children }: { children: ReactNode }) {
           <a
             href="/"
             className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-emerald-500/15 hover:border-emerald-500/35 hover:text-emerald-300 px-3 py-1.5 text-[12.5px] font-semibold text-slate-300 transition-all no-underline backdrop-blur-md"
+            title="Kembali ke Landing Page (Tekan 'H')"
           >
             <Home className="size-3.5 text-emerald-400" />
             <span className="hidden sm:inline">Landing Page</span>
+            <kbd className="hidden xl:inline-flex items-center rounded border border-white/10 bg-slate-800 px-1 text-[9.5px] font-mono text-slate-400">
+              H
+            </kbd>
           </a>
         </div>
       </header>
@@ -358,7 +491,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   <button
                     type="button"
                     onClick={() => navigate(s.path)}
-                    title={s.hint}
+                    title={`${s.hint} (Pintasan: '${idx + 1}')`}
                     className={cn(
                       "flex items-center gap-2 rounded-xl px-3 py-1.5 text-[12px] font-medium transition-all whitespace-nowrap",
                       isActive
@@ -408,11 +541,11 @@ export function Shell({ children }: { children: ReactNode }) {
 
       {/* Main Workspace Layout with Collapsible Glass Sidebar */}
       <div className="flex flex-1 relative overflow-hidden">
-        {/* Desktop Sidebar */}
+        {/* Desktop Sidebar (Width adjusted to 298px to eliminate truncation completely) */}
         <aside
           className={cn(
             "hidden md:flex flex-col border-r border-white/10 bg-slate-950/80 backdrop-blur-2xl transition-all duration-300 relative z-30 shrink-0 select-none shadow-[4px_0_30px_rgba(0,0,0,0.5)]",
-            collapsed ? "w-[76px]" : "w-[276px]",
+            collapsed ? "w-[76px]" : "w-[298px]",
           )}
         >
           {/* Sidebar Category Header */}
@@ -436,7 +569,7 @@ export function Shell({ children }: { children: ReactNode }) {
 
           {/* Sidebar Nav Links */}
           <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {NAV_ITEMS.map((item) => {
+            {NAV_ITEMS.map((item, idx) => {
               const active = location.pathname === item.path;
               const Icon = item.icon;
               return (
@@ -444,7 +577,7 @@ export function Shell({ children }: { children: ReactNode }) {
                   key={item.path}
                   type="button"
                   onClick={() => navigate(item.path)}
-                  title={collapsed ? `${item.label} · ${item.subtitle}` : undefined}
+                  title={collapsed ? `${item.label} (Tekan '${idx + 1}')` : undefined}
                   className={cn(
                     "group relative flex w-full items-center rounded-xl transition-all duration-200 text-left",
                     collapsed ? "justify-center p-3" : "gap-3 px-3 py-2.5",
@@ -455,7 +588,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 >
                   {/* Active glowing indicator pill on left edge */}
                   {active && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 rounded-r bg-gradient-to-b from-emerald-400 via-teal-400 to-cyan-400 shadow-[0_0_12px_rgba(16,185,129,0.9)]" />
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1.5 rounded-r bg-gradient-to-b from-emerald-400 via-teal-400 to-cyan-400 shadow-[0_0_12px_rgba(16,185,129,0.9)]" />
                   )}
 
                   {/* Icon container with customized halo */}
@@ -472,27 +605,41 @@ export function Shell({ children }: { children: ReactNode }) {
 
                   {!collapsed && (
                     <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-1">
+                      <div className="flex items-center justify-between gap-1.5">
                         <span
                           className={cn(
-                            "truncate text-[13.5px] font-bold leading-tight",
-                            active ? "text-white" : "text-slate-300 group-hover:text-white"
+                            "text-[13px] font-bold leading-tight whitespace-nowrap",
+                            active ? "text-white" : "text-slate-200 group-hover:text-white"
                           )}
                         >
                           {item.label}
                         </span>
-                        {item.badge && (
-                          <span
+                        <div className="flex items-center gap-1.5 shrink-0">
+                          {item.badge && (
+                            <span
+                              className={cn(
+                                "rounded px-1.5 py-0.5 font-mono text-[9px] font-bold shrink-0",
+                                active
+                                  ? "bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.25)]"
+                                  : "bg-slate-900 border border-white/10 text-slate-400 group-hover:text-slate-300"
+                              )}
+                            >
+                              {item.badge}
+                            </span>
+                          )}
+                          {/* Keyboard shortcut keycap badge */}
+                          <kbd
                             className={cn(
-                              "rounded px-1.5 py-0.5 font-mono text-[9.5px] font-bold shrink-0",
+                              "inline-flex size-5 items-center justify-center rounded border font-mono text-[9.5px] font-bold shadow-sm transition-colors",
                               active
-                                ? "bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.25)]"
-                                : "bg-slate-900 border border-white/10 text-slate-400 group-hover:text-slate-300"
+                                ? "border-emerald-400/40 bg-emerald-400/20 text-emerald-200"
+                                : "border-white/10 bg-slate-900/90 text-slate-400 group-hover:border-emerald-500/40 group-hover:text-emerald-300"
                             )}
+                            title={`Pintasan keyboard: Tekan '${idx + 1}'`}
                           >
-                            {item.badge}
-                          </span>
-                        )}
+                            {idx + 1}
+                          </kbd>
+                        </div>
                       </div>
                       <p className="truncate text-[11px] text-slate-400 mt-0.5 font-medium leading-none">
                         {item.subtitle}
@@ -505,9 +652,9 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
 
           {/* Sidebar Footer & Model Telemetry Card */}
-          <div className="border-t border-white/10 p-3 bg-slate-950/60">
+          <div className="border-t border-white/10 p-3 bg-slate-950/60 space-y-2.5">
             {!collapsed && (
-              <div className="mb-3 rounded-xl border border-emerald-500/20 bg-gradient-to-b from-slate-900/90 to-slate-950/90 p-3 text-[11.5px] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+              <div className="rounded-xl border border-emerald-500/20 bg-gradient-to-b from-slate-900/90 to-slate-950/90 p-3 text-[11.5px] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
                 <div className="flex items-center justify-between text-slate-400 pb-1.5 border-b border-white/5">
                   <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center gap-1.5">
                     <Cpu className="size-3 text-emerald-400" />
@@ -535,24 +682,46 @@ export function Shell({ children }: { children: ReactNode }) {
               </div>
             )}
 
-            {/* Sidebar Collapse Toggle Button */}
-            <button
-              type="button"
-              onClick={toggleCollapse}
-              className="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group"
-              aria-label={collapsed ? "Buka panel samping" : "Tutup panel samping"}
-            >
-              {collapsed ? (
-                <ChevronRight className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-              ) : (
-                <ChevronLeft className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-              )}
-              {!collapsed && (
-                <span className="text-[12px] font-semibold text-slate-300 group-hover:text-white">
-                  Sembunyikan Sidebar
-                </span>
-              )}
-            </button>
+            {/* Sidebar Buttons: Shortcuts Help + Collapse Toggle */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setShortcutsModalOpen(true)}
+                className={cn(
+                  "flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group",
+                  collapsed ? "w-full" : "flex-1"
+                )}
+                title="Daftar Pintasan Keyboard (Tekan '?')"
+                aria-label="Pintasan Keyboard"
+              >
+                <Keyboard className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                {!collapsed && (
+                  <span className="text-[12px] font-semibold text-slate-300 group-hover:text-white">
+                    Pintasan
+                  </span>
+                )}
+                {!collapsed && (
+                  <kbd className="font-mono text-[9.5px] text-slate-400 border border-white/15 rounded px-1.5 py-0.2 bg-slate-800/90 ml-auto font-bold">
+                    ?
+                  </kbd>
+                )}
+              </button>
+
+              {/* Collapse Toggle Button */}
+              <button
+                type="button"
+                onClick={toggleCollapse}
+                className="flex items-center justify-center rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group"
+                title={collapsed ? "Buka panel samping (Tekan 'B')" : "Sembunyikan panel samping (Tekan 'B')"}
+                aria-label={collapsed ? "Buka panel samping" : "Sembunyikan panel samping"}
+              >
+                {collapsed ? (
+                  <ChevronRight className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                ) : (
+                  <ChevronLeft className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
+                )}
+              </button>
+            </div>
           </div>
         </aside>
 
@@ -563,7 +732,7 @@ export function Shell({ children }: { children: ReactNode }) {
               className="fixed inset-0 bg-[#070b14]/80 backdrop-blur-md"
               onClick={() => setMobileOpen(false)}
             />
-            <div className="relative flex w-[290px] flex-col border-r border-white/10 bg-slate-950 p-4 shadow-2xl">
+            <div className="relative flex w-[295px] flex-col border-r border-white/10 bg-slate-950 p-4 shadow-2xl">
               <div className="flex items-center justify-between pb-4 border-b border-white/10">
                 <div className="flex items-center gap-2.5">
                   <div className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-950">
@@ -581,7 +750,7 @@ export function Shell({ children }: { children: ReactNode }) {
               </div>
 
               <div className="mt-4 flex-1 space-y-1.5 overflow-y-auto">
-                {NAV_ITEMS.map((item) => {
+                {NAV_ITEMS.map((item, idx) => {
                   const active = location.pathname === item.path;
                   const Icon = item.icon;
                   return (
@@ -613,7 +782,7 @@ export function Shell({ children }: { children: ReactNode }) {
                         <div className="flex items-center justify-between">
                           <span className="font-bold text-[13.5px]">{item.label}</span>
                           <span className="font-mono text-[9.5px] font-bold text-emerald-300 bg-emerald-500/20 px-1 rounded">
-                            {item.badge}
+                            {idx + 1}
                           </span>
                         </div>
                         <p className="text-[11px] text-slate-400 truncate mt-0.5">{item.subtitle}</p>
@@ -626,17 +795,39 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
         )}
 
-        {/* Primary Page Content Outlet */}
+        {/* Primary Page Content Outlet with Smooth Transition */}
         <main className="flex-1 overflow-y-auto relative z-10">
-          {children}
+          <div
+            key={location.pathname}
+            className="animate-in fade-in duration-250 ease-out"
+          >
+            {children}
+          </div>
         </main>
       </div>
+
+      {/* Floating Shortcut Toast Feedback */}
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 rounded-full border border-emerald-500/40 bg-slate-950/90 px-4 py-2 font-mono text-[12px] text-white shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_25px_rgba(16,185,129,0.35)] backdrop-blur-xl animate-in fade-in-50 slide-in-from-bottom-3 duration-200 pointer-events-none">
+          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="font-semibold text-emerald-300">{toast.message}</span>
+          <kbd className="inline-flex min-w-[20px] items-center justify-center rounded border border-white/20 bg-slate-800/90 px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-200">
+            {toast.key}
+          </kbd>
+        </div>
+      )}
 
       {/* Global Command Palette (Ctrl+K) */}
       <CommandPalette
         open={cmdOpen}
         onClose={() => setCmdOpen(false)}
         items={commandItems}
+      />
+
+      {/* Keyboard Shortcuts Cheat Sheet Modal (?) */}
+      <KeyboardShortcutsModal
+        open={shortcutsModalOpen}
+        onClose={() => setShortcutsModalOpen(false)}
       />
     </div>
   );

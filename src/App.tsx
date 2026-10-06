@@ -85,6 +85,44 @@ function LandingWithCommandPalette() {
     })),
   ];
 
+  // Quick keyboard shortcuts from landing page to workspace
+  React.useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.tagName === "SELECT" ||
+        target.isContentEditable
+      ) {
+        return;
+      }
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+      if (e.key === "1") {
+        e.preventDefault();
+        navigate("/clustering");
+      } else if (e.key === "2") {
+        e.preventDefault();
+        navigate("/spasial");
+      } else if (e.key === "3") {
+        e.preventDefault();
+        navigate("/simulator");
+      } else if (e.key === "4") {
+        e.preventDefault();
+        navigate("/forecasting");
+      } else if (e.key === "5") {
+        e.preventDefault();
+        navigate("/metodologi");
+      } else if (e.key.toLowerCase() === "w") {
+        e.preventDefault();
+        navigate("/clustering");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navigate]);
+
   return (
     <>
       {/* WebGL Organic Noise Backdrop for Landing */}
