@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "@/landing/motion";
+import { useTheme } from "@/components/ThemeProvider";
 
 interface InteractiveGlobeProps {
   countries: CountryCluster[];
@@ -51,12 +53,16 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
   filterAseanOnly,
   isVisible = true,
 }) => {
+  const reduced = useReducedMotion();
+  const { isDark } = useTheme();
+  const reducedRef = useRef(reduced);
+  reducedRef.current = reduced;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const globeRef = useRef<any>(null);
   const pointerInteracting = useRef<number | null>(null);
   const pointerInteractionMovement = useRef(0);
   const [hoveredCountry, setHoveredCountry] = useState<CountryCluster | null>(null);
-  const [isAutoRotate, setIsAutoRotate] = useState(true);
+  const [isAutoRotate, setIsAutoRotate] = useState(!reduced);
 
   // Rotation angles: default to facing ASEAN center (lon: 108.5, lat: 6.0)
   const phiRef = useRef((1.5 * Math.PI) - ((108.5 * Math.PI) / 180));
@@ -87,6 +93,12 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
     targetPhiRef.current = currentPhi + delta;
     targetThetaRef.current = rawTargetTheta;
+    if (reducedRef.current) {
+      phiRef.current = targetPhiRef.current;
+      thetaRef.current = rawTargetTheta;
+      targetPhiRef.current = null;
+      targetThetaRef.current = null;
+    }
     setIsAutoRotate(false);
   }, []);
 
@@ -234,13 +246,13 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
       devicePixelRatio: 2,
       phi: phiRef.current,
       theta: thetaRef.current,
-      dark: 1,
+      dark: isDark ? 1 : 0,
       diffuse: 1.4,
       mapSamples: 16000,
-      mapBrightness: 2.2,
-      baseColor: [15 / 255, 23 / 255, 42 / 255],
+      mapBrightness: isDark ? 2.2 : 5,
+      baseColor: isDark ? [.1, .11, .14] : [0.88, 0.91, 0.94],
       markerColor: [16 / 255, 185 / 255, 129 / 255],
-      glowColor: [16 / 255, 185 / 255, 129 / 255],
+      glowColor: isDark ? [.12, .14, .19] : [0.95, 0.96, 0.98],
       markers: markersRef.current,
       arcs: arcsRef.current,
       arcWidth: 1.2,
@@ -252,20 +264,27 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
     globeRef.current = globe;
 
-    const render = () => {
-      if (isVisibleRef.current) {
+    let lastTime = 0;
+    let onScreen = true;
+    const observer = new IntersectionObserver(([entry]) => { onScreen = entry.isIntersecting; });
+    observer.observe(canvas);
+    const render = (time: number) => {
+      const deltaTime = Math.min((time - lastTime) / 1000, .05);
+      lastTime = time;
+      if (isVisibleRef.current && onScreen && !document.hidden) {
         if (targetPhiRef.current !== null && targetThetaRef.current !== null) {
           const dPhi = targetPhiRef.current - phiRef.current;
           const dTheta = targetThetaRef.current - thetaRef.current;
-          phiRef.current += dPhi * 0.08;
-          thetaRef.current += dTheta * 0.08;
+          const blend = 1 - Math.exp(-5 * deltaTime);
+          phiRef.current += dPhi * blend;
+          thetaRef.current += dTheta * blend;
 
           if (Math.abs(dPhi) < 0.005 && Math.abs(dTheta) < 0.005) {
             targetPhiRef.current = null;
             targetThetaRef.current = null;
           }
-        } else if (isAutoRotateRef.current && pointerInteracting.current === null) {
-          phiRef.current += 0.0035;
+        } else if (isAutoRotateRef.current && !reducedRef.current && pointerInteracting.current === null) {
+          phiRef.current += .21 * deltaTime;
         }
 
         const currentW = getWidth();
@@ -283,18 +302,19 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
       animationFrameId = requestAnimationFrame(render);
     };
 
-    render();
+    animationFrameId = requestAnimationFrame(render);
 
     requestAnimationFrame(() => {
       if (canvas) canvas.style.opacity = "1";
     });
 
     return () => {
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
       globe.destroy();
       globeRef.current = null;
     };
-  }, [getWidth]);
+  }, [getWidth, isDark]);
 
   // Re-awaken globe and force repaint whenever isVisible turns true
   useEffect(() => {
@@ -345,12 +365,12 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
   const inspectorLisa = inspectorCountry ? lisaMap.get(inspectorCountry.country) : null;
 
   return (
-    <div className="relative w-full overflow-hidden bg-[#070b14] min-h-[620px] flex items-center justify-center p-2 sm:p-4">
+    <div className="grain-globe relative w-full overflow-hidden bg-neutral-100 flex flex-col items-center justify-center gap-4 p-3 sm:p-5">
       {/* Background Radial Glow */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(16,185,129,0.12)_0%,rgba(6,182,212,0.06)_40%,transparent_75%)]" />
 
       {/* 3D Canvas Viewport */}
-      <div className="relative aspect-square w-full max-w-[620px] p-2 flex items-center justify-center my-auto">
+      <div className="grain-globe-sphere relative aspect-square w-full max-w-[620px] p-2 flex items-center justify-center my-auto">
         <canvas
           ref={canvasRef}
           className="size-full opacity-0 transition-opacity duration-700 cursor-grab active:cursor-grabbing"
@@ -362,11 +382,11 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
       </div>
 
       {/* LEFT OVERLAY: SCIENTIFIC LEGEND & CONTEXT */}
-      <div className="absolute top-4 left-4 z-20 max-w-[270px] space-y-2.5 hidden md:block">
-        <Card className="p-3.5 bg-slate-900/90 border-white/10 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-center gap-2 border-b border-white/10 pb-2 mb-2.5">
-            <Layers className="size-4 text-emerald-400" />
-            <span className="font-mono text-xs font-bold text-white uppercase tracking-wider">
+      <div className="grain-globe-tools relative z-20 flex w-full flex-wrap items-center justify-between gap-3">
+        <Card className="grain-globe-legend p-3.5 bg-surface border-black/10">
+          <div className="flex items-center gap-2 border-b border-black/10 pb-2 mb-2.5">
+            <Layers className="size-4 text-neutral-800" />
+            <span className="font-mono text-xs font-bold text-neutral-950 uppercase tracking-wider">
               {activeLayer === "cluster" && "5-Cluster Typology"}
               {activeLayer === "lisa" && "LISA Hotspots 2024"}
               {activeLayer === "luc" && "Land CO₂ (LUC)"}
@@ -378,25 +398,25 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             <div className="space-y-1.5 text-[11.5px]">
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#ef4444]" />
-                <span className="text-white font-medium">Conversion Frontier (7 ASEAN)</span>
+                <span className="text-neutral-950 font-medium">Conversion Frontier (7 ASEAN)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#f59e0b]" />
-                <span className="text-slate-300">High-Density Agrarian (Philippines)</span>
+                <span className="text-neutral-700">High-Density Agrarian (Philippines)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#3b82f6]" />
-                <span className="text-slate-300">Land-Sparing Industrial (Singapore)</span>
+                <span className="text-neutral-700">Land-Sparing Industrial (Singapore)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#8b5cf6]" />
-                <span className="text-slate-300">Extensive Pastoral (Brunei)</span>
+                <span className="text-neutral-700">Extensive Pastoral (Brunei)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#64748b]" />
-                <span className="text-slate-300">Food-Importing Petro-Economies</span>
+                <span className="text-neutral-700">Food-Importing Petro-Economies</span>
               </div>
-              <p className="pt-1.5 text-[10.5px] text-slate-400 border-t border-white/5">
+              <p className="pt-1.5 text-[10.5px] text-neutral-600 border-t border-black/5">
                 Cyan arcs delineate econometric spatial spillover pathways across ASEAN economies.
               </p>
             </div>
@@ -406,21 +426,21 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             <div className="space-y-1.5 text-[11.5px]">
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#dc2626]" />
-                <span className="text-white font-medium">High-High Hotspot (7 ASEAN)</span>
+                <span className="text-neutral-950 font-medium">High-High Hotspot (7 ASEAN)</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#9333ea]" />
-                <span className="text-slate-300">Low-High: Spatial Outlier</span>
+                <span className="text-neutral-700">Low-High: Spatial Outlier</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#2563eb]" />
-                <span className="text-slate-300">Low-Low: Coldspot</span>
+                <span className="text-neutral-700">Low-Low: Coldspot</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="size-2.5 rounded-full shrink-0 bg-[#64748b]" />
-                <span className="text-slate-400">Not Significant (p &gt; 0.05)</span>
+                <span className="text-neutral-600">Not Significant (p &gt; 0.05)</span>
               </div>
-              <p className="pt-1.5 text-[10.5px] text-emerald-400 border-t border-white/5 font-mono">
+              <p className="pt-1.5 text-[10.5px] text-neutral-800 border-t border-black/5 font-mono">
                 Moran's I = +0.729 (p &lt; 0.001)
               </p>
             </div>
@@ -428,17 +448,17 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
           {activeLayer === "luc" && (
             <div className="space-y-2 text-[11.5px]">
-              <div className="flex justify-between text-[11px] font-mono text-slate-400">
+              <div className="flex justify-between text-[11px] font-mono text-neutral-600">
                 <span>Net Conservation</span>
-                <span className="text-red-400 font-bold">&gt; 3.0 t CO₂/cap</span>
+                <span className="text-red-700 font-bold">&gt; 3.0 t CO₂/cap</span>
               </div>
               <div className="h-2 w-full rounded-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500" />
-              <div className="pt-1 text-[11px] text-slate-300 space-y-1">
+              <div className="pt-1 text-[11px] text-neutral-700 space-y-1">
                 <p>
-                  ASEAN Share: <strong className="text-red-400 font-mono">22.78% Global</strong>
+                  ASEAN Share: <strong className="text-red-700 font-mono">22.78% Global</strong>
                 </p>
                 <p>
-                  Epicenter: <strong className="text-white">Indonesia (12.57%)</strong>
+                  Epicenter: <strong className="text-neutral-950">Indonesia (12.57%)</strong>
                 </p>
               </div>
             </div>
@@ -446,17 +466,17 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
           {activeLayer === "ch4" && (
             <div className="space-y-2 text-[11.5px]">
-              <div className="flex justify-between text-[11px] font-mono text-slate-400">
+              <div className="flex justify-between text-[11px] font-mono text-neutral-600">
                 <span>Low (&lt; 0.8 t)</span>
-                <span className="text-purple-400 font-bold">&gt; 4.0 t (High)</span>
+                <span className="text-neutral-800 font-bold">&gt; 4.0 t (High)</span>
               </div>
               <div className="h-2 w-full rounded-full bg-gradient-to-r from-emerald-500 via-cyan-400 to-purple-500" />
-              <div className="pt-1 text-[11px] text-slate-300 space-y-1">
+              <div className="pt-1 text-[11px] text-neutral-700 space-y-1">
                 <p>
-                  Primary drivers: <strong className="text-cyan-300">Paddy rice & enteric livestock</strong>
+                  Primary drivers: <strong className="text-neutral-800">Paddy rice & enteric livestock</strong>
                 </p>
                 <p>
-                  ASEAN Average: <strong className="text-white font-mono">~1.02 t CO₂eq</strong>
+                  ASEAN Average: <strong className="text-neutral-950 font-mono">~1.02 t CO₂eq</strong>
                 </p>
               </div>
             </div>
@@ -473,8 +493,8 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             className={cn(
               "flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold backdrop-blur-xl transition-all shadow-lg",
               isAutoRotate
-                ? "border-emerald-500/40 bg-emerald-500/15 text-emerald-300"
-                : "border-white/10 bg-slate-900/80 text-slate-400 hover:text-white"
+                ? "border-black/10 bg-grain-mist text-neutral-800"
+                : "border-black/10 bg-surface/80 text-neutral-600 hover:text-neutral-950"
             )}
           >
             <RotateCw className={cn("size-3.5", isAutoRotate && "animate-spin")} style={{ animationDuration: "10s" }} />
@@ -485,9 +505,9 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             onClick={() => {
               focusToCoordinates(108.5, 6.0);
             }}
-            className="flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/80 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:border-emerald-500/40 hover:text-white backdrop-blur-xl transition-all shadow-lg"
+            className="flex items-center gap-1.5 rounded-xl border border-black/10 bg-surface/80 px-3 py-1.5 text-xs font-semibold text-neutral-700 hover:border-black/10 hover:text-neutral-950 backdrop-blur-xl transition-all shadow-lg"
           >
-            <Compass className="size-3.5 text-emerald-400" />
+            <Compass className="size-3.5 text-neutral-800" />
             <span>Focus ASEAN</span>
           </button>
         </div>
@@ -495,19 +515,19 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
       {/* RIGHT OVERLAY: LIVE COUNTRY INSPECTOR CARD */}
       {inspectorCountry && (
-        <Card className="absolute top-4 right-4 z-20 w-[300px] p-4 bg-slate-900/95 border-emerald-500/40 shadow-2xl backdrop-blur-2xl transition-all duration-300 hidden lg:block">
-          <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <Card className="grain-globe-inspector relative z-20 w-full p-4 bg-surface border-black/10 transition-colors duration-200">
+          <div className="flex items-center justify-between border-b border-black/10 pb-2.5">
             <div>
-              <span className="font-mono text-[10px] text-slate-400 uppercase tracking-wider block">
+              <span className="font-mono text-[10px] text-neutral-600 uppercase tracking-wider block">
                 {hoveredCountry ? "Cursor Focus" : selectedCountry ? "Selected Economy" : "Regional Epicenter"}
               </span>
-              <h4 className="text-lg font-bold text-white flex items-center gap-2 mt-0.5">
-                <MapPin className="size-4 text-emerald-400" />
+              <h4 className="text-lg font-bold text-neutral-950 flex items-center gap-2 mt-0.5">
+                <MapPin className="size-4 text-neutral-800" />
                 <span>{inspectorCountry.country}</span>
               </h4>
             </div>
             {inspectorCountry.is_asean === 1 && (
-              <span className="rounded-full bg-emerald-500/20 border border-emerald-500/40 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-300">
+              <span className="rounded-full bg-grain-mist border border-black/10 px-2 py-0.5 font-mono text-[10px] font-bold text-neutral-800">
                 ASEAN-10
               </span>
             )}
@@ -515,11 +535,11 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
           <div className="mt-3 space-y-2 text-xs">
             {/* Cluster Tag */}
-            <div className="flex justify-between items-center rounded-lg bg-slate-800/60 p-2 border border-white/5">
-              <span className="text-slate-400">Typology:</span>
+            <div className="flex justify-between items-center rounded-lg bg-neutral-100/60 p-2 border border-black/5">
+              <span className="text-neutral-600">Typology:</span>
               <span
                 className="font-bold text-[11.5px] truncate max-w-[150px]"
-                style={{ color: CLUSTER_COLORS[inspectorCountry.klaster] }}
+                style={{ color: "var(--ink-2)" }}
               >
                 {inspectorCountry.nama_klaster}
               </span>
@@ -527,15 +547,15 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
 
             {/* LISA Status */}
             <div className="flex justify-between items-center px-1">
-              <span className="text-slate-400">LISA Significance:</span>
+              <span className="text-neutral-600">LISA Significance:</span>
               <span
                 className={cn(
                   "font-mono font-bold text-[11.5px]",
                   inspectorLisa?.lisa === "High-High"
-                    ? "text-red-400"
+                    ? "text-red-700"
                     : inspectorLisa?.lisa === "Low-High"
-                    ? "text-purple-400"
-                    : "text-slate-300"
+                    ? "text-neutral-800"
+                    : "text-neutral-700"
                 )}
               >
                 {inspectorLisa?.lisa || "Not significant"}
@@ -543,42 +563,42 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             </div>
 
             {/* 4 Multi-Emission Metrics */}
-            <div className="pt-2 border-t border-white/5 grid grid-cols-2 gap-2 text-[11.5px] font-mono">
-              <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
-                <div className="flex items-center gap-1 text-[10px] text-slate-400 font-sans">
-                  <Flame className="size-3 text-red-400" />
+            <div className="pt-2 border-t border-black/5 grid grid-cols-2 gap-2 text-[11.5px] font-mono">
+              <div className="rounded-lg bg-neutral-100/40 p-2 border border-black/5">
+                <div className="flex items-center gap-1 text-[10px] text-neutral-600 font-sans">
+                  <Flame className="size-3 text-red-700" />
                   <span>Land CO₂ (LUC)</span>
                 </div>
-                <p className="font-bold text-white text-sm mt-0.5">
+                <p className="font-bold text-neutral-950 text-sm mt-0.5">
                   {inspectorCountry.luc_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
+                  <span className="text-[10px] font-normal text-neutral-600 font-sans">t/cap</span>
                 </p>
               </div>
 
-              <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
-                <div className="flex items-center gap-1 text-[10px] text-slate-400 font-sans">
-                  <Wind className="size-3 text-cyan-400" />
+              <div className="rounded-lg bg-neutral-100/40 p-2 border border-black/5">
+                <div className="flex items-center gap-1 text-[10px] text-neutral-600 font-sans">
+                  <Wind className="size-3 text-neutral-800" />
                   <span>Methane (CH₄)</span>
                 </div>
-                <p className="font-bold text-cyan-400 text-sm mt-0.5">
+                <p className="font-bold text-neutral-800 text-sm mt-0.5">
                   {inspectorCountry.ch4_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
+                  <span className="text-[10px] font-normal text-neutral-600 font-sans">t/cap</span>
                 </p>
               </div>
 
-              <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
-                <span className="text-[10px] text-slate-400 font-sans block">Fertilizer N₂O</span>
-                <p className="font-bold text-amber-300 text-sm mt-0.5">
+              <div className="rounded-lg bg-neutral-100/40 p-2 border border-black/5">
+                <span className="text-[10px] text-neutral-600 font-sans block">Fertilizer N₂O</span>
+                <p className="font-bold text-amber-800 text-sm mt-0.5">
                   {inspectorCountry.n2o_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
+                  <span className="text-[10px] font-normal text-neutral-600 font-sans">t/cap</span>
                 </p>
               </div>
 
-              <div className="rounded-lg bg-slate-800/40 p-2 border border-white/5">
-                <span className="text-[10px] text-slate-400 font-sans block">Energy CO₂</span>
-                <p className="font-bold text-slate-200 text-sm mt-0.5">
+              <div className="rounded-lg bg-neutral-100/40 p-2 border border-black/5">
+                <span className="text-[10px] text-neutral-600 font-sans block">Energy CO₂</span>
+                <p className="font-bold text-neutral-800 text-sm mt-0.5">
                   {inspectorCountry.co2_pc.toFixed(2)}{" "}
-                  <span className="text-[10px] font-normal text-slate-400 font-sans">t/cap</span>
+                  <span className="text-[10px] font-normal text-neutral-600 font-sans">t/cap</span>
                 </p>
               </div>
             </div>
@@ -586,7 +606,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
             {/* Select Button */}
             <button
               onClick={() => onSelectCountry(inspectorCountry)}
-              className="w-full mt-2 py-1.5 px-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-semibold text-xs hover:bg-emerald-500 hover:text-slate-950 transition-all text-center flex items-center justify-center gap-1.5"
+              className="w-full mt-2 py-1.5 px-3 rounded-xl bg-grain-mist border border-black/10 text-neutral-800 font-semibold text-xs hover:bg-grain-blue hover:text-white transition-all text-center flex items-center justify-center gap-1.5"
             >
               <CheckCircle2 className="size-3.5" />
               <span>{selectedCountry?.country === inspectorCountry.country ? "Active Economy" : "Select This Economy"}</span>
@@ -596,9 +616,9 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
       )}
 
       {/* BOTTOM COMPACT QUICK-FOCUS DOCK */}
-      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 p-1.5 rounded-2xl bg-slate-900/90 border border-white/10 shadow-2xl backdrop-blur-xl max-w-[94vw]">
-        <div className="flex items-center gap-1.5 px-2 text-[11px] font-mono text-slate-400 shrink-0">
-          <MapPin className="size-3 text-emerald-400" />
+      <div className="grain-globe-focus relative z-20 flex w-full flex-wrap items-center gap-2 p-2 rounded-xl bg-surface border border-black/10">
+        <div className="flex items-center gap-1.5 px-2 text-[11px] font-mono text-neutral-600 shrink-0">
+          <MapPin className="size-3 text-neutral-800" />
           <span className="font-bold hidden sm:inline">Focus:</span>
         </div>
 
@@ -618,10 +638,10 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
                   className={cn(
                     "px-2.5 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all border shrink-0 flex items-center gap-1.5",
                     isSelected
-                      ? "bg-emerald-500 text-slate-950 font-bold border-emerald-400 shadow-sm"
+                      ? "bg-grain-blue text-white font-bold border-black/10 shadow-sm"
                       : isHovered
-                      ? "bg-slate-800 text-white border-emerald-500/50"
-                      : "bg-slate-800/80 text-slate-300 border-white/5 hover:bg-slate-800 hover:text-white"
+                      ? "bg-neutral-100 text-neutral-950 border-black/10"
+                      : "bg-neutral-100/80 text-neutral-700 border-black/5 hover:bg-neutral-100 hover:text-neutral-950"
                   )}
                 >
                   <span
@@ -635,8 +655,9 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
         </div>
 
         {/* Dropdown Selector for All 44 Countries */}
-        <div className="relative shrink-0 border-l border-white/10 pl-2">
+        <div className="relative shrink-0 border-l border-black/10 pl-2">
           <select
+            aria-label="Focus an economy"
             value={selectedCountry?.country || ""}
             onChange={(e) => {
               const found = countries.find((c) => c.country === e.target.value);
@@ -645,7 +666,7 @@ export const InteractiveGlobe: React.FC<InteractiveGlobeProps> = ({
                 setHoveredCountry(found);
               }
             }}
-            className="bg-slate-800/90 text-slate-200 border border-white/10 rounded-xl px-2.5 py-1 text-xs font-medium outline-none cursor-pointer hover:border-emerald-500/40 focus:border-emerald-500 max-w-[130px] sm:max-w-[170px] truncate"
+            className="bg-neutral-100/90 text-neutral-800 border border-black/10 rounded-xl px-2.5 py-1 text-xs font-medium cursor-pointer hover:border-black/10 focus:border-black/10 max-w-[130px] sm:max-w-[170px] truncate"
           >
             <option value="" disabled>
               All {countries.length} Economies…

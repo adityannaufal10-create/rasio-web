@@ -1,31 +1,52 @@
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
-import { ArrowRight, ArrowUpRight, Compass, FileCheck, Layers, Menu, Search, ShieldCheck, Sparkles, X } from "lucide-react";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { BorderBeam } from "@/components/ui/border-beam";
-import { Gauge } from "@/components/ui/gauge";
-import { RibbonText } from "@/components/ui/ribbon-text";
+import { useEffect, useMemo, useState, type MouseEvent } from "react";
+import { ThemeControl, useTheme } from "@/components/ThemeProvider";
+import { Link } from "react-router-dom";
+import { ArrowRight, BookOpen, ChevronRight, Compass, Database, FileCheck, Layers, Menu, Network, Search, Sliders, TrendingUp, X } from "lucide-react";
+import { Globe } from "@/components/ui/globe";
 import { StatTile } from "@/components/ui/stat-tile";
-import { FACTS } from "./facts";
-import { useReducedMotion, useScrollProgress } from "./motion";
+import { FACTS, COUNTRIES_44, CLUSTER_COLORS } from "./facts";
+import { useReducedMotion } from "./motion";
 import TriageCanvas from "./TriageCanvas";
 import EvidenceWall from "./EvidenceWall";
 import WorkflowRail from "./WorkflowRail";
 import WhyGrainSection from "./WhyGrainSection";
 import InstrumentShowcase from "./InstrumentShowcase";
-import { FluxVortex } from "@/components/ui/flux-vortex";
 import { CinematicFooter } from "@/components/ui/cinematic-footer";
 import { cn } from "@/lib/utils";
 
-const WORKSPACE_URL = "/clustering";
-
 const NAV = [
-  { href: "#problem", label: "Emission Paradox" },
-  { href: "#why-grain", label: "Spatial Imperative" },
-  { href: "#triage", label: "Spatial Simulation" },
-  { href: "#evidence", label: "Empirical Evidence" },
-  { href: "#workflow", label: "Analytical Pipeline" },
-  { href: "#inside", label: "Live Instruments" },
+  { href: "#problem", label: "The problem" },
+  { href: "#why-grain", label: "Why GRAIN" },
+  { href: "#triage", label: "Spatial story" },
+  { href: "#evidence", label: "Evidence" },
+  { href: "#workflow", label: "The toolkit" },
+  { href: "#inside", label: "Live instruments" },
 ];
+const MODULES = [
+  { path: "/clustering", label: "Cartography", detail: "44 economies. Five typologies.", icon: Layers },
+  { path: "/spasial", label: "Spatial econometrics", detail: "See the cross-border connection.", icon: Network },
+  { path: "/simulator", label: "Policy simulator", detail: "Explore coordinated action.", icon: Sliders },
+  { path: "/forecasting", label: "Methane forecasting", detail: "Look ahead to 2035.", icon: TrendingUp },
+  { path: "/metodologi", label: "Methodology", detail: "Inspect every assumption.", icon: BookOpen },
+];
+const HERO_CONFIG = {
+  dark: 0,
+  phi: 1.8,
+  theta: 0.3,
+  diffuse: 1.4,
+  mapBrightness: 5,
+  baseColor: [0.88, 0.91, 0.9] as [number, number, number],
+  glowColor: [0.95, 0.96, 0.95] as [number, number, number],
+  markerColor: [0.02, 0.48, 0.35] as [number, number, number],
+  markers: COUNTRIES_44.map(c => {
+    const hex = CLUSTER_COLORS[c.cluster];
+    return {
+      location: [c.lat, c.lon] as [number, number],
+      size: c.isAsean ? 0.045 : 0.022,
+      color: [1, 3, 5].map(start => parseInt(hex.slice(start, start + 2), 16) / 255) as [number, number, number],
+    };
+  }),
+};
 
 function jump(e: MouseEvent<HTMLAnchorElement>, id: string) {
   e.preventDefault();
@@ -34,480 +55,128 @@ function jump(e: MouseEvent<HTMLAnchorElement>, id: string) {
   });
 }
 
-function HeroSVGSchematic({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 1600 450" preserveAspectRatio="xMidYMax slice" className={className} aria-hidden="true">
-      <g stroke="rgba(16, 185, 129, 0.25)" strokeWidth="1" fill="none">
-        {/* Abstract topographic lines & meridian grid */}
-        <path d="M0 420 Q400 380 800 410 T1600 390" />
-        <path d="M0 360 Q350 310 800 350 T1600 320" opacity="0.6" />
-        <path d="M0 300 Q450 250 800 290 T1600 260" opacity="0.4" />
-        <path d="M0 240 Q400 190 800 230 T1600 200" opacity="0.2" />
-
-        {/* Abstract network nodes */}
-        <circle cx="480" cy="330" r="4" fill="#ef4444" />
-        <circle cx="560" cy="300" r="3" fill="#10b981" />
-        <circle cx="680" cy="350" r="5" fill="#ef4444" />
-        <circle cx="820" cy="320" r="7" fill="#ef4444" />
-        <circle cx="940" cy="340" r="3" fill="#10b981" />
-
-        {/* Spatial links */}
-        <line x1="480" y1="330" x2="680" y2="350" strokeDasharray="4 4" stroke="#06b6d4" opacity="0.5" />
-        <line x1="680" y1="350" x2="820" y2="320" strokeDasharray="4 4" stroke="#06b6d4" opacity="0.7" />
-        <line x1="820" y1="320" x2="940" y2="340" strokeDasharray="4 4" stroke="#06b6d4" opacity="0.5" />
-      </g>
-    </svg>
-  );
-}
-
 export function LandingPage({ onOpenCommandPalette }: { onOpenCommandPalette?: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const heroRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-
-  useScrollProgress(heroRef, undefined, "exit", !reduced);
+  const { isDark } = useTheme();
+  const globeConfig = useMemo(() => ({ ...HERO_CONFIG, dark: isDark ? 1 : 0, mapBrightness: isDark ? 2.2 : 5,
+    baseColor: (isDark ? [.1, .11, .14] : [.88, .91, .94]) as [number, number, number],
+    glowColor: (isDark ? [.12, .14, .19] : [.95, .96, .98]) as [number, number, number],
+  }), [isDark]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setMenuOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
 
   return (
-    <div className="relative min-h-screen bg-[#070b14] text-slate-100 font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
-      {/* 3D Quantum Particle Vortex Dynamic Backdrop */}
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
-        <FluxVortex speed={0.7} opacity={0.7} />
-      </div>
-
-      {/* Navigation Header */}
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-          scrolled || menuOpen
-            ? "border-b border-white/10 bg-[#070b14]/85 backdrop-blur-xl py-3.5 shadow-2xl"
-            : "bg-transparent py-5 border-b border-transparent",
-        )}
-      >
-        <div className="mx-auto flex max-w-[1320px] items-center justify-between px-4 sm:px-8">
-          {/* Logo brand */}
-          <a
-            href="/"
-            className="flex items-center gap-3 no-underline group shrink-0"
-            aria-label="GRAIN Homepage"
-          >
-            <div className="relative flex size-9 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 shadow-[0_0_20px_rgba(16,185,129,0.5)]">
-              <Compass className="size-5 text-slate-950 font-bold" strokeWidth={2.4} />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-extrabold text-[18px] tracking-tight text-white group-hover:text-emerald-400 transition-colors">
-                  GRAIN
-                </span>
-                <span className="rounded bg-emerald-500/20 border border-emerald-500/30 px-1 py-0.2 font-mono text-[10px] font-bold text-emerald-400">
-                  ASEAN
-                </span>
-              </div>
-              <span className="block font-mono text-[10px] text-slate-400 tracking-wider">
-                TEAM IRIS · RASIO 10.0
-              </span>
-            </div>
-          </a>
-
-          {/* Centered navigation links */}
-          <nav className="hidden lg:flex items-center gap-7" aria-label="Main Navigation">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={(e) => jump(e, n.href)}
-                className="text-[14px] font-medium text-slate-300 hover:text-emerald-400 transition-colors no-underline whitespace-nowrap"
-              >
-                {n.label}
-              </a>
-            ))}
+    <div className="grain-landing">
+      <a href="#main-content" className="skip-link">Skip to content</a>
+      <header className={cn("grain-nav", scrolled && "is-scrolled")}>
+        <div className="grain-nav-inner">
+          <Link to="/" className="grain-brand" aria-label="GRAIN Homepage">
+            <Compass size={26} strokeWidth={1.7} />
+            <span>GRAIN<span className="grain-brand-region">ASEAN</span></span>
+          </Link>
+          <nav className="grain-nav-links" aria-label="Main navigation">
+            {NAV.map(n => <a key={n.href} href={n.href} onClick={e => jump(e, n.href)}>{n.label}</a>)}
           </nav>
-
-          {/* Right Action buttons */}
-          <div className="hidden sm:flex items-center gap-3 shrink-0">
-            {onOpenCommandPalette && (
-              <button
-                type="button"
-                onClick={onOpenCommandPalette}
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/60 px-3 py-1.5 text-[13px] text-slate-400 hover:border-emerald-500/40 hover:text-white transition-all backdrop-blur-md"
-              >
-                <Search className="size-3.5" />
-                <span>Search…</span>
-                <kbd className="rounded border border-white/10 bg-slate-800 px-1 font-mono text-[10px]">Ctrl+K</kbd>
-              </button>
-            )}
-
-            <a
-              href={WORKSPACE_URL}
-              className="inline-flex h-10 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-5 text-[13.5px] font-bold text-slate-950 no-underline shadow-[0_0_25px_rgba(16,185,129,0.4)] transition-all hover:bg-emerald-400 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap"
-            >
-              Open Prototype
-              <ArrowRight className="size-4" />
-            </a>
+          <div className="grain-nav-actions">
+            <ThemeControl />
+            {onOpenCommandPalette && <button type="button" className="icon-button" onClick={onOpenCommandPalette} aria-label="Search GRAIN" title="Search GRAIN (Ctrl+K)"><Search size={19} /></button>}
+            <Link to="/clustering" className="grain-button small">Explore GRAIN <ArrowRight size={14} /></Link>
+            <button type="button" className="icon-button grain-menu-toggle" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} aria-controls="landing-menu" onClick={() => setMenuOpen(!menuOpen)}>
+              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
           </div>
-
-          {/* Mobile hamburger menu */}
-          <button
-            type="button"
-            className="rounded-lg p-2 text-slate-300 hover:bg-slate-800 lg:hidden shrink-0"
-            onClick={() => setMenuOpen((o) => !o)}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
-          </button>
         </div>
-
-        {/* Mobile dropdown */}
-        {menuOpen && (
-          <div className="border-t border-white/10 bg-[#070b14]/95 px-6 pb-6 pt-3 backdrop-blur-2xl lg:hidden">
-            {NAV.map((n) => (
-              <a
-                key={n.href}
-                href={n.href}
-                onClick={(e) => {
-                  jump(e, n.href);
-                  setMenuOpen(false);
-                }}
-                className="block py-2.5 text-[15px] font-medium text-slate-300 hover:text-emerald-400 no-underline"
-              >
-                {n.label}
-              </a>
-            ))}
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <a
-                href={WORKSPACE_URL}
-                className="flex h-11 items-center justify-center rounded-xl bg-emerald-500 font-bold text-slate-950 no-underline"
-              >
-                Open Prototype Workspace
-              </a>
-            </div>
-          </div>
-        )}
+        {menuOpen && <nav id="landing-menu" className="grain-mobile-menu" aria-label="Mobile navigation">
+          {NAV.map(n => <a key={n.href} href={n.href} onClick={e => { jump(e, n.href); setMenuOpen(false); }}>{n.label}<ChevronRight size={16} /></a>)}
+          <Link to="/clustering" onClick={() => setMenuOpen(false)}>Explore the workspace<ArrowRight size={16} /></Link>
+        </nav>}
       </header>
 
-      {/* HERO SECTION */}
-      <section
-        ref={heroRef}
-        className="lp-hero relative isolate overflow-hidden pt-36 sm:pt-44 pb-20"
-        aria-labelledby="hero-title"
-      >
-        {/* Background Parallax Line Graphic */}
-        <div className="lp-far pointer-events-none absolute inset-x-0 top-[25%] -z-20 h-[50vh]">
-          <HeroSVGSchematic className="h-full w-full" />
-        </div>
-
-        {/* Atmospheric Glow */}
-        <div className="lp-glow pointer-events-none absolute left-1/2 top-[25%] -z-10 h-[70vh] w-[min(1200px,130vw)] -translate-x-1/2 rounded-[50%] bg-[radial-gradient(closest-side,rgba(16,185,129,0.22),rgba(6,182,212,0.08)_55%,transparent)]" />
-
-        <div className="lp-copy relative z-10 mx-auto flex max-w-[1040px] flex-col items-center px-4 text-center sm:px-8">
-          {/* Announcement pill */}
-          <a
-            href="#triage"
-            onClick={(e) => jump(e, "#triage")}
-            className="mb-8 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-[13px] text-emerald-300 backdrop-blur-md transition-all hover:border-emerald-500/60 hover:bg-emerald-500/20 no-underline"
-          >
-            <span className="relative flex size-2">
-              <span className="absolute inset-0 animate-ping rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative size-2 rounded-full bg-emerald-400" />
-            </span>
-            <span className="font-semibold">Padjadjaran Statistics Olympiad 10.0 · Statistics Day 2026</span>
-            <span className="flex items-center gap-1 text-white font-mono text-[11px]">
-              Explore Simulation <ArrowRight className="size-3" />
-            </span>
-          </a>
-
-          {/* Main Provocative Headline with RibbonText */}
-          <h1
-            id="hero-title"
-            className="text-[clamp(2.4rem,5.5vw,4.8rem)] font-extrabold tracking-tight leading-[1.05] text-white [text-wrap:balance]"
-          >
-            <RibbonText className="pb-2">Agrifood Emissions Know No Borders.</RibbonText>
-          </h1>
-
-          {/* Subtitle with empirical contrast */}
-          <p className="mt-6 max-w-[66ch] text-[clamp(1.05rem,1.4vw,1.22rem)] leading-relaxed text-slate-300 [text-wrap:pretty]">
-            ASEAN contributes <strong className="text-white font-semibold">22.78% of global land-use emissions</strong> despite producing just 7.44% of total greenhouse gases. Isolated national climate policies inadvertently trigger carbon leakage into neighboring economies.
-          </p>
-
-          {/* Hero CTAs */}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={WORKSPACE_URL}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-7 text-[15.5px] font-bold text-slate-950 no-underline shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all hover:bg-emerald-400 hover:scale-[1.03] active:scale-[0.98] whitespace-nowrap"
-            >
-              Open Prototype Workspace
-              <ArrowRight className="size-4" />
-            </a>
-            <a
-              href="#triage"
-              onClick={(e) => jump(e, "#triage")}
-              className="inline-flex h-12 items-center rounded-xl border border-white/15 bg-slate-900/60 px-6 text-[15px] font-semibold text-slate-300 no-underline backdrop-blur-md transition-all hover:border-emerald-500/40 hover:text-white whitespace-nowrap"
-            >
-              Inspect 44-Country Simulation
-            </a>
+      <main id="main-content">
+        <section className="grain-hero" aria-labelledby="hero-title">
+          <div className="grain-hero-copy">
+            <h1 id="hero-title">Agrifood emissions.<br /><span>Beyond borders.</span></h1>
+            <p>ASEAN contributes <strong>{FACTS.globalLUCShare} of global land-use emissions</strong> despite producing just {FACTS.globalGHGShare} of total greenhouse gases. Explore the connections that national policies alone cannot see.</p>
+            <div className="grain-hero-actions">
+              <Link to="/clustering" className="grain-button">Explore the workspace <ArrowRight size={17} /></Link>
+              <a href="#triage" className="grain-text-link" onClick={e => jump(e, "#triage")}>Follow the spatial story <ChevronRight size={17} /></a>
+            </div>
+            <p className="grain-hero-credit">TEAM IRIS · RASIO 10.0<br />Padjadjaran Statistics Olympiad · Statistics Day 2026</p>
           </div>
-        </div>
-
-        {/* Product Workspace Preview Frame with BorderBeam */}
-        <div className="lp-frame-wrap relative z-0 mx-auto mt-16 w-[min(1220px,94vw)] pb-16">
-          <figure className="lp-frame relative m-0 rounded-2xl border border-white/10 bg-slate-900/90 p-2 shadow-[0_40px_100px_-25px_rgba(0,0,0,0.9),0_0_50px_-10px_rgba(16,185,129,0.25)]">
-            <div className="flex items-center justify-between border-b border-white/10 px-4 py-2.5 bg-slate-950/70 rounded-t-xl" aria-hidden="true">
-              <div className="flex items-center gap-2 min-w-0">
-                <span className="size-2.5 rounded-full bg-red-500/80 shrink-0" />
-                <span className="size-2.5 rounded-full bg-amber-500/80 shrink-0" />
-                <span className="size-2.5 rounded-full bg-emerald-500/80 shrink-0" />
-                <span className="ml-3 font-mono text-[11.5px] text-slate-400 truncate">
-                  grain-web · Spatial Econometrics of ASEAN Agrifood Systems · Panel 1961–2024
-                </span>
-              </div>
-              <span className="rounded bg-emerald-500/15 border border-emerald-500/30 px-2 py-0.5 font-mono text-[10px] font-bold text-emerald-400 shrink-0">
-                SDM TIME-FIXED EFFECTS AIC 4,752.0
-              </span>
-            </div>
-
-            {/* Embedded interactive preview illustration */}
-            <div className="relative overflow-hidden rounded-b-xl bg-slate-950 p-6">
-              <div className="grid gap-6 lg:grid-cols-3">
-                {/* Visual mock 1: Map preview badge */}
-                <Card className="bg-slate-900/80 border-white/10 hover:border-emerald-500/30 transition-all">
-                  <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
-                    <CardTitle className="text-[13px] font-semibold text-slate-200">Thematic Cartography</CardTitle>
-                    <span className="font-mono text-xs font-bold text-emerald-400">4 Active Layers</span>
-                  </CardHeader>
-                  <CardContent className="p-5 pt-0">
-                    <div className="flex items-center justify-center h-28 rounded-xl bg-slate-950/80 border border-white/5 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] opacity-25" />
-                      <span className="font-mono text-[13px] text-emerald-300 z-10 flex items-center gap-2">
-                        <Compass className="size-4 text-emerald-400" />
-                        Asia-Pacific 44 Economies
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Visual mock 2: Moran's I gauge */}
-                <Card className="bg-slate-900/80 border-white/10 hover:border-cyan-500/30 transition-all">
-                  <CardHeader className="p-5 pb-2 flex flex-row items-center justify-between space-y-0">
-                    <CardTitle className="text-[13px] font-semibold text-slate-200">Spatial Autocorrelation</CardTitle>
-                    <span className="font-mono text-xs font-bold text-cyan-400">Moran's I 2024</span>
-                  </CardHeader>
-                  <CardContent className="p-5 pt-0">
-                    <Gauge
-                      value={0.729}
-                      min={-0.2}
-                      max={1.0}
-                      warning={0.3}
-                      critical={0.6}
-                      className="max-w-[170px] mx-auto mt-2"
-                    />
-                  </CardContent>
-                </Card>
-
-                {/* Visual mock 3: LeSage-Pace multiplier */}
-                <Card className="bg-slate-900/80 border-white/10 hover:border-purple-500/30 transition-all">
-                  <CardHeader className="p-5 pb-3 flex flex-row items-center justify-between space-y-0">
-                    <CardTitle className="text-[13px] font-semibold text-slate-200">LeSage–Pace Spillover Effect</CardTitle>
-                    <span className="font-mono text-xs font-bold text-purple-400">N₂O Fertilizer</span>
-                  </CardHeader>
-                  <CardContent className="p-5 pt-0 space-y-3">
-                    <div>
-                      <div className="flex justify-between text-[11px] text-slate-400 font-mono">
-                        <span>Indirect Spillover</span>
-                        <span className="text-cyan-400 font-bold">+1.1046 (2.20×)</span>
-                      </div>
-                      <div className="h-2 w-full rounded-full bg-slate-800 mt-1">
-                        <div className="h-full bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.6)]" style={{ width: "69%" }} />
-                      </div>
-                    </div>
-                    <div>
-                      <div className="flex justify-between text-[11px] text-slate-400 font-mono">
-                        <span>Domestic Effect</span>
-                        <span className="text-slate-200">+0.5011</span>
-                      </div>
-                      <div className="h-2 w-full rounded-full bg-slate-800 mt-1">
-                        <div className="h-full bg-slate-400 rounded-full" style={{ width: "31%" }} />
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            <BorderBeam size={280} duration={14} borderWidth={1.5} colorFrom="#10b981" colorTo="#06b6d4" />
+          <figure className="grain-hero-visual">
+            <Globe config={globeConfig} reducedMotion={reduced} />
+            <figcaption><span className="grain-status-dot" />44 Asia-Pacific economies · 10 ASEAN members<span className="grain-hero-hint">Drag to explore the globe</span></figcaption>
           </figure>
+        </section>
 
-          {/* Floating Inspection Case Tag */}
-          <div className="lp-near pointer-events-none absolute -top-10 right-[3%] z-20 hidden lg:block" aria-hidden="true">
-            <div className="lp-cord mx-auto h-[80px] w-[2px] bg-gradient-to-b from-emerald-500/20 to-emerald-500/60" />
-            <div className="lp-tag -mt-1" style={{ ["--w" as string]: "200px" }}>
-              <div className="lp-tag-band is-emerald">Econometric Audit</div>
-              <span className="lp-tag-hole" />
-              <div className="lp-tag-body">
-                <div className="lp-tag-name">Indonesia</div>
-                <div className="lp-tag-line">Land Conversion Frontier</div>
-                <div className="lp-tag-sign">
-                  <span className="lp-stamp red">12.57% Global Share</span>
-                  <span className="lp-stamp cyan">Spatial Epicenter</span>
-                </div>
-              </div>
+        <nav className="grain-module-strip" aria-label="Explore analytical modules">
+          {MODULES.map(({ path, label, detail, icon: Icon }) => <Link key={path} to={path} className="grain-module">
+            <span className="grain-module-symbol"><Icon size={29} strokeWidth={1.45} /></span>
+            <span className="grain-module-name">{label}</span><span className="grain-module-detail">{detail}</span>
+          </Link>)}
+        </nav>
+
+        <section id="problem" className="grain-section grain-problem">
+          <div className="grain-section-heading">
+            <h2>The emission paradox.<br /><span>A regional problem.</span></h2>
+            <p>Conventional climate research treats sovereign nations as independent spatial units. Yet when one nation enacts deforestation moratoria or rationalizes fertilizer subsidies, agribusiness supply chains displace activity across contiguous regional borders.</p>
+          </div>
+          <div className="grain-problem-feature">
+            <div className="grain-paradox-comparison">
+              <div><strong>{FACTS.globalLUCShare}</strong><span>Global land-use emissions</span><div className="grain-comparison-track"><i style={{ width: "100%" }} /></div></div>
+              <div><strong>{FACTS.globalGHGShare}</strong><span>Total global greenhouse gases</span><div className="grain-comparison-track"><i style={{ width: "32.66%" }} /></div></div>
+              <p>ASEAN's share of global emissions</p>
+            </div>
+            <div className="grain-problem-insight">
+              <h3>Local intensity doesn't tell the whole story.</h3>
+              <p>The Spearman rank correlation between per capita emissions and global emission share is virtually zero (<strong>{FACTS.spearman}</strong>). Key planetary climate anchors are not the highest per-capita emitters, but regional land-conversion epicenters.</p>
+              <Link to="/spasial" className="grain-text-link">Examine the spatial evidence <ChevronRight size={16} /></Link>
             </div>
           </div>
-        </div>
-      </section>
+          <div className="grain-stat-ledger">
+            <StatTile icon={<Compass size={19} strokeWidth={1.7} />} label="Data scope" value={FACTS.countries} unit="Nations" subtext="Asia-Pacific 1961–2024" badge="Balanced Panel" tone="default" />
+            <StatTile icon={<Database size={19} strokeWidth={1.7} />} label="Observations" value={FACTS.observations} subtext="64 Consecutive Years" badge="Zero Missing" tone="default" />
+            <StatTile icon={<Layers size={19} strokeWidth={1.7} />} label="ASEAN LUC share" value={FACTS.globalLUCShare} subtext="Of global land-use emissions" badge="Asymmetry" tone="crimson" />
+            <StatTile icon={<Network size={19} strokeWidth={1.7} />} label="Moran's I (2024)" value={FACTS.moran2024} subtext="Up from +0.255 (1961)" badge="p < 0.001" tone="cyan" />
+            <StatTile icon={<ArrowRight size={19} strokeWidth={1.7} />} label="N₂O spillover ratio" value={FACTS.spilloverRatio} subtext="Indirect vs. domestic effect" badge="SDM Model" tone="violet" />
+          </div>
+        </section>
 
-      {/* LEDGER SECTION: 5 KEY EMPIRICAL STATS */}
-      <section id="problem" className="relative mx-auto max-w-[1320px] px-4 py-20 sm:px-8 border-t border-white/10">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:items-center">
+        <WhyGrainSection />
+        <TriageCanvas />
+        <EvidenceWall />
+        <WorkflowRail />
+        <InstrumentShowcase />
+
+        <section className="grain-section grain-final">
           <div>
-            <div className="flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-wider text-emerald-400">
-              <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Emission Paradox & Carbon Leakage</span>
-            </div>
-            <h2 className="mt-3 text-[clamp(2rem,3.6vw,3.2rem)] font-extrabold tracking-tight text-white leading-tight">
-              Traditional Regressions Fail. Domestic Policies Displace Carbon to Neighbors.
-            </h2>
+            <h2>From evidence.<br /><span>To coordinated action.</span></h2>
+            <p>Explore interactive cartography, verify spatial econometric models, run regional policy simulations, and inspect 10-year horizon methane forecasts.</p>
+            <div className="grain-hero-actions"><Link to="/clustering" className="grain-button">Open the workspace <ArrowRight size={17} /></Link><Link to="/metodologi" className="grain-text-link">Read the methodology <ChevronRight size={17} /></Link></div>
           </div>
-          <div className="space-y-4 text-[15.5px] leading-relaxed text-slate-300">
-            <p>
-              Conventional climate research treats sovereign nations as independent spatial units. Yet when one nation enacts deforestation moratoria or rationalizes fertilizer subsidies, agribusiness supply chains displace activity across contiguous regional borders.
-            </p>
-            <p>
-              The empirical evidence is definitive: the Spearman rank correlation between per capita emissions and global emission share is virtually zero (<strong>0.008</strong>). Key planetary climate anchors are not the highest per-capita emitters, but regional land-conversion epicenters.
-            </p>
-          </div>
-        </div>
-
-        {/* 5 Empirical Stat Tiles */}
-        <div className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <StatTile
-            label="Data Scope"
-            value={FACTS.countries}
-            unit="Nations"
-            subtext="Asia-Pacific 1961–2024"
-            badge="Balanced Panel"
-            tone="default"
-          />
-          <StatTile
-            label="Observations"
-            value={FACTS.observations}
-            subtext="64 Consecutive Years"
-            badge="Zero Missing"
-            tone="emerald"
-          />
-          <StatTile
-            label="ASEAN LUC Share"
-            value={FACTS.globalLUCShare}
-            subtext="Of global land-use emissions"
-            badge="Asymmetry"
-            tone="crimson"
-          />
-          <StatTile
-            label="Moran's I (2024)"
-            value={FACTS.moran2024}
-            subtext="Up from +0.255 (1961)"
-            badge="p < 0.001"
-            tone="cyan"
-          />
-          <StatTile
-            label="N₂O Spillover Ratio"
-            value={FACTS.spilloverRatio}
-            subtext="Indirect vs. domestic effect"
-            badge="SDM Model"
-            tone="amber"
-          />
-        </div>
-      </section>
-
-      {/* WHY GRAIN: PARADOX & SPATIAL IMPERATIVE */}
-      <WhyGrainSection />
-
-      {/* 44-COUNTRY SCROLL-PINNED CANVAS SIMULATION */}
-      <TriageCanvas />
-
-      {/* 3D-TILTED EVIDENCE CONVEYOR BELT */}
-      <EvidenceWall />
-
-      {/* HORIZONTAL WORKFLOW RAIL (6 ANALYTICAL MODULES) */}
-      <WorkflowRail />
-
-      {/* LIVE INSTRUMENTS PREVIEW */}
-      <InstrumentShowcase />
-
-      {/* RESEARCH STAMP & FINAL WORKSPACE ENTRY CTA */}
-      <section className="relative overflow-hidden border-t border-white/10 py-28 bg-gradient-to-b from-transparent to-slate-950/80">
-        <div className="mx-auto flex max-w-[1320px] flex-col items-start gap-12 px-4 sm:px-8 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-[700px]">
-            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 font-mono text-[11px] font-bold text-emerald-300 uppercase tracking-wider">
-              Empirically Verified · Open Access
-            </span>
-            <h2 className="mt-4 text-[clamp(2.2rem,4.4vw,3.8rem)] font-extrabold tracking-tight leading-tight text-white">
-              Step into the GRAIN Control Room.
-            </h2>
-            <p className="mt-4 text-[16.5px] leading-relaxed text-slate-300">
-              Explore interactive cartography, verify spatial econometric models, run regional policy simulations, and inspect 10-year horizon methane forecasts.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <a
-                href={WORKSPACE_URL}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-emerald-500 px-8 text-[16px] font-bold text-slate-950 no-underline shadow-[0_0_35px_rgba(16,185,129,0.5)] transition-all hover:bg-emerald-400 hover:scale-[1.03] active:scale-[0.98] whitespace-nowrap"
-              >
-                Launch Prototype Now
-                <ArrowRight className="size-5" />
-              </a>
-              <a
-                href="/metodologi"
-                className="inline-flex h-12 items-center rounded-xl border border-white/15 bg-slate-900/60 px-6 text-[15px] font-semibold text-slate-300 no-underline hover:border-emerald-500/40 hover:text-white transition-all whitespace-nowrap"
-              >
-                Read Methodology Documentation
-              </a>
-            </div>
-          </div>
-
-          {/* Research Credential Stamp */}
-          <Card className="p-6 shadow-2xl backdrop-blur-xl rotate-1 self-center lg:self-auto max-w-[340px] border-emerald-500/40 bg-slate-900/90 hover:rotate-0 transition-transform duration-300">
-            <CardHeader className="p-0 pb-3 border-b border-white/10 flex flex-row items-center justify-between space-y-0">
-              <span className="font-mono text-[11px] font-semibold uppercase text-emerald-400">
-                Model Verification
-              </span>
-              <FileCheck className="size-4 text-emerald-400" />
-            </CardHeader>
-            <CardContent className="p-0 pt-4 space-y-2.5 text-[12.5px]">
-              <div className="flex justify-between text-slate-300">
-                <span>Specification:</span>
-                <span className="font-mono text-white font-semibold">SDM Time-FE</span>
-              </div>
-              <div className="flex justify-between text-slate-300">
-                <span>AIC Criterion:</span>
-                <span className="font-mono text-emerald-400 font-bold">{FACTS.sdmAic}</span>
-              </div>
-              <div className="flex justify-between text-slate-300">
-                <span>Spatial Matrix:</span>
-                <span className="font-mono text-white">k-NN (k=4)</span>
-              </div>
-              <div className="flex justify-between text-slate-300">
-                <span>Forecast Validation:</span>
-                <span className="font-mono text-white">2,904-Fold CV</span>
-              </div>
-            </CardContent>
-            <CardFooter className="p-0 pt-4 border-t border-white/10 flex items-center justify-between font-mono text-[11px] text-slate-400">
-              <span>GRAIN · TEAM IRIS</span>
-              <span className="text-emerald-400 font-bold">VERIFIED</span>
-            </CardFooter>
-          </Card>
-        </div>
-      </section>
-
-      {/* GRAND FINALE: CINEMATIC CURTAIN REVEAL FOOTER */}
+          <aside className="grain-research-note" aria-label="Model verification">
+            <FileCheck size={28} strokeWidth={1.5} />
+            <h3>Built on empirical evidence.</h3>
+            <dl><div><dt>Specification</dt><dd>SDM Time-FE</dd></div><div><dt>AIC criterion</dt><dd>{FACTS.sdmAic}</dd></div><div><dt>Spatial matrix</dt><dd>k-NN (k=4)</dd></div><div><dt>Forecast validation</dt><dd>2,904-fold CV</dd></div></dl>
+            <p>GRAIN · TEAM IRIS</p>
+          </aside>
+        </section>
+      </main>
       <CinematicFooter />
     </div>
   );
 }
-
 export default LandingPage;

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { MeshBackdrop } from './components/MeshBackdrop';
 import { Shell } from './components/shell/Shell';
 import { LandingPage } from './landing/LandingPage';
-import { ClusteringPage } from './pages/ClusteringPage';
-import { SpatialEconometricsPage } from './pages/SpatialEconometricsPage';
-import { PolicySimulatorPage } from './pages/PolicySimulatorPage';
-import { ForecastingPage } from './pages/ForecastingPage';
-import { MethodologyPage } from './pages/MethodologyPage';
 import { CommandPalette, type CommandItem } from './components/ui/command-palette';
 import { COUNTRIES_44, CLUSTER_NAMES } from './landing/facts';
 import { useNavigate } from 'react-router-dom';
 import { BookOpen, Compass, Home, Layers, MapPin, Network, Sliders, TrendingUp } from 'lucide-react';
+
+const ClusteringPage = React.lazy(() => import('./pages/ClusteringPage').then(module => ({ default: module.ClusteringPage })));
+const SpatialEconometricsPage = React.lazy(() => import('./pages/SpatialEconometricsPage').then(module => ({ default: module.SpatialEconometricsPage })));
+const PolicySimulatorPage = React.lazy(() => import('./pages/PolicySimulatorPage').then(module => ({ default: module.PolicySimulatorPage })));
+const ForecastingPage = React.lazy(() => import('./pages/ForecastingPage').then(module => ({ default: module.ForecastingPage })));
+const MethodologyPage = React.lazy(() => import('./pages/MethodologyPage').then(module => ({ default: module.MethodologyPage })));
+
+function AnalysisLoading() {
+  return <div role="status" className="px-8 py-16 text-sm text-neutral-600">Opening the analysis…</div>;
+}
 
 function LandingWithCommandPalette() {
   const [cmdOpen, setCmdOpen] = useState(false);
@@ -89,6 +93,11 @@ function LandingWithCommandPalette() {
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const target = e.target as HTMLElement;
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCmdOpen(open => !open);
+        return;
+      }
       if (
         target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA" ||
@@ -125,8 +134,6 @@ function LandingWithCommandPalette() {
 
   return (
     <>
-      {/* WebGL Organic Noise Backdrop for Landing */}
-      <MeshBackdrop />
       <LandingPage onOpenCommandPalette={() => setCmdOpen(true)} />
       <CommandPalette
         open={cmdOpen}
@@ -149,7 +156,7 @@ export const App: React.FC = () => {
           path="/clustering"
           element={
             <Shell>
-              <ClusteringPage />
+              <React.Suspense fallback={<AnalysisLoading />}><ClusteringPage /></React.Suspense>
             </Shell>
           }
         />
@@ -157,7 +164,7 @@ export const App: React.FC = () => {
           path="/spasial"
           element={
             <Shell>
-              <SpatialEconometricsPage />
+              <React.Suspense fallback={<AnalysisLoading />}><SpatialEconometricsPage /></React.Suspense>
             </Shell>
           }
         />
@@ -165,7 +172,7 @@ export const App: React.FC = () => {
           path="/simulator"
           element={
             <Shell>
-              <PolicySimulatorPage />
+              <React.Suspense fallback={<AnalysisLoading />}><PolicySimulatorPage /></React.Suspense>
             </Shell>
           }
         />
@@ -173,7 +180,7 @@ export const App: React.FC = () => {
           path="/forecasting"
           element={
             <Shell>
-              <ForecastingPage />
+              <React.Suspense fallback={<AnalysisLoading />}><ForecastingPage /></React.Suspense>
             </Shell>
           }
         />
@@ -181,7 +188,7 @@ export const App: React.FC = () => {
           path="/metodologi"
           element={
             <Shell>
-              <MethodologyPage />
+              <React.Suspense fallback={<AnalysisLoading />}><MethodologyPage /></React.Suspense>
             </Shell>
           }
         />

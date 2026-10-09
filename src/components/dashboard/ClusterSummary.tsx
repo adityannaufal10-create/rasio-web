@@ -1,7 +1,7 @@
 import React from 'react';
 import { ClusterProfile } from '../../types/data';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
-import { AlertTriangle, CheckCircle, ShieldAlert, Sparkles, TrendingUp, Layers } from 'lucide-react';
+import { Leaf, Users, Factory, Beef, Fuel } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ClusterSummaryProps {
@@ -15,17 +15,18 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
   selectedClusterId,
   onSelectCluster,
 }) => {
+  const icons = { 0: Factory, 1: Beef, 2: Leaf, 3: Fuel, 4: Users };
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div>
-          <h3 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
+          <h3 className="text-lg font-bold text-neutral-950 tracking-tight flex items-center gap-2">
             <span>5 Agrifood System Typology Clusters</span>
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-mono font-bold">
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-grain-mist text-neutral-800 border border-black/10 font-mono font-bold">
               Silhouette 0.5336 · ARI 0.973
             </span>
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-neutral-600 mt-0.5">
             Optimal configuration identified across 864 grid search specifications (SNAPSHOT · Standard · PCA2 · KMeans · k=5).
           </p>
         </div>
@@ -33,7 +34,7 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
         {selectedClusterId !== null && (
           <button
             onClick={() => onSelectCluster(null)}
-            className="text-xs px-3 py-1.5 rounded-xl bg-slate-800/80 text-slate-300 hover:text-white border border-slate-700/80 transition-all hover:bg-slate-700/80 w-fit"
+            className="text-xs px-3 py-1.5 rounded-xl bg-neutral-100/80 text-neutral-700 hover:text-neutral-950 border border-neutral-300/80 transition-all hover:bg-neutral-200/80 w-fit"
           >
             Reset Cluster Filter
           </button>
@@ -44,58 +45,56 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
         {profiles.map((profile) => {
           const isSelected = selectedClusterId === profile.id;
           const isFrontier = profile.id === 2;
+          const Icon = icons[profile.id] || Leaf;
 
           return (
             <Card
               key={profile.id}
+              role="button"
+              tabIndex={0}
+              aria-pressed={isSelected}
+              aria-label={"Filter " + profile.nama}
+              onKeyDown={event => {
+                if (event.key === "Enter" || event.key === " ") { event.preventDefault(); onSelectCluster(isSelected ? null : profile.id); }
+              }}
               onClick={() => onSelectCluster(isSelected ? null : profile.id)}
               className={cn(
-                "group cursor-pointer transition-all duration-300 hover:-translate-y-1 relative overflow-hidden",
+                "grain-feature-card group cursor-pointer transition-colors duration-200 relative overflow-hidden",
                 isSelected
-                  ? "border-emerald-500/80 bg-slate-900/90 shadow-2xl shadow-emerald-950/30 ring-1 ring-emerald-500/50"
-                  : "hover:border-slate-700 hover:bg-slate-900/80",
-                isFrontier && !isSelected && "border-red-500/30 shadow-red-950/10"
+                  ? "border-black/10 bg-surface/90 shadow-sm shadow-black/5 ring-1 ring-black/5"
+                  : "hover:border-neutral-300 hover:bg-surface/80",
+                isFrontier && !isSelected && "border-black/10"
               )}
             >
-              {/* Top ambient color strip */}
-              <div
-                className="h-1 w-full"
-                style={{ backgroundColor: profile.color }}
-              />
-
-              <CardHeader className="p-5 pb-3">
+              <CardHeader className="p-6 pb-3">
+                <div className="mb-4 flex size-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-800"><Icon size={20} strokeWidth={1.7} /></div>
                 <div className="flex items-start justify-between gap-2">
                   <span
-                    className="inline-block text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"
-                    style={{
-                      backgroundColor: `${profile.color}15`,
-                      color: profile.color,
-                      border: `1px solid ${profile.color}40`,
-                    }}
+                    className="inline-block text-[10px] font-medium text-neutral-600"
                   >
                     {profile.badge}
                   </span>
-                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg bg-slate-800/80 text-slate-300 border border-slate-700/60">
+                  <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-lg bg-neutral-100/80 text-neutral-700 border border-neutral-300/60">
                     {profile.n_negara} economies
                   </span>
                 </div>
 
-                <CardTitle className="text-[15px] font-bold text-white group-hover:text-emerald-300 transition-colors mt-2">
+                <CardTitle className="text-lg font-medium text-neutral-950 mt-2">
                   {profile.nama}
                 </CardTitle>
-                <p className="text-[12px] text-slate-400 leading-relaxed line-clamp-3">
+                <p className="text-[14px] text-neutral-600 leading-relaxed">
                   {profile.karakteristik}
                 </p>
               </CardHeader>
 
-              <CardContent className="p-5 pt-0 space-y-3">
+              <CardContent className="p-6 pt-0 space-y-3">
                 {/* ASEAN Members */}
-                <div className="pt-3 border-t border-white/5">
+                <div className="pt-3 border-t border-black/5">
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-[11px] font-semibold text-slate-300">
+                    <span className="text-[11px] font-semibold text-neutral-700">
                       ASEAN Members:
                     </span>
-                    <span className="text-[10.5px] font-mono text-slate-400">
+                    <span className="text-[10.5px] font-mono text-neutral-600">
                       {profile.asean_members.length} Economies
                     </span>
                   </div>
@@ -108,8 +107,8 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
                           className={cn(
                             "text-[10px] px-2 py-0.5 rounded-md font-semibold tracking-tight transition-colors",
                             isFrontier
-                              ? "bg-red-500/15 text-red-300 border border-red-500/30"
-                              : "bg-slate-800/80 text-slate-300 border border-white/5"
+                              ? "bg-red-500/15 text-red-700 border border-red-500/30"
+                              : "bg-neutral-100/80 text-neutral-700 border border-black/5"
                           )}
                         >
                           {m}
@@ -117,7 +116,7 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
                       ))}
                     </div>
                   ) : (
-                    <span className="text-[11px] text-slate-500 italic block">
+                    <span className="text-[11px] text-neutral-500 italic block">
                       No ASEAN member economies
                     </span>
                   )}
@@ -125,18 +124,18 @@ export const ClusterSummary: React.FC<ClusterSummaryProps> = ({
 
                 {/* Metrics Grid */}
                 <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
-                  <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-                    <span className="text-slate-500 text-[10.5px]">Mean Land CO₂:</span>
-                    <span className="font-mono font-bold text-red-400 text-[13px] mt-0.5">
+                  <div className="bg-neutral-100/60 p-2.5 rounded-xl border border-black/5 flex flex-col justify-between">
+                    <span className="text-neutral-500 text-[10.5px]">Mean Land CO₂:</span>
+                    <span className="font-mono font-bold text-red-700 text-[13px] mt-0.5">
                       {profile.avg_luc_pc.toFixed(2)}{" "}
-                      <span className="text-[10px] font-sans font-normal text-slate-400">t/cap</span>
+                      <span className="text-[10px] font-sans font-normal text-neutral-600">t/cap</span>
                     </span>
                   </div>
-                  <div className="bg-slate-950/60 p-2.5 rounded-xl border border-white/5 flex flex-col justify-between">
-                    <span className="text-slate-500 text-[10.5px]">Mean CH₄:</span>
-                    <span className="font-mono font-bold text-cyan-400 text-[13px] mt-0.5">
+                  <div className="bg-neutral-100/60 p-2.5 rounded-xl border border-black/5 flex flex-col justify-between">
+                    <span className="text-neutral-500 text-[10.5px]">Mean CH₄:</span>
+                    <span className="font-mono font-bold text-neutral-800 text-[13px] mt-0.5">
                       {profile.avg_ch4_pc.toFixed(2)}{" "}
-                      <span className="text-[10px] font-sans font-normal text-slate-400">t/cap</span>
+                      <span className="text-[10px] font-sans font-normal text-neutral-600">t/cap</span>
                     </span>
                   </div>
                 </div>

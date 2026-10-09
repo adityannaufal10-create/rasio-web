@@ -3,6 +3,7 @@ import { ArrowRight, Globe, Layers, Network, Waves } from "lucide-react";
 import { CLUSTER_COLORS, CLUSTER_NAMES, COUNTRIES_44, CountryDot, FACTS } from "./facts";
 import { clamp, easeInOut, easeOut, seg, useReducedMotion, useScrollProgress } from "./motion";
 import { cn } from "@/lib/utils";
+import { useTheme } from "@/components/ThemeProvider";
 
 const PHASES = [
   {
@@ -40,6 +41,7 @@ const PHASES = [
 ] as const;
 
 export default function TriageCanvas() {
+  const { isDark } = useTheme();
   const reduced = useReducedMotion();
   const section = useRef<HTMLElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -47,6 +49,14 @@ export default function TriageCanvas() {
   const size = useRef({ w: 0, h: 0, dpr: 1 });
   const pRef = useRef(reduced ? 1 : 0);
   const [phaseIdx, setPhaseIdx] = useState(0);
+  const [compact, setCompact] = useState(() => matchMedia("(max-width: 767px), (max-height: 699px)").matches);
+  const pinned = !reduced && !compact;
+  useEffect(() => {
+    const query = matchMedia("(max-width: 767px), (max-height: 699px)");
+    const update = () => setCompact(query.matches);
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+  }, []);
 
   // Cluster center target coordinates relative to canvas width/height
   const getClusterTarget = (cluster: number, w: number, h: number) => {
@@ -181,7 +191,7 @@ export default function TriageCanvas() {
     // Draw Country Dots
     positions.forEach(({ x, y, c: country }) => {
       // Color transition from neutral slate to cluster color
-      const baseCol = country.isAsean ? "#cbd5e1" : "#64748b";
+      const baseCol = country.isAsean ? "#52637a" : "#9a9aa2";
       const clusterCol = CLUSTER_COLORS[country.cluster] || "#3b82f6";
 
       // Radius
@@ -208,7 +218,7 @@ export default function TriageCanvas() {
 
       // Outer ring for ASEAN-10
       if (country.isAsean) {
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.strokeStyle = isDark ? "rgba(245, 245, 247, 0.7)" : "rgba(29, 29, 31, 0.5)";
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
@@ -218,7 +228,7 @@ export default function TriageCanvas() {
       // Labels for key countries when clustered
       if (f1 > 0.4 && (country.isAsean || country.highlight)) {
         ctx.shadowBlur = 0;
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = isDark ? "#f5f5f7" : "#1d1d1f";
         ctx.font = `${country.name === "Indonesia" ? "700 13px" : "600 11px"} "Plus Jakarta Sans", sans-serif`;
         ctx.fillText(country.name, x + radius + 6, y + 4);
       }
@@ -227,7 +237,7 @@ export default function TriageCanvas() {
     // Reset shadow
     ctx.shadowBlur = 0;
     ctx.globalAlpha = 1;
-  }, []);
+  }, [isDark]);
 
   useEffect(() => {
     const el = stage.current;
@@ -246,10 +256,10 @@ export default function TriageCanvas() {
   }, [draw]);
 
   useEffect(() => {
-    if (reduced) draw(1);
+    if (reduced) draw(pRef.current);
   }, [reduced, draw]);
 
-  useScrollProgress(section, draw, "pin", !reduced);
+  useScrollProgress(section, draw, "pin", pinned);
 
   const curPhase = PHASES[phaseIdx];
   const Icon = curPhase.icon;
@@ -259,30 +269,30 @@ export default function TriageCanvas() {
       id="triage"
       ref={section}
       aria-label="44-Economy Spatial Dynamics Simulation"
-      className="relative border-t border-white/10"
-      style={{ height: reduced ? "auto" : "420vh" }}
+      className="grain-triage relative border-t border-black/10"
+      style={{ height: pinned ? "420vh" : "auto" }}
     >
       {/* Sticky container that stays pinned while user scrolls through 420vh */}
-      <div className="sticky top-0 flex h-[100svh] flex-col justify-between overflow-hidden px-4 py-8 sm:px-8">
+      <div className={cn("grain-triage-stage flex flex-col justify-between px-4 py-6 sm:px-8", pinned ? "sticky top-16 h-[calc(100svh-4rem)] overflow-hidden" : "relative")}>
         {/* Top HUD Header */}
-        <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between border-b border-white/10 pb-4 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-[1320px] items-center justify-between border-b border-black/10 pb-4 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <span className="flex size-2.5 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.8)] animate-pulse" />
-            <span className="font-mono text-[12px] font-semibold uppercase tracking-wider text-emerald-400">
+            <span className="flex size-2.5 rounded-full bg-emerald-400 shadow-sm " />
+            <span className="font-mono text-[12px] font-semibold uppercase tracking-wider text-neutral-800">
               Regional Spatial Dynamics Simulation · 44 Economies
             </span>
           </div>
 
           <div className="hidden items-center gap-6 sm:flex">
-            <div className="flex items-center gap-2 text-[12.5px] text-slate-400">
+            <div className="flex items-center gap-2 text-[12.5px] text-neutral-600">
               <span className="size-2 rounded-full bg-red-500" />
               <span>Cluster 2 (Land Frontier: 7 ASEAN)</span>
             </div>
-            <div className="flex items-center gap-2 text-[12.5px] text-slate-400">
+            <div className="flex items-center gap-2 text-[12.5px] text-neutral-600">
               <span className="size-2 rounded-full bg-amber-500" />
               <span>Cluster 4 (High-Density Agrarian)</span>
             </div>
-            <div className="flex items-center gap-2 text-[12.5px] text-slate-400">
+            <div className="flex items-center gap-2 text-[12.5px] text-neutral-600">
               <span className="size-2 rounded-full bg-blue-500" />
               <span>Cluster 0 (Industrial)</span>
             </div>
@@ -291,19 +301,29 @@ export default function TriageCanvas() {
           {/* Phase indicator pills */}
           <div className="flex items-center gap-1.5 font-mono text-[12px]">
             {PHASES.map((p, idx) => (
-              <span
+              <button
                 key={p.step}
+                type="button"
+                aria-label={"Phase " + p.step + ": " + p.title}
+                aria-pressed={idx === phaseIdx}
+                onClick={() => {
+                  const progress = [0.1, 0.4, 0.65, 0.9][idx];
+                  if (pinned && section.current) {
+                    const bounds = section.current.getBoundingClientRect();
+                    window.scrollTo({ top: window.scrollY + bounds.top + progress * (bounds.height - window.innerHeight), behavior: "smooth" });
+                  } else draw(progress);
+                }}
                 className={cn(
-                  "grid size-6 place-items-center rounded-md font-semibold transition-all duration-300",
+                  "grid size-9 place-items-center rounded-full font-semibold transition-colors duration-200",
                   idx === phaseIdx
-                    ? "bg-emerald-500 text-slate-950 shadow-[0_0_12px_rgba(16,185,129,0.6)]"
+                    ? "bg-grain-blue text-white shadow-sm"
                     : idx < phaseIdx
-                    ? "border border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
-                    : "border border-white/10 text-slate-500",
+                    ? "border border-black/10 bg-grain-mist text-neutral-800"
+                    : "border border-black/10 text-neutral-500",
                 )}
               >
                 {p.step}
-              </span>
+              </button>
             ))}
           </div>
         </div>
@@ -314,20 +334,20 @@ export default function TriageCanvas() {
 
           {/* Floating Live Metric Card on Phase 4 */}
           {phaseIdx >= 2 && (
-            <div className="absolute right-4 top-6 hidden max-w-[280px] rounded-2xl border border-emerald-500/40 bg-slate-900/90 p-4 shadow-2xl backdrop-blur-xl animate-fade-in md:block">
-              <div className="flex items-center justify-between text-[11px] font-mono text-slate-400 uppercase">
+            <div className="absolute right-4 top-6 hidden max-w-[280px] rounded-2xl border border-black/10 bg-surface/90 p-4 shadow-sm backdrop-blur-xl animate-fade-in md:block">
+              <div className="flex items-center justify-between text-[11px] font-mono text-neutral-600 uppercase">
                 <span>SDM Spatial Coefficient</span>
-                <span className="text-emerald-400 font-bold">p &lt; 0.001</span>
+                <span className="text-neutral-800 font-bold">p &lt; 0.001</span>
               </div>
               <div className="mt-2 flex items-baseline gap-2">
-                <span className="text-[28px] font-mono font-bold text-white tabular-nums">
+                <span className="text-[28px] font-mono font-bold text-neutral-950 tabular-nums">
                   {phaseIdx === 2 ? FACTS.moran2024 : FACTS.spilloverRatio}
                 </span>
-                <span className="text-[12px] font-semibold text-emerald-400">
+                <span className="text-[12px] font-semibold text-neutral-800">
                   {phaseIdx === 2 ? "Moran's I (2024)" : "Indirect Spillover"}
                 </span>
               </div>
-              <p className="mt-2 text-[12px] leading-relaxed text-slate-300">
+              <p className="mt-2 text-[12px] leading-relaxed text-neutral-700">
                 {phaseIdx === 2
                   ? "Agrifood emissions exhibit powerful spatial clustering across Southeast Asia."
                   : "N₂O fertilizer spills 2.20× greater impact into neighboring economies."}
@@ -338,28 +358,28 @@ export default function TriageCanvas() {
 
         {/* Bottom Narrative Banner */}
         <div className="mx-auto w-full max-w-[1320px]">
-          <div className="rounded-2xl border border-white/10 bg-slate-900/85 p-6 shadow-2xl backdrop-blur-xl">
+          <div className="rounded-2xl border border-black/10 bg-surface/85 p-6 shadow-sm backdrop-blur-xl">
             <div className="grid gap-6 md:grid-cols-[auto_1fr_auto] md:items-center">
-              <div className="grid size-12 place-items-center rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400">
+              <div className="grid size-12 place-items-center rounded-xl border border-black/10 bg-grain-mist text-neutral-800">
                 <Icon className="size-6" />
               </div>
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-emerald-300">
+                  <span className="rounded-full border border-black/10 bg-grain-mist px-2.5 py-0.5 font-mono text-[11px] font-semibold uppercase text-neutral-800">
                     Phase {curPhase.step} of 4 · {curPhase.badge}
                   </span>
-                  <h3 className="text-[19px] font-bold text-white tracking-tight">{curPhase.title}</h3>
+                  <h3 className="text-[19px] font-bold text-neutral-950 tracking-tight">{curPhase.title}</h3>
                 </div>
-                <p className="mt-1 text-[13px] font-medium text-emerald-400">{curPhase.subtitle}</p>
-                <p className="mt-2 text-[14px] leading-relaxed text-slate-300">{curPhase.desc}</p>
+                <p className="mt-1 text-[13px] font-medium text-neutral-800">{curPhase.subtitle}</p>
+                <p className="mt-2 text-[14px] leading-relaxed text-neutral-700">{curPhase.desc}</p>
               </div>
 
               <div className="hidden flex-col items-end gap-1.5 lg:flex">
-                <span className="font-mono text-[11px] uppercase tracking-wider text-slate-400">
+                <span className="font-mono text-[11px] uppercase tracking-wider text-neutral-600">
                   Scroll to advance
                 </span>
-                <span className="flex items-center gap-1 text-[13px] font-semibold text-emerald-400">
+                <span className="flex items-center gap-1 text-[13px] font-semibold text-neutral-800">
                   {phaseIdx === 3 ? "Proceed to Evidence Wall" : `Advance to Phase ${phaseIdx + 2}`}
                   <ArrowRight className="size-4" />
                 </span>

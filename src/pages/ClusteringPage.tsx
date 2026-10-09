@@ -105,35 +105,35 @@ export const ClusteringPage: React.FC = () => {
   return (
     <div className="space-y-10 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header Banner */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-black/10">
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-400 border border-red-500/30 uppercase tracking-wider">
+            <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-red-500/10 text-red-700 border border-red-500/30 uppercase tracking-wider">
               Regional Spatial Typology
             </span>
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-neutral-600 font-mono">
               44 Asia-Pacific Economies · 2015–2024 Snapshot
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-            <MapPin className="size-6 text-emerald-400" />
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight flex items-center gap-2.5">
+            <MapPin className="size-6 text-neutral-800" />
             <span>Thematic Mapping & Agrifood System Clustering</span>
           </h1>
-          <p className="text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
+          <p className="text-sm text-neutral-600 mt-1 max-w-3xl leading-relaxed">
             Classifying 44 economies across 4 agrifood emission dimensions (land-use CO₂, methane, fertilizer N₂O, and energy CO₂) using K-Means (k=5) and PCA dimensionality reduction.
           </p>
         </div>
 
         {selectedCountry && (
-          <Card className="p-3.5 bg-slate-900/90 border-emerald-500/50 shadow-emerald-950/30 flex items-center gap-3.5 shrink-0">
+          <Card className="p-3.5 bg-surface/90 border-black/10 shadow-black/5 flex items-center gap-3.5 shrink-0">
             <div>
-              <span className="text-[10px] text-slate-400 uppercase font-mono block">Selected Economy:</span>
-              <strong className="text-base text-white">{selectedCountry.country}</strong>
-              <span className="text-xs text-emerald-400 block font-semibold">{selectedCountry.nama_klaster}</span>
+              <span className="text-[10px] text-neutral-600 uppercase font-mono block">Selected Economy:</span>
+              <strong className="text-base text-neutral-950">{selectedCountry.country}</strong>
+              <span className="text-xs text-neutral-800 block font-semibold">{selectedCountry.nama_klaster}</span>
             </div>
             <button
               onClick={() => setSelectedCountry(null)}
-              className="p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors"
+              className="p-1.5 rounded-lg bg-neutral-100 text-neutral-600 hover:text-neutral-950 transition-colors"
               aria-label="Clear economy selection"
             >
               <X className="size-4" />
@@ -175,7 +175,7 @@ export const ClusteringPage: React.FC = () => {
       <section>
         <ScientificFigureViewer
           title="Research Methodology Vector Audit Gallery"
-          subtitle="Original vector scientific figures rendered directly with seamless obsidian canvas integration and high-fidelity paper inspection mode."
+          subtitle="Original scientific SVGs with adaptive light and dark canvases, fullscreen inspection, zoom, and vector download."
           figures={CLUSTERING_FIGURES}
           defaultTabId="sebar"
         />

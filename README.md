@@ -8,7 +8,7 @@
 
 ## 🚀 Fitur Utama
 1. **Beranda Interaktif (Scroll Storytelling):** Narasi 4 babak ketimpangan regional, emisi alih guna lahan (LUC), dan ketergantungan spasial.
-2. **Peta Spasial & 5 Klaster Pangan (`/clustering`):** Peta tematik Leaflet Esri Dark Gray dengan 4 layer (Klaster, LISA Hotspot 2024, LUC, CH4), profil klaster, dan tabel audit 44 negara.
+2. **Peta Spasial & 5 Klaster Pangan (`/clustering`):** Peta tematik Leaflet Esri Gray yang mengikuti tema terang/gelap dengan 4 layer (Klaster, LISA Hotspot 2024, LUC, CH4), profil klaster, dan tabel audit 44 negara.
 3. **Ekonometrika Spasial (`/spasial`):** Lintasan Global Moran's I 1961–2024 (+0.255 ➔ +0.729) dan dekomposisi limpahan pupuk N₂O LeSage–Pace (>2× efek domestik).
 4. **Simulator Kebijakan Limpahan (`/simulator`):** Kalkulator matematis dampak intervensi pupuk kimia, moratorium deforestasi, dan pengairan sawah padi ke tingkat kawasan.
 5. **Peramalan Metana ASEAN (`/forecasting`):** Proyeksi deret waktu 2025–2035 dengan validasi silang 2.904 fold-model walk-forward CV (Drift & ARIMA Ensemble).
@@ -45,3 +45,11 @@ http://localhost:5173
    - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
 6. Klik **Deploy** ➔ Website Anda langsung aktif di domain `.vercel.app`!
+
+## Tampilan dan pemeriksaan UI
+
+Gunakan kontrol Appearance pada navigasi untuk memilih System, Light, atau Dark. Pilihan tersimpan di perangkat. Kanvas grafik ilmiah mengikuti tema aplikasi sampai pengguna memilih Paper atau Dark secara manual.
+
+Pada mobile atau layar pendek, narasi spasial dapat dijelajahi melalui tombol fase. Tabel tetap dapat digulir horizontal di dalam panelnya. Search (Ctrl/Cmd+K), panduan shortcut, filter, simulasi, zoom, dan unduh SVG tetap tersedia.
+
+Jalankan `npm run check:ui` untuk memeriksa pengaturan animasi grafik pada kedua preferensi motion serta keberadaan aset figure. `npm run build` memeriksa TypeScript dan menghasilkan build produksi. Panduan visual berada di DESIGN.md; hasil audit browser berada di `.impeccable/review/layout-audit.json`.

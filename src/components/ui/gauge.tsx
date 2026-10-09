@@ -85,7 +85,7 @@ export function Gauge({
       <path d={arc(fc, 1, rb)} fill="none" style={{ stroke: "var(--danger)" }} strokeOpacity="0.75" strokeWidth="2.5" />
 
       {/* Background track */}
-      <path d={arc(0, 1)} fill="none" style={{ stroke: "rgba(255, 255, 255, 0.08)" }} strokeWidth="14" strokeLinecap="round" />
+      <path d={arc(0, 1)} fill="none" style={{ stroke: "var(--line)" }} strokeWidth="14" strokeLinecap="round" />
 
       {/* Value filled arc */}
       <path
@@ -105,10 +105,10 @@ export function Gauge({
         x="100"
         y="96"
         textAnchor="middle"
-        className="fill-slate-100 font-mono text-[24px] font-bold tracking-tight"
+        className="fill-neutral-900 font-mono text-[24px] font-bold tracking-tight"
       >
         {value.toFixed(precision)}
-        <tspan className="text-[12px] font-normal fill-slate-400 font-sans ml-1"> {unit}</tspan>
+        <tspan className="text-[12px] font-normal fill-neutral-600 font-sans ml-1"> {unit}</tspan>
       </text>
     </svg>
   );

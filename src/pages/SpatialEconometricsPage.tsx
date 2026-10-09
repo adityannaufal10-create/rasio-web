@@ -110,20 +110,20 @@ export const SpatialEconometricsPage: React.FC = () => {
   return (
     <div className="space-y-10 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header Banner */}
-      <div className="pb-6 border-b border-white/10">
+      <div className="pb-6 border-b border-black/10">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 uppercase tracking-wider">
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-grain-mist text-neutral-800 border border-black/10 uppercase tracking-wider">
             Advanced Spatial Econometrics
           </span>
-          <span className="text-xs text-slate-400 font-mono">
+          <span className="text-xs text-neutral-600 font-mono">
             Spatial Durbin Model (SDM) · Time-Fixed Effects
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-          <Layers className="size-6 text-cyan-400" />
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight flex items-center gap-2.5">
+          <Layers className="size-6 text-neutral-800" />
           <span>Spatial Autocorrelation & LeSage–Pace Cross-Border Spillovers</span>
         </h1>
-        <p className="text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
+        <p className="text-sm text-neutral-600 mt-1 max-w-3xl leading-relaxed">
           Assessing whether domestic land-use change (LUC) emission pressures are driven by neighboring synthetic fertilizer (N₂O), livestock/paddy (CH₄), and energy intensities.
         </p>
       </div>
@@ -142,17 +142,17 @@ export const SpatialEconometricsPage: React.FC = () => {
       {/* Row 3: SDM Coefficients Table Card */}
       <section>
         <Card className="overflow-hidden">
-          <CardHeader className="p-5 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 space-y-0">
+          <CardHeader className="p-5 border-b border-black/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 space-y-0">
             <div>
               <CardTitle className="flex items-center gap-2">
-                <CheckCircle2 className="size-5 text-emerald-400" />
+                <CheckCircle2 className="size-5 text-neutral-800" />
                 <span>Spatial Durbin Model (SDM) Parameter Estimates</span>
               </CardTitle>
               <CardDescription className="mt-1">
                 All coefficients are statistically significant at the 1% level (p &lt; 0.001) under time-fixed effects.
               </CardDescription>
             </div>
-            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 w-fit shrink-0">
+            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-grain-mist text-neutral-800 border border-black/10 w-fit shrink-0">
               Spatial ρ = +0.516
             </span>
           </CardHeader>
@@ -160,7 +160,7 @@ export const SpatialEconometricsPage: React.FC = () => {
           <CardContent className="p-0">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs font-mono min-w-[720px]">
-                <thead className="bg-slate-950/90 border-b border-white/10 text-slate-400 uppercase font-semibold text-[11px]">
+                <thead className="bg-neutral-100/90 border-b border-black/10 text-neutral-600 uppercase font-semibold text-[11px]">
                   <tr>
                     <th className="px-4 py-3 font-sans whitespace-nowrap">Predictor Variable</th>
                     <th className="px-4 py-3 font-sans whitespace-nowrap">Impact Type</th>
@@ -170,28 +170,28 @@ export const SpatialEconometricsPage: React.FC = () => {
                     <th className="px-4 py-3 font-sans whitespace-nowrap">Interpretation</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-black/5">
                   {sdmCoefs.map((c, i) => (
-                    <tr key={i} className="hover:bg-slate-800/40 text-slate-200 transition-colors">
-                      <td className="px-4 py-3 font-sans font-bold text-white">{c.variabel}</td>
+                    <tr key={i} className="hover:bg-neutral-100/40 text-neutral-800 transition-colors">
+                      <td className="px-4 py-3 font-sans font-bold text-neutral-950">{c.variabel}</td>
                       <td className="px-4 py-3 font-sans">
                         <span
                           className={cn(
                             "text-[10.5px] px-2.5 py-0.5 rounded-full font-semibold border whitespace-nowrap",
                             String(c.tipe).toLowerCase().includes('spillover') || String(c.tipe).toLowerCase().includes('limpahan')
-                              ? "bg-cyan-500/15 text-cyan-300 border-cyan-500/30"
-                              : "bg-emerald-500/15 text-emerald-300 border-emerald-500/30"
+                              ? "bg-grain-mist text-neutral-800 border-black/10"
+                              : "bg-grain-mist text-neutral-800 border-black/10"
                           )}
                         >
                           {c.tipe}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-right font-bold text-emerald-400 text-[13px]">
+                      <td className="px-4 py-3 text-right font-bold text-neutral-800 text-[13px]">
                         {c.beta > 0 ? `+${c.beta.toFixed(4)}` : c.beta.toFixed(4)}
                       </td>
                       <td className="px-4 py-3 text-right">{c.t_stat.toFixed(2)}</td>
-                      <td className="px-4 py-3 text-center text-teal-400 font-bold">{c.p_val}</td>
-                      <td className="px-4 py-3 font-sans text-slate-400 text-[11.5px] leading-snug">
+                      <td className="px-4 py-3 text-center text-neutral-800 font-bold">{c.p_val}</td>
+                      <td className="px-4 py-3 font-sans text-neutral-600 text-[11.5px] leading-snug">
                         {(String(c.variabel).includes('N₂O') || String(c.variabel).includes('N2O')) &&
                         (String(c.tipe).toLowerCase().includes('spillover') || String(c.tipe).toLowerCase().includes('limpahan'))
                           ? 'Neighboring synthetic fertilizer intensifies regional agricultural expansion'

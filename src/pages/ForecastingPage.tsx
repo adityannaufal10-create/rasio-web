@@ -93,20 +93,20 @@ export const ForecastingPage: React.FC = () => {
   return (
     <div className="space-y-10 py-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header Banner */}
-      <div className="pb-6 border-b border-white/10">
+      <div className="pb-6 border-b border-black/10">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30 uppercase tracking-wider">
+          <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-grain-mist text-neutral-800 border border-black/10 uppercase tracking-wider">
             Time-Series Cross-Validation
           </span>
-          <span className="text-xs text-slate-400 font-mono">
+          <span className="text-xs text-neutral-600 font-mono">
             2,904 Fold-Model Evaluations · Horizons h=1 to h=10
           </span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
-          <TrendingUp className="size-6 text-teal-400" />
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight flex items-center gap-2.5">
+          <TrendingUp className="size-6 text-neutral-800" />
           <span>ASEAN Agrifood System Methane Emission Pressure Forecasting</span>
         </h1>
-        <p className="text-sm text-slate-400 mt-1 max-w-3xl leading-relaxed">
+        <p className="text-sm text-neutral-600 mt-1 max-w-3xl leading-relaxed">
           Benchmarking 12 time-series specifications (Naive, Drift, Holt, ARIMA, ARIMAX, Ridge, GBDT) with leak-free walk-forward validation to project emissions through the next decade.
         </p>
       </div>

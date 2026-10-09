@@ -1,3 +1,4 @@
+import { useReducedMotion } from "@/landing/motion";
 import React, { useState } from 'react';
 import {
   ComposedChart,
@@ -23,6 +24,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
   historicalData,
   projectionData,
 }) => {
+  const reduced = useReducedMotion();
   // Filter historical data for recent decades (e.g. 1990–2024) to keep chart focused and readable
   const recentHist = historicalData
     .filter((d) => d.year >= 1990)
@@ -61,13 +63,13 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
     <div className="space-y-6">
       {/* Top Banner Card */}
       <Card>
-        <CardHeader className="p-5 sm:p-6 pb-4 border-b border-white/5 flex flex-col md:flex-row md:items-center justify-between gap-4 space-y-0">
+        <CardHeader className="p-5 sm:p-6 pb-4 border-b border-black/5 flex flex-col md:flex-row md:items-center justify-between gap-4 space-y-0">
           <div>
-            <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-teal-500/10 text-teal-400 border border-teal-500/30">
+            <span className="text-[10.5px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-grain-mist text-neutral-800 border border-black/10">
               Leak-Free Time-Series Cross-Validation
             </span>
-            <CardTitle className="text-lg sm:text-xl font-bold text-white mt-2 flex items-center gap-2">
-              <TrendingUp className="size-5 text-teal-400" />
+            <CardTitle className="text-lg sm:text-xl font-bold text-neutral-950 mt-2 flex items-center gap-2">
+              <TrendingUp className="size-5 text-neutral-800" />
               <span>ASEAN Agrifood System Methane Emission Projections (2025–2035)</span>
             </CardTitle>
             <CardDescription className="mt-1">
@@ -75,9 +77,9 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
             </CardDescription>
           </div>
 
-          <div className="bg-slate-950/80 px-4 py-3 rounded-2xl border border-white/10 text-left md:text-right shrink-0">
-            <span className="text-[10px] text-slate-400 block uppercase font-mono">Optimal Evaluation Horizon:</span>
-            <span className="text-base sm:text-lg font-black text-teal-400 font-mono tracking-tight">
+          <div className="bg-neutral-100/80 px-4 py-3 rounded-2xl border border-black/10 text-left md:text-right shrink-0">
+            <span className="text-[10px] text-neutral-600 block uppercase font-mono">Optimal Evaluation Horizon:</span>
+            <span className="text-base sm:text-lg font-black text-neutral-800 font-mono tracking-tight">
               MAPE h=1: 1.34% · h=10: 3.10%
             </span>
           </div>
@@ -88,16 +90,16 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
           <div className="h-80 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={chartData} margin={{ top: 10, right: 30, left: -10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" opacity={0.6} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--line-strong)" opacity={0.6} />
                 <XAxis dataKey="tahun" stroke="#64748b" tick={{ fontSize: 11 }} />
                 <YAxis stroke="#64748b" domain={['auto', 'auto']} tick={{ fontSize: 11 }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    backgroundColor: 'var(--surface)',
+                    borderColor: 'rgba(29,29,31,0.1)',
                     borderRadius: '12px',
                     fontSize: '12px',
-                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+                    boxShadow: '0 10px 25px -5px rgba(29,29,31,0.08)',
                   }}
                   formatter={(val: any) => [typeof val === 'number' ? val.toFixed(1) : '-', '']}
                 />
@@ -105,7 +107,7 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                 <ReferenceLine x={2024} stroke="#ef4444" strokeDasharray="3 3" label={{ value: 'Forecast Inception 2025', fill: '#ef4444', fontSize: 10 }} />
                 
                 {/* 95% Confidence Interval Band */}
-                <Area
+                <Area isAnimationActive={!reduced} animationDuration={550}
                   type="monotone"
                   dataKey="ci95_atas"
                   stroke="transparent"
@@ -113,33 +115,33 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                   fillOpacity={0.2}
                   name="95% Prediction Interval"
                 />
-                <Area
+                <Area isAnimationActive={!reduced} animationDuration={550}
                   type="monotone"
                   dataKey="ci95_bawah"
                   stroke="transparent"
-                  fill="#080d1a"
+                  fill="var(--surface)"
                   fillOpacity={1}
                   name="95% Lower Bound"
                 />
 
                 {/* Historical Line */}
-                <Line
+                <Line isAnimationActive={!reduced} animationDuration={550}
                   type="monotone"
                   dataKey="historis"
-                  stroke="#38bdf8"
+                  stroke="var(--plot-historical)"
                   strokeWidth={2.5}
                   dot={false}
                   name="Historical ASEAN (1990–2024)"
                 />
 
                 {/* Forecast Line */}
-                <Line
+                <Line isAnimationActive={!reduced} animationDuration={550}
                   type="monotone"
                   dataKey="ramalan"
-                  stroke="#14b8a6"
+                  stroke="var(--plot-primary)"
                   strokeWidth={3}
                   strokeDasharray="4 4"
-                  dot={{ r: 3, fill: '#14b8a6' }}
+                  dot={{ r: 3, fill: 'var(--plot-primary)' }}
                   name="Ensemble Forecast (2025–2035)"
                 />
               </ComposedChart>
@@ -147,13 +149,13 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
           </div>
 
           {/* Model Ranking Matrix */}
-          <div className="pt-5 border-t border-white/5">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">
+          <div className="pt-5 border-t border-black/5">
+            <h4 className="text-xs font-bold text-neutral-700 uppercase tracking-wider mb-3">
               Cross-Validation Performance Ranking Matrix (Walk-Forward CV)
             </h4>
-            <div className="overflow-x-auto rounded-xl border border-white/5 bg-slate-950/60">
+            <div className="overflow-x-auto rounded-xl border border-black/5 bg-neutral-100/60">
               <table className="w-full text-left text-xs font-mono min-w-[640px]">
-                <thead className="bg-slate-950 text-slate-400 border-b border-white/10 text-[11px]">
+                <thead className="bg-neutral-100 text-neutral-600 border-b border-black/10 text-[11px]">
                   <tr>
                     <th className="px-4 py-2.5 font-sans whitespace-nowrap">Time-Series Model</th>
                     <th className="px-4 py-2.5 text-right whitespace-nowrap">MAPE h=1</th>
@@ -163,38 +165,38 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
                     <th className="px-4 py-2.5 text-center font-sans whitespace-nowrap">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
-                  <tr className="bg-emerald-500/10 text-white font-bold">
+                <tbody className="divide-y divide-black/5">
+                  <tr className="bg-grain-mist text-neutral-950 font-bold">
                     <td className="px-4 py-2.5 font-sans whitespace-nowrap">Drift (Linear Trend)</td>
-                    <td className="px-4 py-2.5 text-right text-emerald-400">1.34%</td>
-                    <td className="px-4 py-2.5 text-right text-emerald-400">2.18%</td>
-                    <td className="px-4 py-2.5 text-right text-emerald-400">2.67%</td>
-                    <td className="px-4 py-2.5 text-right text-emerald-400">3.10%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-emerald-400 font-semibold whitespace-nowrap">Rank 1 (Selected)</td>
+                    <td className="px-4 py-2.5 text-right text-neutral-800">1.34%</td>
+                    <td className="px-4 py-2.5 text-right text-neutral-800">2.18%</td>
+                    <td className="px-4 py-2.5 text-right text-neutral-800">2.67%</td>
+                    <td className="px-4 py-2.5 text-right text-neutral-800">3.10%</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-neutral-800 font-semibold whitespace-nowrap">Rank 1 (Selected)</td>
                   </tr>
-                  <tr className="text-slate-300 hover:bg-slate-800/30 transition-colors">
+                  <tr className="text-neutral-700 hover:bg-neutral-100/30 transition-colors">
                     <td className="px-4 py-2.5 font-sans whitespace-nowrap">ARIMA (Hannan-Rissanen AICc)</td>
                     <td className="px-4 py-2.5 text-right">1.52%</td>
                     <td className="px-4 py-2.5 text-right">2.27%</td>
                     <td className="px-4 py-2.5 text-right">2.75%</td>
                     <td className="px-4 py-2.5 text-right">3.60%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-teal-400 whitespace-nowrap">Runner-Up</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-neutral-800 whitespace-nowrap">Runner-Up</td>
                   </tr>
-                  <tr className="text-slate-300 hover:bg-slate-800/30 transition-colors">
+                  <tr className="text-neutral-700 hover:bg-neutral-100/30 transition-colors">
                     <td className="px-4 py-2.5 font-sans whitespace-nowrap">Holt Linear Trend</td>
                     <td className="px-4 py-2.5 text-right">1.57%</td>
                     <td className="px-4 py-2.5 text-right">2.41%</td>
                     <td className="px-4 py-2.5 text-right">2.81%</td>
                     <td className="px-4 py-2.5 text-right">3.70%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-slate-400 whitespace-nowrap">Ensemble</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-neutral-600 whitespace-nowrap">Ensemble</td>
                   </tr>
-                  <tr className="text-slate-400 hover:bg-slate-800/30 transition-colors">
+                  <tr className="text-neutral-600 hover:bg-neutral-100/30 transition-colors">
                     <td className="px-4 py-2.5 font-sans whitespace-nowrap">Naive (Zero-Parameter Baseline)</td>
                     <td className="px-4 py-2.5 text-right">2.16%</td>
                     <td className="px-4 py-2.5 text-right">3.08%</td>
                     <td className="px-4 py-2.5 text-right">3.88%</td>
-                    <td className="px-4 py-2.5 text-right text-red-400">6.58%</td>
-                    <td className="px-4 py-2.5 text-center font-sans text-slate-500 whitespace-nowrap">Benchmark</td>
+                    <td className="px-4 py-2.5 text-right text-red-700">6.58%</td>
+                    <td className="px-4 py-2.5 text-center font-sans text-neutral-500 whitespace-nowrap">Benchmark</td>
                   </tr>
                 </tbody>
               </table>
@@ -204,10 +206,10 @@ export const ForecastingModule: React.FC<ForecastingModuleProps> = ({
       </Card>
 
       {/* Diebold-Mariano Rationale */}
-      <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 text-xs text-slate-300 flex items-start gap-3 backdrop-blur-md">
-        <ShieldCheck className="size-5 text-teal-400 shrink-0 mt-0.5" />
+      <div className="p-4 rounded-2xl bg-surface/60 border border-black/10 text-xs text-neutral-700 flex items-start gap-3 backdrop-blur-md">
+        <ShieldCheck className="size-5 text-neutral-800 shrink-0 mt-0.5" />
         <div className="leading-relaxed">
-          <strong className="text-white">Diebold–Mariano Test Justification:</strong> Differential predictive accuracy testing with Harvey–Leybourne–Newbold small-sample corrections demonstrates that the top 7 candidate specifications are not statistically distinguishable from the Drift baseline. Accordingly, the final trajectory leverages *Ensemble Averaging* to minimize individual model misspecification risk.
+          <strong className="text-neutral-950">Diebold–Mariano Test Justification:</strong> Differential predictive accuracy testing with Harvey–Leybourne–Newbold small-sample corrections demonstrates that the top 7 candidate specifications are not statistically distinguishable from the Drift baseline. Accordingly, the final trajectory leverages *Ensemble Averaging* to minimize individual model misspecification risk.
         </div>
       </div>
     </div>

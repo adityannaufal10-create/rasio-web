@@ -26,10 +26,10 @@ import {
   X,
 } from "lucide-react";
 import { CommandPalette, type CommandItem } from "@/components/ui/command-palette";
-import { ThemeBackdrop, PipoThemeIndicator } from "@/components/ThemeBackdrop";
 import { KeyboardShortcutsModal } from "@/components/ui/keyboard-shortcuts-modal";
 import { COUNTRIES_44, CLUSTER_NAMES } from "@/landing/facts";
 import { cn } from "@/lib/utils";
+import { ThemeControl } from "@/components/ThemeProvider";
 
 const COLLAPSE_KEY = "rasio.sidebar.collapsed";
 
@@ -344,493 +344,105 @@ export function Shell({ children }: { children: ReactNode }) {
     })),
   ];
 
+  const navigation = (compact = false) => NAV_ITEMS.map((item, idx) => {
+    const active = location.pathname === item.path;
+    const Icon = item.icon;
+    return <button key={item.path} type="button"
+      onClick={() => { navigate(item.path); setMobileOpen(false); }}
+      className="grain-sidebar-item" aria-current={active ? "page" : undefined}
+      title={`${item.label} · ${item.badge} (Shortcut: ${idx + 1})`}>
+      <Icon size={19} strokeWidth={1.7} />
+      {!compact && <><span><strong>{WALKTHROUGH_STEPS[idx].shortTitle}</strong><small>{item.subtitle}</small></span><kbd>{idx + 1}</kbd></>}
+    </button>;
+  });
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.getElementById("close-workspace-navigation")?.focus();
+    return () => { document.body.style.overflow = previousOverflow; previous?.focus(); };
+  }, [mobileOpen]);
+  useEffect(() => () => { if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current); }, []);
+
   return (
-    <div className="min-h-screen text-slate-100 flex flex-col font-sans relative overflow-x-hidden selection:bg-emerald-500/30 selection:text-white">
-      {/* Pipo Mesh Backdrop */}
-      <ThemeBackdrop />
-
-      {/* Top Header Bar (Navbar) */}
-      <header className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-white/10 bg-[#070b14]/85 px-4 backdrop-blur-2xl sm:px-6 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-        {/* Subtle laser highlight on top edge */}
-        <div className="absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-emerald-400/60 via-cyan-400/50 to-transparent pointer-events-none" />
-
-        <div className="flex items-center gap-4 min-w-0">
-          {/* Mobile drawer toggle */}
-          <button
-            type="button"
-            onClick={() => setMobileOpen((o) => !o)}
-            className="rounded-xl p-2 text-slate-400 hover:bg-slate-900/80 hover:text-white md:hidden border border-white/5 transition-colors shrink-0"
-            aria-label="Open navigation menu"
-          >
-            {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+    <div className="grain-workspace">
+      <a href="#workspace-content" className="skip-link">Skip to analysis</a>
+      <header className="grain-workspace-header">
+        <div>
+          <button type="button" onClick={() => setMobileOpen(o => !o)} className="icon-button md:hidden"
+            aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={mobileOpen} aria-controls="workspace-navigation">
+            {mobileOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
-
-          {/* Brand Link */}
-          <a href="/" className="flex items-center gap-3 no-underline group shrink-0">
-            <div className="relative grid size-9 place-items-center rounded-xl bg-gradient-to-br from-emerald-400 via-teal-500 to-cyan-500 text-slate-950 font-bold shadow-[0_0_20px_rgba(16,185,129,0.5)] ring-1 ring-white/25 group-hover:scale-105 transition-transform duration-200">
-              <Compass className="size-4.5 text-slate-950" strokeWidth={2.5} />
-            </div>
-            <div className="hidden sm:block">
-              <div className="flex items-center gap-2 leading-none">
-                <span className="font-black text-[16px] tracking-tight bg-gradient-to-r from-white via-slate-100 to-emerald-200 bg-clip-text text-transparent group-hover:to-cyan-200 transition-colors">
-                  GRAIN
-                </span>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/35 px-2 py-0.5 font-mono text-[9px] font-bold text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]">
-                  <span className="relative flex size-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full size-1.5 bg-emerald-400" />
-                  </span>
-                  WORKSPACE v2.4
-                </span>
-              </div>
-            </div>
-          </a>
-
-          {/* Active Breadcrumb with rich glass chip */}
-          <div className="hidden lg:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-[11.5px] text-slate-400 shrink-0">
-            <span className="text-slate-400 whitespace-nowrap">Asia-Pacific (N=44)</span>
-            <ChevronRight className="size-3 text-slate-500 shrink-0" />
-            <span className="text-slate-400 whitespace-nowrap">Panel 1961–2024</span>
-            <ChevronRight className="size-3 text-slate-500 shrink-0" />
-            <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-emerald-300 font-semibold shadow-[0_0_12px_rgba(16,185,129,0.15)] whitespace-nowrap">
-              <CurrentIcon className="size-3.5 text-emerald-400 shrink-0" />
-              {currentNav?.label || "Workspace"}
-            </span>
-          </div>
+          <a href="/" className="grain-brand" aria-label="GRAIN Homepage"><Compass size={25} strokeWidth={1.7} /><span>GRAIN</span></a>
+          <span className="grain-workspace-context">Asia-Pacific · 44 economies · 1961–2024</span>
         </div>
-
-        {/* Topbar Center: Quick Guided Walkthrough Step Pill */}
-        {currentStepIdx >= 0 && (
-          <div className="hidden xl:flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-slate-900/80 px-3.5 py-1 text-[12px] shadow-[0_0_16px_rgba(16,185,129,0.15)] backdrop-blur-md shrink-0">
-            <span className="inline-flex items-center justify-center rounded-full bg-emerald-400/20 border border-emerald-400/40 px-2 py-0.5 font-mono font-bold text-[10.5px] text-emerald-300">
-              {WALKTHROUGH_STEPS[currentStepIdx].stepNum}/05
-            </span>
-            <span className="text-slate-200 font-semibold text-[12.5px] whitespace-nowrap">
-              {WALKTHROUGH_STEPS[currentStepIdx].title}
-            </span>
-            {currentStepIdx < WALKTHROUGH_STEPS.length - 1 && (
-              <button
-                type="button"
-                onClick={() => navigate(WALKTHROUGH_STEPS[currentStepIdx + 1].path)}
-                className="ml-1 inline-flex items-center gap-1 rounded-full bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 px-2.5 py-0.5 font-semibold text-[11px] text-emerald-300 hover:text-white transition-all shadow-[0_0_8px_rgba(16,185,129,0.2)]"
-              >
-                Next <ArrowRight className="size-3" />
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Topbar Right: Pipo Indicator, Shortcuts Button, Search trigger & Return to Landing */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          {/* Active Pipo Mesh Theme Indicator */}
-          <PipoThemeIndicator />
-
-          {/* Keyboard Shortcuts Trigger Button */}
-          <button
-            type="button"
-            onClick={() => setShortcutsModalOpen(true)}
-            className="group hidden md:inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-2.5 py-1.5 text-[12px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-sm shrink-0"
-            title="Keyboard Shortcuts Guide (Press '?')"
-            aria-label="Keyboard Shortcuts"
-          >
-            <Keyboard className="size-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="hidden lg:inline text-slate-400 group-hover:text-slate-200 font-mono text-[11px]">Shortcuts</span>
-            <kbd className="font-mono text-[10px] text-slate-300 border border-white/15 rounded px-1.5 py-0.2 bg-slate-800 font-bold">
-              ?
-            </kbd>
-          </button>
-
-          {/* Search trigger button */}
-          <button
-            type="button"
-            onClick={() => setCmdOpen(true)}
-            className="group flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/80 hover:border-emerald-500/40 px-3 py-1.5 text-[12.5px] text-slate-300 hover:text-white transition-all backdrop-blur-md shadow-[0_0_12px_rgba(0,0,0,0.3)] hover:shadow-[0_0_16px_rgba(16,185,129,0.18)] shrink-0"
-          >
-            <Search className="size-3.5 text-emerald-400 group-hover:scale-110 transition-transform" />
-            <span className="hidden sm:inline font-medium">Search matrix…</span>
-            <kbd className="hidden sm:inline-flex items-center rounded border border-white/15 bg-slate-800/90 px-1.5 py-0.5 font-mono text-[10px] text-slate-300 shadow-sm">
-              Ctrl+K
-            </kbd>
-          </button>
-
-          {/* Return to Landing Page */}
-          <a
-            href="/"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-emerald-500/15 hover:border-emerald-500/35 hover:text-emerald-300 px-3 py-1.5 text-[12.5px] font-semibold text-slate-300 transition-all no-underline backdrop-blur-md shrink-0"
-            title="Return to Landing Page (Press 'H')"
-          >
-            <Home className="size-3.5 text-emerald-400" />
-            <span className="hidden sm:inline">Landing</span>
-            <kbd className="hidden xl:inline-flex items-center rounded border border-white/10 bg-slate-800 px-1 text-[9.5px] font-mono text-slate-400">
-              H
-            </kbd>
-          </a>
+        <div>
+          <ThemeControl />
+          <button type="button" className="grain-toolbar-button" onClick={() => setShortcutsModalOpen(true)} aria-label="Keyboard Shortcuts" title="Keyboard shortcuts (?)"><Keyboard size={17} /><span>Shortcuts</span><kbd>?</kbd></button>
+          <button type="button" className="grain-toolbar-button" onClick={() => setCmdOpen(true)} aria-label="Search GRAIN" title="Search modules, economies and clusters (Ctrl+K)"><Search size={17} /><span>Search GRAIN</span><kbd>Ctrl K</kbd></button>
+          <a href="/" className="grain-toolbar-button" title="Return to Landing Page (H)" aria-label="Return to landing page"><Home size={17} /><span>Overview</span></a>
         </div>
       </header>
 
-      {/* Walkthrough Progress Bar Strip (Secondary Nav) */}
-      <nav
-        aria-label="Sequential Analytical Walkthrough"
-        className="border-b border-white/10 bg-slate-950/70 px-4 py-2.5 backdrop-blur-xl relative z-30"
-      >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-4 overflow-x-auto scrollbar-none">
-          <div className="flex items-center gap-2 font-mono text-[11px] text-slate-400 shrink-0">
-            <span className="relative flex size-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full size-2 bg-emerald-400" />
-            </span>
-            <span className="text-slate-300 font-semibold">Analytical Track:</span>
-          </div>
-
-          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
-            {WALKTHROUGH_STEPS.map((s, idx) => {
-              const isActive = location.pathname === s.path;
-              const isPast = idx < currentStepIdx;
-              return (
-                <div key={s.path} className="flex items-center gap-1.5 sm:gap-3">
-                  <button
-                    type="button"
-                    onClick={() => navigate(s.path)}
-                    title={`${s.hint} (Shortcut: '${idx + 1}')`}
-                    className={cn(
-                      "flex items-center gap-2 rounded-xl px-3 py-1.5 text-[12px] font-medium transition-all whitespace-nowrap",
-                      isActive
-                        ? "bg-gradient-to-r from-emerald-500/25 via-teal-500/20 to-emerald-500/10 border border-emerald-500/45 text-emerald-200 shadow-[0_0_16px_rgba(16,185,129,0.3)] ring-1 ring-emerald-500/30 font-semibold"
-                        : isPast
-                        ? "bg-slate-900/60 border border-emerald-500/25 text-slate-200 hover:text-white hover:bg-slate-800/80"
-                        : "bg-slate-900/40 border border-white/5 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60",
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "grid size-4.5 place-items-center rounded-full text-[10px] font-mono shrink-0 transition-all",
-                        isActive
-                          ? "bg-gradient-to-br from-emerald-400 to-teal-400 text-slate-950 font-black shadow-[0_0_10px_rgba(16,185,129,0.7)]"
-                          : isPast
-                          ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40"
-                          : "bg-slate-800 text-slate-400 border border-white/5",
-                      )}
-                    >
-                      {isPast ? <Check className="size-2.5 stroke-[3]" /> : idx + 1}
-                    </span>
-                    <span className="hidden sm:inline">{s.shortTitle}</span>
-                  </button>
-
-                  {idx < WALKTHROUGH_STEPS.length - 1 && (
-                    <span
-                      className={cn(
-                        "hidden xl:block h-[1.5px] w-4 rounded-full transition-colors",
-                        isPast ? "bg-emerald-500/40" : "bg-white/10"
-                      )}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="hidden lg:flex items-center gap-2 rounded-xl border border-white/10 bg-slate-900/60 px-3 py-1 font-mono text-[11px] text-slate-400 shrink-0">
-            <span className="size-1.5 rounded-full bg-cyan-400" />
-            <span>Panel Dataset:</span>
-            <span className="rounded bg-slate-800/90 px-1.5 py-0.5 text-emerald-300 font-bold border border-white/5">
-              44 Economies (1961–2024)
-            </span>
-          </div>
-        </div>
+      <nav className="grain-walkthrough" aria-label="Sequential Analytical Walkthrough">
+        <span>Presentation path</span>
+        <div>{WALKTHROUGH_STEPS.map((step, idx) => <button type="button" key={step.path}
+          onClick={() => navigate(step.path)} aria-current={idx === currentStepIdx ? "step" : undefined}
+          title={`${step.hint} (Shortcut: ${idx + 1})`}>
+          <span>{idx < currentStepIdx ? <Check size={10} /> : idx + 1}</span>
+          {["Cartography", "Spatial effects", "Policies", "Forecasts", "Methodology"][idx]}
+        </button>)}</div>
       </nav>
 
-      {/* Main Workspace Layout with Collapsible Glass Sidebar */}
-      <div className="flex flex-1 relative overflow-hidden">
-        {/* Desktop Sidebar (Width adjusted to 298px to eliminate truncation completely) */}
-        <aside
-          className={cn(
-            "hidden md:flex flex-col border-r border-white/10 bg-slate-950/80 backdrop-blur-2xl transition-all duration-300 relative z-30 shrink-0 select-none shadow-[4px_0_30px_rgba(0,0,0,0.5)]",
-            collapsed ? "w-[76px]" : "w-[298px]",
-          )}
-        >
-          {/* Sidebar Category Header */}
-          <div className="p-3 pb-2 border-b border-white/5">
-            {!collapsed ? (
-              <div className="flex items-center justify-between px-2 py-1">
-                <span className="font-mono text-[10.5px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center gap-1.5">
-                  <Layers className="size-3.5 text-emerald-400" />
-                  Analytical Modules
-                </span>
-                <span className="rounded-md bg-emerald-500/10 border border-emerald-500/25 px-1.5 py-0.2 font-mono text-[9px] font-bold text-emerald-300">
-                  5 SUITES
-                </span>
-              </div>
-            ) : (
-              <div className="flex justify-center py-1">
-                <span className="size-2 rounded-full bg-emerald-400/70" />
-              </div>
-            )}
-          </div>
-
-          {/* Sidebar Nav Links */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2">
-            {NAV_ITEMS.map((item, idx) => {
-              const active = location.pathname === item.path;
-              const Icon = item.icon;
-              return (
-                <button
-                  key={item.path}
-                  type="button"
-                  onClick={() => navigate(item.path)}
-                  title={collapsed ? `${item.label} (Press '${idx + 1}')` : undefined}
-                  className={cn(
-                    "group relative flex w-full items-center rounded-xl transition-all duration-200 text-left",
-                    collapsed ? "justify-center p-3" : "gap-3 px-3 py-2.5",
-                    active
-                      ? "bg-gradient-to-r from-emerald-500/20 via-teal-500/10 to-transparent border border-emerald-500/35 text-white shadow-[0_0_20px_rgba(16,185,129,0.18)] ring-1 ring-emerald-500/25"
-                      : "text-slate-400 hover:text-slate-100 hover:bg-slate-900/70 border border-transparent hover:border-white/10"
-                  )}
-                >
-                  {/* Active glowing indicator pill on left edge */}
-                  {active && (
-                    <span className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1.5 rounded-r bg-gradient-to-b from-emerald-400 via-teal-400 to-cyan-400 shadow-[0_0_12px_rgba(16,185,129,0.9)]" />
-                  )}
-
-                  {/* Icon container with customized halo */}
-                  <div
-                    className={cn(
-                      "grid size-9 shrink-0 place-items-center rounded-lg transition-all",
-                      active
-                        ? "bg-emerald-500/25 border border-emerald-500/40 text-emerald-300 shadow-[0_0_14px_rgba(16,185,129,0.35)]"
-                        : "bg-slate-900/80 border border-white/5 text-slate-400 group-hover:text-emerald-300 group-hover:border-emerald-500/30 group-hover:bg-slate-800/80"
-                    )}
-                  >
-                    <Icon className="size-4.5" strokeWidth={active ? 2.3 : 1.8} />
-                  </div>
-
-                  {!collapsed && (
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center justify-between gap-1.5">
-                        <span
-                          className={cn(
-                            "text-[13px] font-bold leading-tight whitespace-nowrap",
-                            active ? "text-white" : "text-slate-200 group-hover:text-white"
-                          )}
-                        >
-                          {item.label}
-                        </span>
-                        <div className="flex items-center gap-1.5 shrink-0">
-                          {item.badge && (
-                            <span
-                              className={cn(
-                                "rounded px-1.5 py-0.5 font-mono text-[9px] font-bold shrink-0",
-                                active
-                                  ? "bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.25)]"
-                                  : "bg-slate-900 border border-white/10 text-slate-400 group-hover:text-slate-300"
-                              )}
-                            >
-                              {item.badge}
-                            </span>
-                          )}
-                          {/* Keyboard shortcut keycap badge */}
-                          <kbd
-                            className={cn(
-                              "inline-flex size-5 items-center justify-center rounded border font-mono text-[9.5px] font-bold shadow-sm transition-colors",
-                              active
-                                  ? "border-emerald-400/40 bg-emerald-400/20 text-emerald-200"
-                                  : "border-white/10 bg-slate-900/90 text-slate-400 group-hover:border-emerald-500/40 group-hover:text-emerald-300"
-                            )}
-                            title={`Keyboard shortcut: Press '${idx + 1}'`}
-                          >
-                            {idx + 1}
-                          </kbd>
-                        </div>
-                      </div>
-                      <p className="truncate text-[11px] text-slate-400 mt-0.5 font-medium leading-none">
-                        {item.subtitle}
-                      </p>
-                    </div>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Sidebar Footer & Model Telemetry Card */}
-          <div className="border-t border-white/10 p-3 bg-slate-950/60 space-y-2.5">
-            {!collapsed && (
-              <div className="rounded-xl border border-emerald-500/20 bg-gradient-to-b from-slate-900/90 to-slate-950/90 p-3 text-[11.5px] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                <div className="flex items-center justify-between text-slate-400 pb-1.5 border-b border-white/5">
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-emerald-400/90 flex items-center gap-1.5">
-                    <Cpu className="size-3 text-emerald-400" />
-                    Model Telemetry
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-emerald-400 font-bold font-mono text-[10.5px]">
-                    <span className="size-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    Optimal
-                  </span>
-                </div>
-                <div className="mt-2 space-y-1 font-mono text-[10.5px]">
-                  <div className="flex justify-between text-slate-400">
-                    <span>Estimation:</span>
-                    <span className="text-slate-200 font-semibold">SDM Time-FE</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400">
-                    <span>W-Matrix:</span>
-                    <span className="text-cyan-400 font-semibold">k-NN (k=4)</span>
-                  </div>
-                  <div className="flex justify-between text-slate-400">
-                    <span>Moran's I:</span>
-                    <span className="text-emerald-300 font-bold">+0.729 (p&lt;0.001)</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Sidebar Buttons: Shortcuts Help + Collapse Toggle */}
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setShortcutsModalOpen(true)}
-                className={cn(
-                  "flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group",
-                  collapsed ? "w-full" : "flex-1"
-                )}
-                title="Keyboard Shortcuts Cheat Sheet (Press '?')"
-                aria-label="Keyboard Shortcuts"
-              >
-                <Keyboard className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-                {!collapsed && (
-                  <span className="text-[12px] font-semibold text-slate-300 group-hover:text-white">
-                    Shortcuts
-                  </span>
-                )}
-                {!collapsed && (
-                  <kbd className="font-mono text-[9.5px] text-slate-400 border border-white/15 rounded px-1.5 py-0.2 bg-slate-800/90 ml-auto font-bold">
-                    ?
-                  </kbd>
-                )}
-              </button>
-
-              {/* Collapse Toggle Button */}
-              <button
-                type="button"
-                onClick={toggleCollapse}
-                className="flex items-center justify-center rounded-xl border border-white/10 bg-slate-900/70 hover:bg-slate-800/90 hover:border-emerald-500/35 p-2 text-slate-400 hover:text-white transition-all shadow-sm group"
-                title={collapsed ? "Expand sidebar (Press 'B')" : "Collapse sidebar (Press 'B')"}
-                aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-              >
-                {collapsed ? (
-                  <ChevronRight className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-                ) : (
-                  <ChevronLeft className="size-4 text-emerald-400 group-hover:scale-110 transition-transform" />
-                )}
-              </button>
-            </div>
+      <div className="grain-workspace-body">
+        <aside className={cn("grain-sidebar", collapsed && "is-collapsed")} aria-label="Analytical modules">
+          {!collapsed && <p className="grain-sidebar-label">Analytical modules · 5 suites</p>}
+          <nav aria-label="Workspace navigation">{navigation(collapsed)}</nav>
+          <div className="grain-sidebar-bottom">
+            {!collapsed && <div className="grain-model-note">
+              <h3>Selected model</h3>
+              <p>Estimation <strong>SDM Time-FE</strong></p>
+              <p>Spatial weights <strong>k-NN (k=4)</strong></p>
+              <p>Moran's I <strong>+0.729</strong></p>
+              <p>Significance <strong>p &lt; 0.001</strong></p>
+            </div>}
+            <button type="button" className="grain-sidebar-item" onClick={() => setShortcutsModalOpen(true)} aria-label="Keyboard shortcuts" title="Keyboard shortcuts (?)"><Keyboard size={18} />{!collapsed && <span><strong>Keyboard shortcuts</strong></span>}</button>
+            <button type="button" className="grain-sidebar-item" onClick={toggleCollapse} aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title="Toggle sidebar (B)">
+              {collapsed ? <ChevronRight size={18} /> : <ChevronLeft size={18} />}{!collapsed && <span><strong>Collapse sidebar</strong></span>}
+            </button>
           </div>
         </aside>
 
-        {/* Mobile Sidebar Drawer */}
-        {mobileOpen && (
-          <div className="fixed inset-0 z-50 flex md:hidden" role="dialog" aria-modal="true">
-            <div
-              className="fixed inset-0 bg-[#070b14]/80 backdrop-blur-md"
-              onClick={() => setMobileOpen(false)}
-            />
-            <div className="relative flex w-[295px] flex-col border-r border-white/10 bg-slate-950 p-4 shadow-2xl">
-              <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                <div className="flex items-center gap-2.5">
-                  <div className="grid size-7 place-items-center rounded-lg bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-950">
-                    <Compass className="size-4" strokeWidth={2.4} />
-                  </div>
-                  <span className="font-bold text-[15px] text-white">Navigation Menu</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setMobileOpen(false)}
-                  className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-800"
-                >
-                  <X className="size-5" />
-                </button>
-              </div>
-
-              <div className="mt-4 flex-1 space-y-1.5 overflow-y-auto">
-                {NAV_ITEMS.map((item, idx) => {
-                  const active = location.pathname === item.path;
-                  const Icon = item.icon;
-                  return (
-                    <button
-                      key={item.path}
-                      type="button"
-                      onClick={() => {
-                        navigate(item.path);
-                        setMobileOpen(false);
-                      }}
-                      className={cn(
-                        "flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left transition-all",
-                        active
-                          ? "bg-gradient-to-r from-emerald-500/20 to-teal-500/10 border border-emerald-500/35 text-white"
-                          : "text-slate-400 hover:bg-slate-900",
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          "grid size-8 place-items-center rounded-lg",
-                          active
-                            ? "bg-emerald-500/25 text-emerald-300"
-                            : "bg-slate-900 text-slate-400",
-                        )}
-                      >
-                        <Icon className="size-4" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between">
-                          <span className="font-bold text-[13.5px]">{item.label}</span>
-                          <span className="font-mono text-[9.5px] font-bold text-emerald-300 bg-emerald-500/20 px-1 rounded">
-                            {idx + 1}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-400 truncate mt-0.5">{item.subtitle}</p>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+        {mobileOpen && <div id="workspace-navigation" className="grain-mobile-navigation" role="dialog" aria-modal="true" aria-label="Workspace navigation"
+          onKeyDown={e => {
+            if (e.key !== "Tab") return;
+            const controls = e.currentTarget.querySelectorAll<HTMLElement>('button, a[href]');
+            const first = controls[0], last = controls[controls.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+          }}>
+          <div className="grain-navigation-scrim" onClick={() => setMobileOpen(false)} aria-hidden="true" />
+          <div className="grain-navigation-sheet">
+            <div><strong>Explore GRAIN</strong><button id="close-workspace-navigation" type="button" className="icon-button" aria-label="Close navigation" onClick={() => setMobileOpen(false)}><X size={20} /></button></div>
+            <nav aria-label="Mobile workspace navigation">{navigation()}</nav>
+            <button type="button" className="grain-sidebar-item" onClick={() => { setMobileOpen(false); setShortcutsModalOpen(true); }}><Keyboard size={19} /><span><strong>Keyboard shortcuts</strong></span></button>
           </div>
-        )}
+        </div>}
 
-        {/* Primary Page Content Outlet with Smooth Transition */}
-        <main className="flex-1 overflow-y-auto relative z-10 min-w-0">
-          <div
-            key={location.pathname}
-            className="animate-in fade-in duration-250 ease-out"
-          >
-            {children}
-          </div>
+        <main id="workspace-content" className="grain-workspace-main">
+          <div key={location.pathname}>{children}</div>
+          <nav className="flex items-center justify-between gap-4 px-5 pt-8 sm:px-8" aria-label="Previous and next analytical module">
+            {currentStepIdx > 0 ? <button type="button" className="grain-text-link" onClick={() => navigate(WALKTHROUGH_STEPS[currentStepIdx - 1].path)}><ChevronLeft size={16} />{WALKTHROUGH_STEPS[currentStepIdx - 1].shortTitle}</button> : <a href="/" className="grain-text-link"><ChevronLeft size={16} />Overview</a>}
+            {currentStepIdx < WALKTHROUGH_STEPS.length - 1 && <button type="button" className="grain-text-link" onClick={() => navigate(WALKTHROUGH_STEPS[currentStepIdx + 1].path)}>{WALKTHROUGH_STEPS[currentStepIdx + 1].shortTitle}<ChevronRight size={16} /></button>}
+          </nav>
         </main>
       </div>
-
-      {/* Floating Shortcut Toast Feedback */}
-      {toast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2.5 rounded-full border border-emerald-500/40 bg-slate-950/90 px-4 py-2 font-mono text-[12px] text-white shadow-[0_10px_35px_rgba(0,0,0,0.8),0_0_25px_rgba(16,185,129,0.35)] backdrop-blur-xl animate-in fade-in-50 slide-in-from-bottom-3 duration-200 pointer-events-none">
-          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="font-semibold text-emerald-300">{toast.message}</span>
-          <kbd className="inline-flex min-w-[20px] items-center justify-center rounded border border-white/20 bg-slate-800/90 px-1.5 py-0.5 font-mono text-[10px] font-bold text-slate-200">
-            {toast.key}
-          </kbd>
-        </div>
-      )}
-
-      {/* Global Command Palette (Ctrl+K) */}
-      <CommandPalette
-        open={cmdOpen}
-        onClose={() => setCmdOpen(false)}
-        items={commandItems}
-      />
-
-      {/* Keyboard Shortcuts Cheat Sheet Modal (?) */}
-      <KeyboardShortcutsModal
-        open={shortcutsModalOpen}
-        onClose={() => setShortcutsModalOpen(false)}
-      />
+      {toast && <div className="grain-toast" role="status"><span>{toast.message}</span><kbd>{toast.key}</kbd></div>}
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} items={commandItems} />
+      <KeyboardShortcutsModal open={shortcutsModalOpen} onClose={() => setShortcutsModalOpen(false)} />
     </div>
   );
 }
-
 export default Shell;

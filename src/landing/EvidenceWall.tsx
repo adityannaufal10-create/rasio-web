@@ -1,157 +1,32 @@
-import { Quote } from "lucide-react";
-import { EVIDENCE_CARDS, FACTS } from "./facts";
-import { Marquee } from "@/components/ui/marquee";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
+import { EVIDENCE_CARDS } from "./facts";
 
-const SVG_EVIDENCE = [
-  {
-    title: "K-Means Silhouette Cohesion",
-    src: "/figures/02_silhouette.svg",
-    desc: "Evaluation at k=5 yields a score of 0.5336 with distinct cluster partitioning.",
-  },
-  {
-    title: "Moran Scatterplot 2024",
-    src: "/figures/04_pencar_moran.svg",
-    desc: "LISA quadrant distribution: 7 ASEAN economies dominate the High-High Hotspot quadrant.",
-  },
-  {
-    title: "LeSage–Pace Effect Decomposition",
-    src: "/figures/08_dekomposisi_efek.svg",
-    desc: "Indirect nitrogen fertilizer spillovers exceed domestic direct impacts by 2.20-fold.",
-  },
-  {
-    title: "64-Year ASEAN Trajectory",
-    src: "/figures/07_lintasan_asean.svg",
-    desc: "Historical emission trajectories across 10 ASEAN member states from 1961 through 2024.",
-  },
+const FIGURES = [
+  { title: "K-Means silhouette cohesion", src: "/figures/02_silhouette_light.svg", desc: "Evaluation at k=5 yields a score of 0.5336 with distinct cluster partitioning.", path: "/clustering" },
+  { title: "Moran scatterplot 2024", src: "/figures/04_pencar_moran_light.svg", desc: "LISA quadrant distribution: 7 ASEAN economies dominate the High-High Hotspot quadrant.", path: "/spasial" },
+  { title: "LeSage–Pace effect decomposition", src: "/figures/08_dekomposisi_efek_light.svg", desc: "Indirect nitrogen fertilizer spillovers exceed domestic direct impacts by 2.20-fold.", path: "/spasial" },
+  { title: "64-Year ASEAN trajectory", src: "/figures/07_lintasan_asean_light.svg", desc: "Historical emission trajectories across 10 ASEAN member states from 1961 through 2024.", path: "/clustering" },
 ];
-
 export default function EvidenceWall() {
-  const col1 = EVIDENCE_CARDS.slice(0, 3);
-  const col2 = EVIDENCE_CARDS.slice(3, 5);
-
-  return (
-    <section
-      id="evidence"
-      aria-label="Empirical Evidence Wall"
-      className="relative overflow-hidden border-t border-white/10 py-28"
-    >
-      <div className="mx-auto grid max-w-[1320px] gap-12 px-4 sm:px-8 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:items-center">
-        {/* Left Column: Analytical Argument */}
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-wider text-emerald-400">
-            <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Empirical Evidence & Econometric Validation</span>
-          </div>
-
-          <h2 className="mt-3 text-[clamp(2rem,3.8vw,3.2rem)] font-extrabold tracking-tight text-white leading-tight">
-            The Data Answers. Zero Fabricated Assumptions.
-          </h2>
-
-          <p className="mt-4 max-w-[54ch] text-[16px] leading-relaxed text-slate-300">
-            Every conclusion in this prototype is grounded in a balanced panel of 44 economies across 64 consecutive years (1961–2024) spanning 2,816 observations with zero artificial interpolation.
-          </p>
-
-          <ul className="mt-8 flex flex-col divide-y divide-white/10">
-            {EVIDENCE_CARDS.map((item) => (
-              <li key={item.id} className="py-5">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-300">
-                    <Quote className="size-3" />
-                    {item.id} · {item.type}
-                  </span>
-                </div>
-                <h3 className="mt-2 text-[17px] font-bold text-white tracking-tight">{item.title}</h3>
-                <p className="mt-1 text-[13.5px] leading-relaxed text-slate-400">{item.desc}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Right Column: 3D Tilted Marquee Wall */}
-        <div
-          className="lp-wall relative hidden h-[700px] items-center justify-center overflow-hidden lg:flex"
-          aria-label="Tilted Evidence Wall"
-          role="img"
-        >
-          <div className="lp-wall-plane flex gap-5">
-            <Marquee vertical pauseOnHover repeat={3} className="[--duration:40s]">
-              {col1.map((c) => (
-                <Card
-                  key={c.id}
-                  className="w-[260px] p-4 bg-slate-900/95 border-white/10 hover:border-emerald-500/30 transition-all"
-                >
-                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                    <span className="text-emerald-400 font-bold">{c.id}</span>
-                    <span>{c.type}</span>
-                  </div>
-                  <h4 className="mt-2 text-[14.5px] font-bold text-white">{c.title}</h4>
-                  <p className="mt-1 text-[12px] text-slate-400 leading-snug">{c.desc}</p>
-                </Card>
-              ))}
-              {SVG_EVIDENCE.slice(0, 2).map((s) => (
-                <Card
-                  key={s.title}
-                  className="w-[260px] overflow-hidden p-3 bg-slate-900/95 border-white/10 hover:border-emerald-500/30 transition-all"
-                >
-                  <img src={s.src} alt={s.title} className="h-32 w-full object-contain rounded-xl bg-slate-950/60 p-2" />
-                  <h4 className="mt-2 text-[13px] font-bold text-white">{s.title}</h4>
-                  <p className="mt-0.5 text-[11px] text-slate-400 leading-snug">{s.desc}</p>
-                </Card>
-              ))}
-            </Marquee>
-
-            <Marquee vertical pauseOnHover reverse repeat={3} className="[--duration:48s]">
-              {col2.map((c) => (
-                <Card
-                  key={c.id}
-                  className="w-[260px] p-4 bg-slate-900/95 border-white/10 hover:border-cyan-500/30 transition-all"
-                >
-                  <div className="flex items-center justify-between text-[11px] font-mono text-slate-400">
-                    <span className="text-cyan-400 font-bold">{c.id}</span>
-                    <span>{c.type}</span>
-                  </div>
-                  <h4 className="mt-2 text-[14.5px] font-bold text-white">{c.title}</h4>
-                  <p className="mt-1 text-[12px] text-slate-400 leading-snug">{c.desc}</p>
-                </Card>
-              ))}
-              {SVG_EVIDENCE.slice(2, 4).map((s) => (
-                <Card
-                  key={s.title}
-                  className="w-[260px] overflow-hidden p-3 bg-slate-900/95 border-white/10 hover:border-cyan-500/30 transition-all"
-                >
-                  <img src={s.src} alt={s.title} className="h-32 w-full object-contain rounded-xl bg-slate-950/60 p-2" />
-                  <h4 className="mt-2 text-[13px] font-bold text-white">{s.title}</h4>
-                  <p className="mt-0.5 text-[11px] text-slate-400 leading-snug">{s.desc}</p>
-                </Card>
-              ))}
-            </Marquee>
-          </div>
-
-          {/* Fade gradients */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-1/4 lp-fade-t" />
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 lp-fade-b" />
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-1/5 lp-fade-l" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-1/5 lp-fade-r" />
-        </div>
-
-        {/* Mobile Horizontal Marquee fallback */}
-        <div className="lg:hidden">
-          <Marquee pauseOnHover repeat={2} className="[--duration:30s]">
-            {EVIDENCE_CARDS.map((c) => (
-              <Card
-                key={c.id}
-                className="w-[240px] shrink-0 p-4 bg-slate-900/95 border-white/10 mr-3"
-              >
-                <span className="font-mono text-[11px] text-emerald-400 font-bold">{c.id}</span>
-                <h4 className="mt-1 text-[14px] font-bold text-white">{c.title}</h4>
-                <p className="mt-1 text-[12px] text-slate-400 line-clamp-3">{c.desc}</p>
-              </Card>
-            ))}
-          </Marquee>
-        </div>
+  return <section id="evidence" aria-label="Empirical Evidence Wall" className="border-t border-black/5 py-16 sm:py-24">
+    <div className="mx-auto grid max-w-[1320px] gap-12 px-6 sm:px-8 lg:grid-cols-[.9fr_1.1fr] lg:gap-16">
+      <div>
+        <h2 className="text-[clamp(2rem,3.8vw,3.2rem)] font-semibold tracking-[-0.035em] leading-[1.12]">The data answers.<br /><span className="text-neutral-500">Explore the evidence.</span></h2>
+        <p className="mt-5 max-w-[54ch] text-[15px] leading-relaxed text-neutral-600">Every conclusion in this prototype is grounded in a balanced panel of 44 economies across 64 consecutive years (1961–2024) spanning 2,816 observations with zero artificial interpolation.</p>
+        <ul className="mt-7 divide-y divide-black/10">{EVIDENCE_CARDS.map(item => <li key={item.id} className="py-5">
+          <h3 className="text-[16px] font-semibold tracking-tight">{item.title}</h3>
+          <p className="mt-2 text-[13px] leading-relaxed text-neutral-600">{item.desc}</p>
+          <span className="mt-2 inline-block text-[10px] text-neutral-500">{item.id} · {item.type}</span>
+        </li>)}</ul>
       </div>
-    </section>
-  );
+      <div className="grain-evidence-gallery">
+        {FIGURES.map(figure => <figure key={figure.src}>
+          <Link to={figure.path} aria-label={"Inspect " + figure.title}><img src={figure.src} alt={figure.title} loading="lazy" /></Link>
+          <figcaption>{figure.title}</figcaption><p>{figure.desc}</p>
+          <Link to={figure.path} className="grain-text-link mt-4 text-xs">Inspect the analysis<ChevronRight size={14} /></Link>
+        </figure>)}
+      </div>
+    </div>
+  </section>;
 }
