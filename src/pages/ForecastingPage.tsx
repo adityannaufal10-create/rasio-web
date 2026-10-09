@@ -1,13 +1,82 @@
 import React, { useState, useEffect } from 'react';
 import { ForecastingModule } from '../components/dashboard/ForecastingModule';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card';
-import { TrendingUp, Image, ShieldAlert, CheckCircle, Info } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { TrendingUp } from 'lucide-react';
+import { ScientificFigureViewer, FigureItem } from '../components/dashboard/ScientificFigureViewer';
+
+const FORECASTING_FIGURES: FigureItem[] = [
+  {
+    id: "h3",
+    tabLabel: "Horizon h=3 (Short)",
+    title: "Multi-Horizon Fanchart: Short-Term Horizon (h = 3 Years)",
+    subtitle: "Empirical uncertainty fan (50%, 80%, and 95% confidence intervals) under out-of-sample walk-forward cross-validation.",
+    darkSrc: "/figures/14_fan_h3_dark.svg",
+    lightSrc: "/figures/14_fan_h3_light.svg",
+    alt: "Fanchart Horizon h=3",
+    badge: "MAPE = 2.18%",
+    metrics: [
+      { label: "Target Horizon", value: "h = 3 Years", tone: "cyan" },
+      { label: "Mean Absolute Error", value: "MAPE 2.18%", tone: "emerald" },
+      { label: "Confidence Bands", value: "50% · 80% · 95%", tone: "cyan" },
+      { label: "Validation Engine", value: "Walk-Forward CV", tone: "violet" },
+    ],
+    insight: "Interval proyeksi jangka pendek membuktikan kestabilan model dengan MAPE hanya 2.18%, sangat ideal untuk penganggaran fiskal dan target mitigasi emisi metana 3 tahunan.",
+  },
+  {
+    id: "h6",
+    tabLabel: "Horizon h=6 (Mid)",
+    title: "Multi-Horizon Fanchart: Medium-Term Horizon (h = 6 Years)",
+    subtitle: "Medium-term fan projection tracking structural agrarian growth momentum across ASEAN member states.",
+    darkSrc: "/figures/15_fan_h6_dark.svg",
+    lightSrc: "/figures/15_fan_h6_light.svg",
+    alt: "Fanchart Horizon h=6",
+    badge: "MAPE = 2.85%",
+    metrics: [
+      { label: "Target Horizon", value: "h = 6 Years", tone: "cyan" },
+      { label: "Validated MAPE", value: "2.85%", tone: "emerald" },
+      { label: "Variance Expansion", value: "Controlled", tone: "emerald" },
+      { label: "Policy Scope", value: "Rencana Aksi 5-Tahunan", tone: "violet" },
+    ],
+    insight: "Pada horizon 6 tahun, lebar kipas ketidakpastian membesar secara wajar tanpa ledakan varians (MAPE 2.85%), merefleksikan pergeseran pola panen dan dinamika ternak ruminansia.",
+  },
+  {
+    id: "h11",
+    tabLabel: "Horizon h=11 (Long)",
+    title: "Multi-Horizon Fanchart: Long-Term Horizon (h = 11 Years / 2025–2035)",
+    subtitle: "Decadal structural emission trajectory capturing long-term policy uncertainties and agricultural shifts.",
+    darkSrc: "/figures/16_fan_h11_dark.svg",
+    lightSrc: "/figures/16_fan_h11_light.svg",
+    alt: "Fanchart Horizon h=11",
+    badge: "Target 2025–2035",
+    metrics: [
+      { label: "Target Horizon", value: "h = 11 Years", tone: "amber" },
+      { label: "Projection Span", value: "2025 – 2035", tone: "cyan" },
+      { label: "Upper 95% Bound", value: "High Stress Scenario", tone: "amber" },
+      { label: "Lower 95% Bound", value: "Aggressive Mitigation", tone: "emerald" },
+    ],
+    insight: "Kipas proyeksi 11 tahun menyediakan batas atas dan bawah ilmiah bagi target Nationally Determined Contributions (NDC) ASEAN 2035 untuk sektor agrikultur.",
+  },
+  {
+    id: "cv",
+    tabLabel: "CV Model Benchmark",
+    title: "Out-of-Fold Model Benchmark & Error Distributions",
+    subtitle: "Empirical comparison of 12 candidate forecasting models across 2,904 evaluation folds.",
+    darkSrc: "/figures/04_perbandingan_model_cv_dark.svg",
+    lightSrc: "/figures/04_perbandingan_model_cv_light.svg",
+    alt: "CV Model Benchmark",
+    badge: "2,904 Evals · Parsimony Wins",
+    metrics: [
+      { label: "Candidate Models", value: "12 Specifications", tone: "cyan" },
+      { label: "Evaluations", value: "2,904 Folds", tone: "violet" },
+      { label: "Top Architectures", value: "Drift & ARIMA", tone: "emerald" },
+      { label: "Overfitting Trap", value: "GBDT / Ridge Lags", tone: "amber" },
+    ],
+    insight: "Distribusi error out-of-fold menunjukkan bahwa spesifikasi parsimonius (Drift & ARIMA) secara konsisten mengungguli model machine learning kompleks (GBDT & Ridge) yang rentan overfit pada deret waktu makro.",
+  },
+];
 
 export const ForecastingPage: React.FC = () => {
   const [historicalData, setHistoricalData] = useState<any[]>([]);
   const [projectionData, setProjectionData] = useState<any[]>([]);
-  const [activeFanTab, setActiveFanTab] = useState<'h3' | 'h6' | 'h11' | 'cv'>('h3');
 
   useEffect(() => {
     fetch('/data/agregat_asean_historis.json')
@@ -48,124 +117,14 @@ export const ForecastingPage: React.FC = () => {
         projectionData={projectionData}
       />
 
-      {/* SVG Fanchart Figures Gallery Card */}
+      {/* Scientific Fanchart Figures Gallery (Ngeblend Viewer) */}
       <section>
-        <Card className="overflow-hidden">
-          <CardHeader className="p-5 sm:p-6 border-b border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 space-y-0">
-            <div>
-              <CardTitle className="text-lg font-bold text-white flex items-center gap-2">
-                <Image className="size-5 text-teal-400" />
-                <span>Multi-Horizon Fancharts & Uncertainty Quantifications</span>
-              </CardTitle>
-              <CardDescription className="mt-1">
-                Empirical 50%, 80%, and 95% uncertainty intervals from walk-forward cross-validation.
-              </CardDescription>
-            </div>
-
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <button
-                onClick={() => setActiveFanTab('h3')}
-                className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-semibold transition-all",
-                  activeFanTab === 'h3'
-                    ? "bg-teal-500 text-slate-950 font-bold shadow-sm shadow-teal-950/40"
-                    : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
-                )}
-              >
-                Short-Term Horizon (h=3)
-              </button>
-              <button
-                onClick={() => setActiveFanTab('h6')}
-                className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-semibold transition-all",
-                  activeFanTab === 'h6'
-                    ? "bg-teal-500 text-slate-950 font-bold shadow-sm shadow-teal-950/40"
-                    : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
-                )}
-              >
-                Medium-Term Horizon (h=6)
-              </button>
-              <button
-                onClick={() => setActiveFanTab('h11')}
-                className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-semibold transition-all",
-                  activeFanTab === 'h11'
-                    ? "bg-teal-500 text-slate-950 font-bold shadow-sm shadow-teal-950/40"
-                    : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
-                )}
-              >
-                Long-Term Horizon (h=11)
-              </button>
-              <button
-                onClick={() => setActiveFanTab('cv')}
-                className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-semibold transition-all",
-                  activeFanTab === 'cv'
-                    ? "bg-teal-500 text-slate-950 font-bold shadow-sm shadow-teal-950/40"
-                    : "bg-slate-800/80 text-slate-300 hover:bg-slate-700/80"
-                )}
-              >
-                CV Model Benchmark
-              </button>
-            </div>
-          </CardHeader>
-
-          <CardContent className="p-5 sm:p-6">
-            <div className="flex justify-center items-center bg-slate-950/80 rounded-2xl p-4 sm:p-6 border border-white/5 min-h-[380px]">
-              {activeFanTab === 'h3' && (
-                <div className="text-center">
-                  <img
-                    src="/figures/14_fan_h3.svg"
-                    alt="Fanchart Horizon h=3"
-                    className="max-h-[460px] mx-auto rounded-xl shadow-lg"
-                  />
-                  <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    3-year forecast interval achieving a mean absolute percentage error (MAPE) of <strong className="text-white font-mono">2.18%</strong>.
-                  </p>
-                </div>
-              )}
-
-              {activeFanTab === 'h6' && (
-                <div className="text-center">
-                  <img
-                    src="/figures/15_fan_h6.svg"
-                    alt="Fanchart Horizon h=6"
-                    className="max-h-[460px] mx-auto rounded-xl shadow-lg"
-                  />
-                  <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    6-year forecast interval with a validated MAPE of <strong className="text-white font-mono">2.85%</strong>.
-                  </p>
-                </div>
-              )}
-
-              {activeFanTab === 'h11' && (
-                <div className="text-center">
-                  <img
-                    src="/figures/16_fan_h11.svg"
-                    alt="Fanchart Horizon h=11"
-                    className="max-h-[460px] mx-auto rounded-xl shadow-lg"
-                  />
-                  <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    11-year projection fan (2025–2035) capturing structural long-term ASEAN emission uncertainties.
-                  </p>
-                </div>
-              )}
-
-              {activeFanTab === 'cv' && (
-                <div className="text-center">
-                  <img
-                    src="/figures/04_perbandingan_model_cv.svg"
-                    alt="CV Model Benchmark"
-                    className="max-h-[460px] mx-auto rounded-xl shadow-lg"
-                  />
-                  <p className="text-xs text-slate-400 mt-4 leading-relaxed">
-                    Out-of-fold error distributions demonstrate parsimonious specifications (Drift & ARIMA) systematically outperforming complex ML models (GBDT and Ridge).
-                  </p>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        <ScientificFigureViewer
+          title="Multi-Horizon Fancharts & Uncertainty Quantifications"
+          subtitle="Empirical 50%, 80%, and 95% uncertainty intervals from walk-forward cross-validation seamlessly blended with your dashboard canvas."
+          figures={FORECASTING_FIGURES}
+          defaultTabId="h3"
+        />
       </section>
     </div>
   );
