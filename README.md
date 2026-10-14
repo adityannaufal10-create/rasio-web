@@ -1,12 +1,12 @@
 # 🌾 RASIO 10.0 : Anatomi Emisi Sistem Pangan ASEAN
 ### Platform Interaktif Klasterisasi & Ekonometrika Panel-Spasial
-> **Tema:** Analisis Sistem Pangan, Ketahanan Pangan, dan Emisi Spasial  
+> **Tema:** Analisis Sistem Pangan, Ketahanan Pangan, dan Emisi Spasial.  
 > **Cakupan:** 44 Negara Asia-Pasifik × 64 Tahun (1961–2024) = 2.816 Observasi  
 > **Model Utama:** Spatial Durbin Model (SDM) Time-Fixed Effects (AIC 4752.0)  
 
 ---
 
-## 🚀 Fitur Utama
+## 🚀 Fitur Utama:
 1. **Beranda Interaktif (Scroll Storytelling):** Narasi 4 babak ketimpangan regional, emisi alih guna lahan (LUC), dan ketergantungan spasial.
 2. **Peta Spasial & 5 Klaster Pangan (`/clustering`):** Peta tematik Leaflet Esri Gray yang mengikuti tema terang/gelap dengan 4 layer (Klaster, LISA Hotspot 2024, LUC, CH4), profil klaster, dan tabel audit 44 negara.
 3. **Ekonometrika Spasial (`/spasial`):** Lintasan Global Moran's I 1961–2024 (+0.255 ➔ +0.729) dan dekomposisi limpahan pupuk N₂O LeSage–Pace (>2× efek domestik).
